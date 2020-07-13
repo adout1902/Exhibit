@@ -20,13 +20,16 @@ interact('.resize-drag')
         y = (parseFloat(target.getAttribute('data-y')) || 0);
 
     // update the element's style
-    target.style.width  = event.rect.width + 'px';
-    target.style.height = event.rect.height + 'px';
+    var w = event.rect.width;
+    var h = event.rect.height;
+    target.style.width  = w+ 'px';
+    target.style.height = h+ 'px';
+    
     // translate when resizing from top or left edges
     x += event.deltaRect.left;
     y += event.deltaRect.top;
     var id = target.id;
-    update(id,x,y);
+    update(id,w,h);
     target.style.webkitTransform = target.style.transform =
         'translate(' + x + 'px,' + y + 'px)';
 
@@ -35,12 +38,12 @@ interact('.resize-drag')
 
   });
 
-function update(id, x, y){
+function update(id, w, h){
     for (i=0; i<images.length;i++){
       var img = images[i];
       if (img.id == id ){
-        img.x=x;
-        img.y=y;
+        img.height=h;
+        img.width=w;
         
         break;
       }
@@ -68,8 +71,6 @@ function dragMoveListener (event) {
     for (i=0; i<images.length;i++){
       var img = images[i];
       if (img.id == id ){
-        img.width=event.rect.width + 'px';
-        img.height=event.rect.height + 'px';
         img.x=x;
         img.y=y;
         
