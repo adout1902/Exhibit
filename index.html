@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DnD test</title>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="jscolor.js"></script>
+
+</head>
+<body>
+    <div id="control-panel"><button onclick="addDiv('image')">Add image</button>
+        <button onclick="addDiv('textbox')">Add textbox</button>
+        <button id="save" onclick="saveToXML()">save to XML</button>
+        <button onclick="undo()">undo delete</button>
+  </div>
+
+    <div class="resize-container" id="divContent">
+        Color: <input value="rgba(40,170,255,0.5)" data-jscolor="">
+       <!--  <div class="image-div resize-drag" id="insert">
+           Resize from any edge or corner
+        </div>
+        <textarea name="test" id="" cols="10" rows="5" class="text-div resize-drag" y="100px"> textbox</textarea> -->
+
+
+      </div>
+
+    
+</body>
+</html>
