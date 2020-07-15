@@ -29,7 +29,7 @@ interact('.resize-drag')
     x += event.deltaRect.left;
     y += event.deltaRect.top;
     var id = target.id;
-    update(id,w,h);
+    updateDimensions(id,w,h);
     target.style.webkitTransform = target.style.transform =
         'translate(' + x + 'px,' + y + 'px)';
 
@@ -127,6 +127,7 @@ function addDiv(type) {
       textboxes.push({id:div.id, x:0, y:0, innerHTML:'textboxes', className:'resize-drag text-div',hidden:false, w:0, h:0})
     }
     div.appendChild(createDeleteButton(div.id));
+    div.appendChild(createColourMenu(div.id));
     var parent = document.getElementById("divContent");
     parent.appendChild(div);
 
@@ -137,7 +138,7 @@ function createDeleteButton(id){
   deleteButton.textContent = "DELETE";
   deleteButton.style.left = 0+'px';
   deleteButton.style.top = 0+'px';
-  deleteButton.style.position="relative";
+  deleteButton.style.position="absolute";
   deleteButton.className = "deleteBtn";
   deleteButton.addEventListener("click", function(event) {
   var elementClicked = event.target;
@@ -163,7 +164,19 @@ function createDeleteButton(id){
   return deleteButton;
 }
 
+function createColourMenu(id){
+  var colourBttn = document.createElement("button");
+  colourBttn.textContent = "change colour"
+  colourBttn.style.left = 50+'px';
+  colourBttn.style.top = 0+'px';
+  colourBttn.style.position="absolute";
+  colourBttn.className = "deleteBtn";
+  return colourBttn;
 
+
+
+
+}
 
 
 /* function saveTextAsFile()
@@ -274,3 +287,5 @@ function saveToXML(){
 
 
 }
+
+
