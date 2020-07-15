@@ -29,7 +29,7 @@ interact('.resize-drag')
     x += event.deltaRect.left;
     y += event.deltaRect.top;
     var id = target.id;
-    update(id,w,h);
+    updateDimensions(id,w,h);
     target.style.webkitTransform = target.style.transform =
         'translate(' + x + 'px,' + y + 'px)';
 
@@ -127,6 +127,7 @@ function addDiv(type) {
       textboxes.push({id:div.id, x:0, y:0, innerHTML:'textboxes', className:'resize-drag text-div',hidden:false, w:0, h:0})
     }
     div.appendChild(createDeleteButton(div.id));
+    div.appendChild(createColourButton(div.id));
     var parent = document.getElementById("divContent");
     parent.appendChild(div);
 
@@ -135,9 +136,9 @@ function addDiv(type) {
 function createDeleteButton(id){
   var deleteButton = document.createElement("button");
   deleteButton.textContent = "DELETE";
-  deleteButton.style.left = 0+'px';
+  deleteButton.style.left = 10+'px';
   deleteButton.style.top = 0+'px';
-  deleteButton.style.position="relative";
+  deleteButton.style.position="absolute";
   deleteButton.className = "deleteBtn";
   deleteButton.addEventListener("click", function(event) {
   var elementClicked = event.target;
@@ -159,8 +160,21 @@ function createDeleteButton(id){
   //parent.removeChild(toRemove);
 
   });
-
   return deleteButton;
+}
+
+function createColourButton(id){
+
+  var colourButton = document.createElement("button");
+  colourButton.textContent = "Change colour";
+  colourButton.style.left = 100+'px';
+  colourButton.style.top = 0+'px';
+  colourButton.style.position="absolute";
+  colourButton.className = "deleteBtn";
+
+  return colourButton;
+
+
 }
 
 
