@@ -5,6 +5,7 @@ this.toSave = [],
 this.noImages= images.length,
 this.noTextboxes= textboxes.length,
 
+
 interact('.resize-drag')
   .draggable({
     onmove: window.dragMoveListener
@@ -141,8 +142,6 @@ function createDeleteButton(id){
   deleteButton.style.position="absolute";
   deleteButton.className = "deleteBtn";
   deleteButton.addEventListener("click", function(event) {
-  var elementClicked = event.target;
-  var parent = document.getElementById("divContent");
   var toRemove = document.getElementById(id);
   //add to arr to allow undos
   toSave.push(id);
@@ -153,7 +152,7 @@ function createDeleteButton(id){
     if (list[i].id == id ){
       list[i].hidden=true;
       break;
-    } // change ot quicker method; dictionary?
+    } // change to quicker method; dictionary?
 
 
   }
@@ -171,13 +170,19 @@ function createColourButton(id){
   colourButton.style.top = 0+'px';
   colourButton.style.position="absolute";
   colourButton.className = "deleteBtn";
+   colourButton.addEventListener("click", function(event){
+    var parent = document.getElementById(id) 
+    var picker = new Picker(parent);
+    picker.onChange = function(color) {
+        parent.style.background = color.rgbaString;
+    };
+   })
 
   return colourButton;
 
 
+
 }
-
-
 
 
 /* function saveTextAsFile()

@@ -7,7 +7,8 @@
     padding: 20px;
     touch-action: none;
   
-    width: 120px;
+    width: 220px;
+    height: 220px;
   
     /* This makes things *much* easier */
     box-sizing: border-box;
@@ -41,4 +42,12 @@
     color: #FFF;
   }
 
+body{
+
+    background-size: 40px 40px;
+    background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
+
+
+
+}
 

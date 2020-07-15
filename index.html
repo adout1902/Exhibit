@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="main.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="jscolor.js"></script>
+    <script src="https://unpkg.com/vanilla-picker@2"></script>
 
 </head>
 <body>
@@ -17,8 +17,8 @@
         <button onclick="undo()">undo delete</button>
   </div>
 
-    <div class="resize-container" id="divContent">
-        Color: <input value="rgba(40,170,255,0.5)" data-jscolor="">
+    <div class="resize-container canvas" id="divContent">
+        
        <!--  <div class="image-div resize-drag" id="insert">
            Resize from any edge or corner
         </div>
