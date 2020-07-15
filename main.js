@@ -38,18 +38,34 @@ interact('.resize-drag')
 
   });
 
-function update(id, w, h){
-    for (i=0; i<images.length;i++){
-      var img = images[i];
-      if (img.id == id ){
-        img.height=h;
-        img.width=w;
-        
+function updatePos(id, x, y){
+
+    if (id.includes("text")){var list = textboxes} else{var list = images}
+    for (i=0; i<list.length;i++){
+      var div = list[i];
+      if (div.id == id ){
+        div.x=x;
+        div.y=y;        
         break;
       }
   
   
   }
+}
+
+function updateDimensions(id, w, h){
+
+  if (id.includes("text")){var list = textboxes} else{var list = images}
+  for (i=0; i<list.length;i++){
+    var div = list[i];
+    if (div.id == id ){
+      div.w=w;
+      div.h=h;        
+      break;
+    }
+
+
+}
 }
 
 
@@ -68,44 +84,47 @@ function dragMoveListener (event) {
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
     var id = target.id;
-    for (i=0; i<images.length;i++){
-      var img = images[i];
-      if (img.id == id ){
-        img.x=x;
-        img.y=y;
-        
-        break;
-      }
-
-
-  }
+    //update image objects
+    getPos(id)
 }
 
-function addDiv(type) {
+function getPos(id){
 
+  var bodyRect = document.getElementById("divContent").getBoundingClientRect();
+  var element = document.getElementById(id);
+  var elemRect = element.getBoundingClientRect();
+  var yOffset   = elemRect.top - bodyRect.top;
+  var xOffset = elemRect.left-bodyRect.left;
+  updatePos(id,xOffset,yOffset)
+
+}
+
+
+function addDiv(type) {
+    //add placeholder divs for images and text
     var t = String(type)
     var div = document.createElement('div');
     div.style.position = "absolute";
     if (t == "image"){
-    div.id = "image"+noImages; // change to autogen
+    div.id = "image"+noImages; // change to autogen?
     div.innerHTML = 'image';
     div.className = 'resize-drag image-div';
     div.style.left = 0+'px';
     div.style.top = 0+'px';
     noImages++;
-    images.push({id:div.id, x:0, y:0, innerHTML:'image', className:'resize-drag image-div',hidden:false, width:0, height:0}) //remove x and y -- not used til save
+    images.push({id:div.id, x:0, y:0, innerHTML:'images', className:'resize-drag image-div',hidden:false, w:0, h:0}) //remove x and y -- not used til save
+      
+ 
   }
 
-    else if (t= "textbox"){
-      div.id = "text"+noTextboxes; // change to autogen
+    else if (t== "textbox"){
+      div.id = "text"+noTextboxes; // change to autogen?
       div.innerHTML = 'text';
       div.className = 'resize-drag text-div';
       div.style.left = 100+'px';
       div.style.top = 100+'px';
-      div.className="resize-drag text-div";
       noTextboxes++;
-      textboxes.push({id:div.id, x:100, y:100})
-    
+      textboxes.push({id:div.id, x:0, y:0, innerHTML:'textboxes', className:'resize-drag text-div',hidden:false, w:0, h:0})
     }
     div.appendChild(createDeleteButton(div.id));
     var parent = document.getElementById("divContent");
@@ -124,13 +143,16 @@ function createDeleteButton(id){
   var elementClicked = event.target;
   var parent = document.getElementById("divContent");
   var toRemove = document.getElementById(id);
+  //add to arr to allow undos
   toSave.push(id);
   toRemove.style.display = 'none';
-  for (i=0; i<images.length;i++){
-    if (images[i].id == id ){
-      images[i].hidden=true;
+  var type = toRemove.innerHTML;
+  if (type.includes("text")){var list = textboxes} else {var list = images};
+  for (i=0; i<list.length;i++){
+    if (list[i].id == id ){
+      list[i].hidden=true;
       break;
-    }
+    } // change ot quicker method; dictionary?
 
 
   }
@@ -181,15 +203,18 @@ function downloadDiv(filename, elementId, mimeType) {
 } */
 
 function undo(){
+  //to display hidden ("deleted") divs
 
   if (toSave.length>0){
     var id = toSave.pop();
     var toRestore = document.getElementById(id);
+    var type = toRestore.innerHTML;
     toRestore.style.display = "block";
   }
-  for (i=0; i<images.length;i++){
-    if (images[i].id == id ){
-      images[i].hidden=false;
+  if (type.includes("text")){var list = textboxes} else{var list = images;}
+  for (i=0; i<list.length;i++){
+    if (list[i].id == id ){
+      list[i].hidden=false;
       break;
     }
 
@@ -216,13 +241,32 @@ function saveToXML(){
     pos.setAttribute("x", img.x);
     pos.setAttribute("y", img.y);
     var attr = xmlDoc.createElement("style");
-    attr.setAttribute("height", img.height);
-    attr.setAttribute("width", img.width);
+    attr.setAttribute("height", img.h);
+    attr.setAttribute("width", img.w);
     node.appendChild(pos);
     node.appendChild(attr);
     var elements = xmlDoc.getElementsByTagName("exhibitElts");
     elements[0].appendChild(node);
     }
+
+    for (j= 0;j<textboxes.length;j=j+1){
+      var text = textboxes[i];
+      if (text.hidden==false){
+      var node = xmlDoc.createElement("textbox");
+      node.setAttribute("id",text.id);
+      var pos = xmlDoc.createElement("co-ordinates");
+      pos.setAttribute("x", text.x);
+      pos.setAttribute("y", text.y);
+      var attr = xmlDoc.createElement("style");
+      attr.setAttribute("height", text.h);
+      attr.setAttribute("width", text.w);
+      node.appendChild(pos);
+      node.appendChild(attr);
+      var elements = xmlDoc.getElementsByTagName("exhibitElts");
+      elements[0].appendChild(node);
+      }
+    }
+  
 
 
   }
@@ -230,26 +274,3 @@ function saveToXML(){
 
 
 }
-
-
-
-
-
-
-/* function restore(){
-
-  for (i= 0;i<images.length;i=i+1){
-
-    var img = images[i]
-    var div = document.createElement('div');
-    div.style.position = "absolute";
-    div.id = img.id // change to autogen
-    div.innerHTML = 'image';
-    div.className = 'resize-drag image-div';
-    div.style.left = img.x+'px';
-    div.style.top = img.y+'px';
-  }
-
-
-
-} */
