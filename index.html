@@ -10,23 +10,24 @@
     <script src="https://unpkg.com/vanilla-picker@2"></script>
 
 </head>
-<body>
-    <div id="control-panel"><button onclick="addDiv('image')">Add image</button>
-        <button onclick="addDiv('textbox')">Add textbox</button>
-        <button id="save" onclick="saveToXML()">save to XML</button>
-        <button onclick="undo()">undo delete</button>
-  </div>
-
-    <div class="resize-container canvas" id="divContent">
-        
-       <!--  <div class="image-div resize-drag" id="insert">
-           Resize from any edge or corner
+<body> 
+    <div id="display">
+        <div id="control-panel">
+            <button onclick="addDiv('image')" class="nav-button">Add image</button>
+            <button onclick="addDiv('textbox')"  class="nav-button">Add textbox</button>
+            <button id="save" onclick="saveToXML()"  class="nav-button">save to XML</button>
+            <button onclick="undo()"  class="nav-button">undo delete</button>
         </div>
-        <textarea name="test" id="" cols="10" rows="5" class="text-div resize-drag" y="100px"> textbox</textarea> -->
 
+        <div class="resize-container canvas" id="exhibitContent">
+    
+        </div>
 
-      </div>
+    </div>
+        
 
+    
+    
     
 </body>
 </html>
