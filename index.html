@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,26 +7,27 @@
     <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     <script src="main.js"></script>
     <link rel="stylesheet" href="style.css">
-    <script src="jscolor.js"></script>
+    <script src="https://unpkg.com/vanilla-picker@2"></script>
 
 </head>
-<body>
-    <div id="control-panel"><button onclick="addDiv('image')">Add image</button>
-        <button onclick="addDiv('textbox')">Add textbox</button>
-        <button id="save" onclick="saveToXML()">save to XML</button>
-        <button onclick="undo()">undo delete</button>
-  </div>
-
-    <div class="resize-container" id="divContent">
-        Color: <input value="rgba(40,170,255,0.5)" data-jscolor="">
-       <!--  <div class="image-div resize-drag" id="insert">
-           Resize from any edge or corner
+<body> 
+    <div id="display">
+        <div id="control-panel">
+            <button onclick="addDiv('image')" class="nav-button">Add image</button>
+            <button onclick="addDiv('textbox')"  class="nav-button">Add textbox</button>
+            <button id="save" onclick="saveToXML()"  class="nav-button">save to XML</button>
+            <button onclick="undo()"  class="nav-button">undo delete</button>
         </div>
-        <textarea name="test" id="" cols="10" rows="5" class="text-div resize-drag" y="100px"> textbox</textarea> -->
 
+        <div class="resize-container canvas" id="exhibitContent">
+    
+        </div>
 
-      </div>
+    </div>
+        
 
+    
+    
     
 </body>
 </html>
