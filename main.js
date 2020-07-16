@@ -4,7 +4,7 @@ this.toSave = [],
 
 this.noImages= images.length,
 this.noTextboxes= textboxes.length,
-
+this.savedHTML ="";
 
 interact('.resize-drag')
   .draggable({
@@ -31,6 +31,7 @@ interact('.resize-drag')
     y += event.deltaRect.top;
     var id = target.id;
     updateDimensions(id,w,h);
+    this.savedHTML = document.getElementById("exhibitContent").innerHTML;
     target.style.webkitTransform = target.style.transform =
         'translate(' + x + 'px,' + y + 'px)';
 
@@ -77,6 +78,7 @@ function dragMoveListener (event) {
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
     // translate the element
+    this.savedHTML = document.getElementById("exhibitContent").innerHTML;
     target.style.webkitTransform =
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
@@ -130,6 +132,7 @@ function addDiv(type) {
     div.appendChild(createColourButton(div.id));
     var parent = document.getElementById("exhibitContent");
     parent.appendChild(div);
+    toSave.push( document.getElementById("exhibitContent").innerHTML);
 
 }
 
@@ -143,7 +146,8 @@ function createDeleteButton(id){
   deleteButton.addEventListener("click", function(event) {
   var toRemove = document.getElementById(id);
   //add to arr to allow undos
-  toSave.push(id);
+  //toSave.push(id);
+  toSave.push( document.getElementById("exhibitContent").innerHTML);
   toRemove.style.display = 'none';
   var type = toRemove.innerHTML;
   if (type.includes("text")){var list = textboxes} else {var list = images};
@@ -172,7 +176,8 @@ function createColourButton(id){
    colourButton.addEventListener("click", function(event){
     var parent = document.getElementById(id) 
     var picker = new Picker(parent);
-    picker.onChange = function(color) {
+    picker.onDone = function(color) {
+      toSave.push( document.getElementById("exhibitContent").innerHTML);
         parent.style.background = color.rgbaString;
     };
    })
@@ -183,6 +188,10 @@ function createColourButton(id){
 
 }
 
+function undo1step(){
+  var exhibitContent = document.getElementById("exhibitContent");
+  exhibitContent.innerHTML = toSave.pop();
+}
 
 /* function saveTextAsFile()
 {
@@ -244,6 +253,23 @@ function undo(){
 
 }
 
+function saveHTML(){
+  var text = document.getElementById("exhibitContent").innerHTML
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/html;charset=utf-8,' + 
+  encodeURIComponent(text));
+  element.setAttribute('download', "text.html");
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+
+
+}
+
 
 function saveToXML(){
 
@@ -252,7 +278,6 @@ function saveToXML(){
   var xmlDoc = parser.parseFromString(xmlString, "text/xml"); 
 
   for (i= 0;i<images.length;i++){
-    window.alert("scanning images")
     var img = images[i];
     if (img.hidden==false){
     var node = xmlDoc.createElement("image");
@@ -271,7 +296,6 @@ function saveToXML(){
   }
 
     for (j= 0;j<textboxes.length;j++){
-      window.alert("scanning text")
       var text = textboxes[i];
       if (text.hidden==false){
       var node = xmlDoc.createElement("textbox");
