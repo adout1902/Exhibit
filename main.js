@@ -5,6 +5,7 @@ this.toSave = [],
 this.noImages= images.length,
 this.noTextboxes= textboxes.length,
 
+
 interact('.resize-drag')
   .draggable({
     onmove: window.dragMoveListener
@@ -90,7 +91,7 @@ function dragMoveListener (event) {
 
 function getPos(id){
 
-  var bodyRect = document.getElementById("divContent").getBoundingClientRect();
+  var bodyRect = document.getElementById("exhibitContent").getBoundingClientRect();
   var element = document.getElementById(id);
   var elemRect = element.getBoundingClientRect();
   var yOffset   = elemRect.top - bodyRect.top;
@@ -104,16 +105,14 @@ function addDiv(type) {
     //add placeholder divs for images and text
     var t = String(type)
     var div = document.createElement('div');
-    div.style.position = "absolute";
     if (t == "image"){
     div.id = "image"+noImages; // change to autogen?
     div.innerHTML = 'image';
     div.className = 'resize-drag image-div';
-    div.style.left = 0+'px';
-    div.style.top = 0+'px';
+    div.style.left = 150+'px';
+    div.style.top = 160+'px';
     noImages++;
     images.push({id:div.id, x:0, y:0, innerHTML:'images', className:'resize-drag image-div',hidden:false, w:0, h:0}) //remove x and y -- not used til save
-      
  
   }
 
@@ -121,14 +120,15 @@ function addDiv(type) {
       div.id = "text"+noTextboxes; // change to autogen?
       div.innerHTML = 'text';
       div.className = 'resize-drag text-div';
-      div.style.left = 100+'px';
+      div.style.left = 150+'px';
       div.style.top = 100+'px';
       noTextboxes++;
       textboxes.push({id:div.id, x:0, y:0, innerHTML:'textboxes', className:'resize-drag text-div',hidden:false, w:0, h:0})
+    
     }
     div.appendChild(createDeleteButton(div.id));
-    div.appendChild(createColourMenu(div.id));
-    var parent = document.getElementById("divContent");
+    div.appendChild(createColourButton(div.id));
+    var parent = document.getElementById("exhibitContent");
     parent.appendChild(div);
 
 }
@@ -136,13 +136,11 @@ function addDiv(type) {
 function createDeleteButton(id){
   var deleteButton = document.createElement("button");
   deleteButton.textContent = "DELETE";
-  deleteButton.style.left = 0+'px';
+  deleteButton.style.left = 10+'px';
   deleteButton.style.top = 0+'px';
   deleteButton.style.position="absolute";
   deleteButton.className = "deleteBtn";
   deleteButton.addEventListener("click", function(event) {
-  var elementClicked = event.target;
-  var parent = document.getElementById("divContent");
   var toRemove = document.getElementById(id);
   //add to arr to allow undos
   toSave.push(id);
@@ -153,26 +151,33 @@ function createDeleteButton(id){
     if (list[i].id == id ){
       list[i].hidden=true;
       break;
-    } // change ot quicker method; dictionary?
+    } // change to quicker method; dictionary?
 
 
   }
   //parent.removeChild(toRemove);
 
   });
-
   return deleteButton;
 }
 
-function createColourMenu(id){
-  var colourBttn = document.createElement("button");
-  colourBttn.textContent = "change colour"
-  colourBttn.style.left = 50+'px';
-  colourBttn.style.top = 0+'px';
-  colourBttn.style.position="absolute";
-  colourBttn.className = "deleteBtn";
-  return colourBttn;
+function createColourButton(id){
 
+  var colourButton = document.createElement("button");
+  colourButton.textContent = "Change colour";
+  colourButton.style.left = 100+'px';
+  colourButton.style.top = 0+'px';
+  colourButton.style.position="absolute";
+  colourButton.className = "deleteBtn";
+   colourButton.addEventListener("click", function(event){
+    var parent = document.getElementById(id) 
+    var picker = new Picker(parent);
+    picker.onChange = function(color) {
+        parent.style.background = color.rgbaString;
+    };
+   })
+
+  return colourButton;
 
 
 
@@ -223,16 +228,17 @@ function undo(){
     var toRestore = document.getElementById(id);
     var type = toRestore.innerHTML;
     toRestore.style.display = "block";
-  }
-  if (type.includes("text")){var list = textboxes} else{var list = images;}
-  for (i=0; i<list.length;i++){
-    if (list[i].id == id ){
-      list[i].hidden=false;
-      break;
+    if (type.includes("text")){var list = textboxes} else{var list = images;}
+    for (i=0; i<list.length;i++){
+      if (list[i].id == id ){
+        list[i].hidden=false;
+        break;
+      }
+  
+  
     }
-
-
   }
+
 
 
 
@@ -245,7 +251,8 @@ function saveToXML(){
   var parser = new DOMParser();
   var xmlDoc = parser.parseFromString(xmlString, "text/xml"); 
 
-  for (i= 0;i<images.length;i=i+1){
+  for (i= 0;i<images.length;i++){
+    window.alert("scanning images")
     var img = images[i];
     if (img.hidden==false){
     var node = xmlDoc.createElement("image");
@@ -261,8 +268,10 @@ function saveToXML(){
     var elements = xmlDoc.getElementsByTagName("exhibitElts");
     elements[0].appendChild(node);
     }
+  }
 
-    for (j= 0;j<textboxes.length;j=j+1){
+    for (j= 0;j<textboxes.length;j++){
+      window.alert("scanning text")
       var text = textboxes[i];
       if (text.hidden==false){
       var node = xmlDoc.createElement("textbox");
@@ -281,11 +290,7 @@ function saveToXML(){
     }
   
 
-
-  }
   console.log(xmlDoc);
 
 
 }
-
-
