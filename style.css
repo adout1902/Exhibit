@@ -1,44 +1,96 @@
 .image-div {
-    background-color: rgb(22, 145, 128);
-    color: white;
-    font-size: 20px;
-    font-family: sans-serif;
-    border-radius: 20px;
-    padding: 20px;
-    touch-action: none;
-  
-    width: 120px;
-  
-    /* This makes things *much* easier */
-    box-sizing: border-box;
+  background-color: rgb(22, 145, 128);
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+  border-radius: 20px;
+  padding: 20px;
+  touch-action: none;
+  display: inline-block;
+  width: 220px;
+  position: absolute;
+  height: 220px;
+  max-width: inherit;
+  max-height: inherit;
+  min-width: 220px;
+  min-height: 50px;
 
-  }
+  /* This makes things *much* easier */
+  box-sizing: border-box;
 
-
-  .text-div {
-    background-color: rgb(228, 133, 69);
-    color: white;
-    font-size: 20px;
-    font-family: sans-serif;
-    padding: 20px;
-    touch-action: none;
-    width: 300px;
-    height: 100px;
-  
-    /* This makes things *much* easier */
-    box-sizing: border-box;
-  }
-
-  .deleteBtn {
-    margin: 2px;
-    position: absolute;
-    text-align: center;
-    border-radius:4px;
-    text-decoration: none;
-    font-family: sans-serif;
-    background: #303531;
-    display:inline-block;
-    color: #FFF;
-  }
+}
 
 
+.text-div {
+  background-color: rgb(228, 133, 69);
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+  padding: 20px;
+  touch-action: none;
+  width: 300px;
+  height: 100px;
+  position: absolute;
+  display: inline-block;
+
+  /* This makes things *much* easier */
+  box-sizing: border-box;
+}
+
+.deleteBtn {
+  margin: 2px;
+  position: absolute;
+  text-align: center;
+  border-radius:4px;
+  text-decoration: none;
+  font-family: sans-serif;
+  background: #303531;
+  display:inline-block;
+  color: #FFF;
+}
+
+.nav-button{
+
+margin: 2px;
+position: relative;
+text-align: center;
+border-radius:4px;
+padding: 2px;
+text-decoration: none;
+font-family: sans-serif;
+background: #626662;
+display:inline-block;
+color: #FFF;
+
+
+}
+
+
+
+#exhibitContent{
+
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle, #000000 1px, rgba(0, 0, 0, 0) 1px);
+  width: 100%; 
+  padding-bottom: 10%;
+  height: 100vh;
+  box-sizing: border-box;
+
+
+
+}
+#control-panel {
+height: 10%; /* Full-height: remove this if you want "auto" height */
+width: 100%; /* Set the width of the sidebar */
+position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+z-index: 1; /* Stay on top */
+top: 0; /* Stay at the top */
+left: 0;
+background-color: rgb(79, 148, 133); /* Black */
+}
+
+#display{
+display: block;
+
+
+}
