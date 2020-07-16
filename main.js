@@ -31,7 +31,7 @@ interact('.resize-drag')
     y += event.deltaRect.top;
     var id = target.id;
     updateDimensions(id,w,h);
-    this.savedHTML = document.getElementById("exhibitContent").innerHTML;
+    //toSave.push( document.getElementById("exhibitContent").innerHTML);
     target.style.webkitTransform = target.style.transform =
         'translate(' + x + 'px,' + y + 'px)';
 
@@ -72,13 +72,13 @@ function updateDimensions(id, w, h){
 
 
 function dragMoveListener (event) {
+  //toSave.push( document.getElementById("exhibitContent").innerHTML);
     var target = event.target,
         // keep the dragged position in the data-x/data-y attributes
         x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
     // translate the element
-    this.savedHTML = document.getElementById("exhibitContent").innerHTML;
     target.style.webkitTransform =
     target.style.transform =
       'translate(' + x + 'px, ' + y + 'px)';
@@ -130,11 +130,12 @@ function addDiv(type) {
     }
     div.appendChild(createDeleteButton(div.id));
     div.appendChild(createColourButton(div.id));
+    div.addEventListener("click",function(event){window.alert("clicked");toSave.pop()});
     var parent = document.getElementById("exhibitContent");
     parent.appendChild(div);
-    toSave.push( document.getElementById("exhibitContent").innerHTML);
 
 }
+
 
 function createDeleteButton(id){
   var deleteButton = document.createElement("button");
