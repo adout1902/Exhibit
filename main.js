@@ -55,6 +55,8 @@ function updatePos(id, x, y){
   }
 }
 
+
+
 function updateDimensions(id, w, h){
 
   if (id.includes("text")){var list = textboxes} else{var list = images}
@@ -129,12 +131,60 @@ function addDiv(type) {
     
     }
     div.appendChild(createDeleteButton(div.id));
-    div.appendChild(createColourButton(div.id));
-    div.addEventListener("click",function(event){window.alert("clicked");toSave.pop()});
+    var colourBttn = createColourButton(div.id)
+    div.appendChild(colourBttn);
+    //div.addEventListener("click",function(event){window.alert("clicked")});
+    const pickr = new Pickr({
+      el: colourBttn,
+      useAsButton:true,
+      default: '#42445A',
+      theme: 'nano',
+      lockOpacity: true,
+  
+      swatches: [
+        'rgba(244, 67, 54, 1)',
+        'rgba(233, 30, 99, 0.95)',
+        'rgba(156, 39, 176, 0.9)',
+        'rgba(103, 58, 183, 0.85)',
+        'rgba(63, 81, 181, 0.8)',
+        'rgba(33, 150, 243, 0.75)',
+        'rgba(3, 169, 244, 0.7)',
+        'rgba(0, 188, 212, 0.7)',
+        'rgba(0, 150, 136, 0.75)',
+        'rgba(76, 175, 80, 0.8)',
+        'rgba(139, 195, 74, 0.85)',
+        'rgba(205, 220, 57, 0.9)',
+        'rgba(255, 235, 59, 0.95)',
+        'rgba(255, 193, 7, 1)'
+      ],
+  
+      components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+  
+        interaction: {
+          hex: true,
+          rgba: true,
+          hsva: true,
+          input: true,
+          clear: true,
+          save: true
+        }
+      }
+    }).on('init', pickr => {
+      div.style.backgroundColor = pickr.getSelectedColor().toRGBA().toString(0);
+    }).on('save', color => {
+      div.style.backgroundColor = color.toRGBA().toString(0);
+      pickr.hide();
+    });
     var parent = document.getElementById("exhibitContent");
     parent.appendChild(div);
+    
 
 }
+
+
 
 
 function createDeleteButton(id){
@@ -166,7 +216,7 @@ function createDeleteButton(id){
   return deleteButton;
 }
 
-function createColourButton(id){
+function createColourButton(){
 
   var colourButton = document.createElement("button");
   colourButton.textContent = "Change colour";
@@ -174,20 +224,27 @@ function createColourButton(id){
   colourButton.style.top = 0+'px';
   colourButton.style.position="absolute";
   colourButton.className = "deleteBtn";
-   colourButton.addEventListener("click", function(event){
-    var parent = document.getElementById(id) 
-    var picker = new Picker(parent);
-    picker.onDone = function(color) {
-      toSave.push( document.getElementById("exhibitContent").innerHTML);
-        parent.style.background = color.rgbaString;
-    };
-   })
 
   return colourButton;
 
 
 
 }
+
+
+
+
+function changeBGColour(){
+
+  const bg = document.getElementById("exhibitContent");
+
+
+
+
+}
+
+
+
 
 function undo1step(){
   var exhibitContent = document.getElementById("exhibitContent");
