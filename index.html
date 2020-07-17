@@ -12,7 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
 
 </head>
-<body> 
+<body onload="changeBGColour()"> 
     <div id="display">
         <div id="control-panel">
             <button onclick="addDiv('image')" class="nav-button">Add image</button>
@@ -21,7 +21,7 @@
             <!-- <button onclick="undo()"  class="nav-button">undo delete</button> -->
             <button onclick="undo1step()">undo</button>
             <button id="save2" onclick="saveHTML()"  class="nav-button">save HTML</button>
-           <input type="text" class="pickr">
+            <button id="bgColour">change background colour</button>
         </div>
 
         <div class="resize-container canvas" id="exhibitContent">
