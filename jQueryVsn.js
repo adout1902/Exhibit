@@ -156,6 +156,9 @@ function setup() {
 
         })
     });
+
+    
+    
     
     
 }
@@ -163,13 +166,19 @@ function setup() {
 function refresh(){
     //apply drag and resize handlers to relevant elements 
 
-    //make class .editable draggable
-    $('.editable').draggable(
+    //make class .editable draggable -- change to make wrapper div draggable - bug with rotatable  
+   /*  $('.wrapper').draggable(
     {
             stop: stopHandlerDrag,
             start: startHandlerDrag
             
-    });
+    }); */
+    $('.editable').draggable(
+        {
+                stop: stopHandlerDrag,
+                start: startHandlerDrag
+                
+        });
         
     //make class .editable resizable    
     $('.editable').resizable(
@@ -178,6 +187,16 @@ function refresh(){
             start: startHandlerResize
             
     });
+
+    //$('.editable').rotatable();
+
+    $('.editable').rotatable(
+    {
+        stop: stopHandlerRotate,
+        start: startHandlerRotate
+
+    });
+
 
     //hide elements on "delete" for easy undo/redo
     $(document).on("click", ".delete", function(ui) {
@@ -206,6 +225,24 @@ function refresh(){
                     
     });
 }
+
+function startHandlerRotate(event, ui)
+{
+    var id = $(this).closest(".image-div").attr('id');
+    var style = $(this).closest(".image-div").attr('style');
+    console.log("my id is:"+id)
+    console.log("my style is:"+style)
+    historyStore.addToHistory(style,id)
+}
+
+function stopHandlerRotate(event, ui)
+{
+    var style = $(ui.helper).attr('style');
+    var id = $(ui.helper).attr('id');
+    historyStore.addToHistory(style, id);
+    
+}
+
 
 //For handling start of drag event -- store current to position in style history 
 function startHandlerDrag(event, ui)
@@ -276,13 +313,17 @@ function stopHandlerResize(event, ui)
 function addDiv(){
     template.noImages++;
     var exhibitSpace = document.getElementById("exhibit-space")
-    var elem = exhibitSpace.appendChild(document.createElement('div'));
+    //var wrapper = document.createElement('div');
+    //wrapper.className='wrapper';
+    var elem = document.createElement('div');
     elem.className = 'editable image-div';
     elem.id=template.noImages;
     elem.style = "left: 10px; top:10px; background-color: #f1c40f";
     elem.appendChild(createDeleteButton(elem.id));
+    //wrapper.appendChild(elem);
+    exhibitSpace.appendChild(elem);
     console.log('start add');
-    historyStore.addToHistory("left: 10px; top:10px; background-color: #f1c40f", elem.id);
+    historyStore.addToHistory("left: 100px; top:100px; background-color: #f1c40f", elem.id);
     refresh();
 
 }
@@ -290,7 +331,7 @@ function addDiv(){
 function createDeleteButton(id){
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "DELETE";
-    deleteButton.style.left = 10+'px';
+    deleteButton.style.left = 20+'px';
     deleteButton.style.top = 0+'px';
     deleteButton.className="delete";
     deleteButton.style.position="absolute";
