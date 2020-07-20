@@ -1,4 +1,10 @@
-this.noImages=0;
+var template = {
+    noImages:0,
+    noTextboxes:0,
+    backgroundColour:"white"
+}
+
+
 
 //Store user change history 
 var historyStore = {
@@ -26,7 +32,7 @@ var historyStore = {
     },
     changeState : function(style, id){
         
-        //if it is not possiblel to undo or redo, change button appearance to indicate this
+        //if it is not possible to undo or redo, change button appearance to indicate this
         if(this.counter <= -1)
         {
             $('#undo').addClass('disabled');            
@@ -52,117 +58,156 @@ var historyStore = {
         
         
         console.log(style + ' - ' + id);
-        //Apply history style
+        //Apply style stored in history to element
         $('#' + id).attr('style', style);     
         
         console.log(this.counter + ' - ' + this.stackStyle.length);
-        
-        
-        
-        
-        
         
         
     }
 };
 
 
-$(document).ready(function (e) {
+function setup() {
+
+    this.noImages=0;
+
+    //add handlers to appropriate elements
 
     //make class .editable draggable
-    $('.editable').draggable(
-    {
-        stop: stopHandlerDrag,
-        start: startHandlerDrag
-        
-    });
-    
-    //make class .editable resizable    
-    $('.editable').resizable(
-    {
-        stop: stopHandlerResize,
-        start: startHandlerResize
-        
-    });
+    refresh()
 
+    //set up control panel click events 
     $( "#add-div" ).click(function() {
         
         addDiv();
+        
 
-      });
+    });
+    
+    $( "#undo" ).click(function() {
+        
+        historyStore.undo();
+        
+
+    });
+
+    $( "#redo" ).click(function() {
+        
+        historyStore.redo();
+    
+
+    });
+    //exhibit space background colour changer 
+    const exhibitSpace = document.getElementById("exhibit-space")
+    const bgColourBttn = document.getElementById("change-bg")
+
+    const pickr = new Pickr({
+    el: bgColourBttn,
+    useAsButton:true,
+    //default: '#D2BFED',
+    theme: 'nano',
+    lockOpacity: true,
+    
+    swatches: [
+        'rgba(244, 67, 54, 1)',
+        'rgba(233, 30, 99, 0.95)',
+        'rgba(156, 39, 176, 0.9)',
+        'rgba(103, 58, 183, 0.85)',
+        'rgba(63, 81, 181, 0.8)',
+        'rgba(33, 150, 243, 0.75)',
+        'rgba(3, 169, 244, 0.7)',
+        'rgba(0, 188, 212, 0.7)',
+        'rgba(0, 150, 136, 0.75)',
+        'rgba(76, 175, 80, 0.8)',
+        'rgba(139, 195, 74, 0.85)',
+        'rgba(205, 220, 57, 0.9)',
+        'rgba(255, 235, 59, 0.95)',
+        'rgba(255, 193, 7, 1)'
+    ],
+    
+    components: {
+        preview: true,
+        opacity: true,
+        hue: true,
+    
+        interaction: {
+        hex: true,
+        rgba: true,
+        hsva: true,
+        input: true,
+        clear: true,
+        save: true
+        }
+    }
+    })/* .on('init', pickr => {
+    exhibitSpace.style.backgroundColor = pickr.getSelectedColor().toRGBA().toString(0);
+    }).on('save', color => {
+    exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
+    pickr.hide();
+    });  */
+    
+
+    $( "#change-bg" ).click(function() {
+        pickr.on('save', function(color){
+
+            exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
+            pickr.hide();
+
+        })
+    });
     
     
-    
-});
+}
 
 function refresh(){
+    //apply drag and resize handlers to relevant elements 
 
     //make class .editable draggable
     $('.editable').draggable(
-        {
+    {
             stop: stopHandlerDrag,
             start: startHandlerDrag
             
-        });
+    });
         
-        //make class .editable resizable    
-        $('.editable').resizable(
-        {
+    //make class .editable resizable    
+    $('.editable').resizable(
+    {
             stop: stopHandlerResize,
             start: startHandlerResize
             
+    });
+
+    //hide elements on "delete" for easy undo/redo
+    $(document).on("click", ".delete", function(ui) {
+
+            
+        var id = $(this).closest(".image-div").attr('id');
+        var style = $("#"+id).attr("style")
+        console.log(style)
+        console.log('before deleting'+id);
+        historyStore.addToHistory(style, id);
+        $(this).closest(".image-div").css('display','none');    
+        //Dettach all events
+        $('#'+id).draggable("option", "revert", false);
+        $('#'+id).resizable("destroy");
+        //Reassign stop events
+        $('#'+id).draggable(
+        {
+            stop: stopHandlerDrag,
+            start: ''    
         });
-
-        $(document).on("click", ".delete", function(ui) {
-
-            // Move up DOM tree until first incidence of .item-div and remove
-            
-
-            
-            var style = $(ui.helper).attr('style');
-            var id = $(this).closest(".image-div").attr('id');
-            console.log('before deleting'+id);
-            historyStore.addToHistory(style, id);
-            $(this).closest(".image-div").css('display','none');
-            
-            //Dettach all events
-            $('#'+id).draggable("option", "revert", false);
-            $('#'+id).resizable("destroy");
-            //reassign stop events
-            $('#'+id).draggable(
-            {
-                stop: stopHandlerDrag,
-                start: ''    
-            });
-            $('#'+id).resizable(
-            {
-                stop: stopHandlerResize,
-                start: '' 
-            });
+        $('#'+id).resizable(
+        {
+            stop: stopHandlerResize,
+            start: '' 
+        });
                     
-            });
-           
-    
-
-
-
-
+    });
 }
 
-
-
-
-//Stop Handler Drag
-function stopHandlerDrag(event, ui)
-{
-    var style = $(ui.helper).attr('style');
-    var id = $(ui.helper).attr('id');
-    historyStore.addToHistory(style, id);
-    
-}
-
-
-//Star Handler Drag
+//For handling start of drag event -- store current to position in style history 
 function startHandlerDrag(event, ui)
 {
     console.log('start drag');
@@ -186,15 +231,16 @@ function startHandlerDrag(event, ui)
     });
 }
 
-//Stop Handler Resize
-function stopHandlerResize(event, ui)
+//For handling end of drag event -- store new position in style history 
+function stopHandlerDrag(event, ui)
 {
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
     historyStore.addToHistory(style, id);
+    
 }
 
-//Star Handler Resize
+//For handling start of resize event -- store current dimensions in style history 
 function startHandlerResize(event, ui)
 {
     console.log('start resize');
@@ -217,24 +263,26 @@ function startHandlerResize(event, ui)
     });
 }
 
-//Click Events For Redo and Undo
-$(document).on('click', '#redo', function () {
-    historyStore.redo();
-});
 
-$(document).on('click', '#undo', function () {
-    historyStore.undo();
-});
-                  
-
+//For handling end of resize event -- store new dimensions in style history
+function stopHandlerResize(event, ui)
+{
+    var style = $(ui.helper).attr('style');
+    var id = $(ui.helper).attr('id');
+    historyStore.addToHistory(style, id);
+}
+       
+//to add new image or text div 
 function addDiv(){
-    noImages++;
+    template.noImages++;
     var exhibitSpace = document.getElementById("exhibit-space")
     var elem = exhibitSpace.appendChild(document.createElement('div'));
     elem.className = 'editable image-div';
-    elem.id=noImages;
+    elem.id=template.noImages;
     elem.style = "left: 10px; top:10px; background-color: #f1c40f";
     elem.appendChild(createDeleteButton(elem.id));
+    console.log('start add');
+    historyStore.addToHistory("left: 10px; top:10px; background-color: #f1c40f", elem.id);
     refresh();
 
 }
@@ -248,13 +296,3 @@ function createDeleteButton(id){
     deleteButton.style.position="absolute";
     return deleteButton;
   }
-
-function removeImage(id){
-
-    //var exhibitSpace = document.getElementById("exhibit-space");
-    var toRemove = document.getElementById(id);
-    toRemove.style.display="none"
-    //exhibitSpace.removeChild(toRemove);
-
-
-}

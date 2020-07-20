@@ -7,8 +7,9 @@
 .workspace
 {
     top: 50px;
-    width: 100%;
-    height: 100%;
+    width: 500px;
+    height: 500px;
+    background-color: aqua;
     position: absolute;
 }
 
