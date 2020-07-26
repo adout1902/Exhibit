@@ -75,7 +75,7 @@ function setup() {
     //add handlers to appropriate elements
 
     //make class .editable draggable
-    refresh()
+   
 
     //set up control panel click events 
     $( "#add-div" ).click(function() {
@@ -156,9 +156,9 @@ function setup() {
 
         })
     });
-
     
-    
+    refresh()
+    console.log("loaded")
     
     
 }
@@ -190,12 +190,12 @@ function refresh(){
 
     //$('.editable').rotatable();
 
-    $('.editable').rotatable(
+   /*  $('.editable').rotatable(
     {
         stop: stopHandlerRotate,
         start: startHandlerRotate
 
-    });
+    }); */
 
 
     //hide elements on "delete" for easy undo/redo
@@ -210,7 +210,7 @@ function refresh(){
         $(this).closest(".image-div").css('display','none');    
         //Dettach all events
         $('#'+id).draggable("option", "revert", false);
-        $('#'+id).resizable("destroy");
+        $('#'+id).resizable("option","revert",false);
         //Reassign stop events
         $('#'+id).draggable(
         {
@@ -225,7 +225,7 @@ function refresh(){
                     
     });
 }
-
+/* 
 function startHandlerRotate(event, ui)
 {
     var id = $(this).closest(".image-div").attr('id');
@@ -242,7 +242,7 @@ function stopHandlerRotate(event, ui)
     historyStore.addToHistory(style, id);
     
 }
-
+ */
 
 //For handling start of drag event -- store current to position in style history 
 function startHandlerDrag(event, ui)
@@ -254,7 +254,7 @@ function startHandlerDrag(event, ui)
     
     //Dettach all events
     $('#'+id).draggable("option", "revert", false);
-    $('#'+id).resizable("destroy");
+    $('#'+id).resizable("option","revert",false);
     //reassign stop events
     $('#'+id).draggable(
     {
@@ -286,7 +286,7 @@ function startHandlerResize(event, ui)
     historyStore.addToHistory(style, id);
     //Dettach all events
     $('#'+id).draggable("option", "revert", false);
-    $('#'+id).resizable("destroy");
+    $('#'+id).resizable("option","revert",false);
     //reassign stop events
     $('#'+id).draggable(
     {
@@ -316,6 +316,7 @@ function addDiv(){
     //var wrapper = document.createElement('div');
     //wrapper.className='wrapper';
     var elem = document.createElement('div');
+    //elem.innerText="right click to edit"
     elem.className = 'editable image-div';
     elem.id=template.noImages;
     elem.style = "left: 10px; top:10px; background-color: #f1c40f";
@@ -323,17 +324,17 @@ function addDiv(){
     //wrapper.appendChild(elem);
     exhibitSpace.appendChild(elem);
     console.log('start add');
-    historyStore.addToHistory("left: 100px; top:100px; background-color: #f1c40f", elem.id);
     refresh();
+    historyStore.addToHistory("left: 100px; top:100px; background-color: #f1c40f", elem.id);
 
 }
 
 function createDeleteButton(id){
     var deleteButton = document.createElement("button");
-    deleteButton.textContent = "DELETE";
-    deleteButton.style.left = 20+'px';
+    deleteButton.textContent = "X";
+    deleteButton.style.left = 0+'px';
     deleteButton.style.top = 0+'px';
     deleteButton.className="delete";
-    deleteButton.style.position="absolute";
+    deleteButton.style.position="relative";
     return deleteButton;
   }
