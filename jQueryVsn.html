@@ -14,26 +14,41 @@
  
     <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/godswearhats/jquery-ui-rotatable@1.1/jquery.ui.rotatable.css">
     <script src="https://cdn.jsdelivr.net/gh/godswearhats/jquery-ui-rotatable@1.1/jquery.ui.rotatable.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     
 
 </head>
 <body onload="setup()">
+
+
+    <div id="edit-menu" class="overlay">
+
+        <!-- Button to close the overlay navigation -->
+        <!-- Overlay content -->
+        <div class="overlay-content">
+        <div class="edit-panel">change border width: <div class="slidecontainer"><input type="range" min="1" max="50" value="25" class="slider" id="border-width"></div> 
+        </div>
+        <div class="edit-panel">change padding</div>
+        <div class="edit-panel">change border colour</div>
+        </div>
+        <button onclick="closeEditMenu()" class="closebtn">X</button>
+    </div>
+
     <div id="control-panel">
         <button id="undo">undo</button>
         <button id="redo">redo</button>
         <button id="add-div">add div</button>
         <button id="change-bg">change background color</button>
     </div>
-    
     <div class="workspace" id="exhibit-space">
-        
-        <!-- <div class="editable" id="panel1" style="width:50px; height:50px; left: 10px; top:10px; background-color: #3498db;"></div>
-        <div class="editable" id="panel2" style="width:50px; height:50px; left: 70px; top:10px; background-color: #f1c40f"></div>
-        <div class="editable" id="panel3" style="width:50px; height:50px; left: 130px; top:10px; background-color: #16a085;"></div> -->
-        
+            
+            
     </div>
-
+     
     
+
 </body>
 </html>

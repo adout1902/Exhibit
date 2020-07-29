@@ -16,7 +16,7 @@ var historyStore = {
         ++this.counter;
         this.stackStyle[this.counter] = style;
         this.stackId[this.counter] = id;
-        this.changeState(style, id);
+        //this.changeState(style, id);
 
         // delete anything forward of the counter
         this.stackStyle.splice(this.counter+1);
@@ -26,8 +26,9 @@ var historyStore = {
         this.changeState(this.stackStyle[this.counter],this.stackId[this.counter]);        
     },
     redo : function(){
+        if (this.counter <= this.stackStyle.length){
         ++this.counter;
-        this.changeState(this.stackStyle[this.counter],this.stackId[this.counter]);
+        this.changeState(this.stackStyle[this.counter],this.stackId[this.counter]);}
        
     },
     changeState : function(style, id){
@@ -67,14 +68,20 @@ var historyStore = {
     }
 };
 
-
 function setup() {
 
     this.noImages=0;
 
+    
+
+
+     // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
     //add handlers to appropriate elements
 
     //make class .editable draggable
+
    
 
     //set up control panel click events 
@@ -156,6 +163,29 @@ function setup() {
 
         })
     });
+
+    $.contextMenu({
+        selector: '.context-menu-one', 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m); 
+        },
+        items: {
+            "edit": {name: "Edit", icon: "edit"},
+            "cut": {name: "Cut", icon: "cut"},
+           "copy": {name: "Copy", icon: "copy"},
+            "paste": {name: "Paste", icon: "paste"},
+            "delete": {name: "Delete", icon: "delete"},
+            "sep1": "---------",
+            "quit": {name: "Quit", icon: function(){
+                return 'context-menu-icon context-menu-icon-quit';
+            }}
+        }
+    });
+
+    $('.context-menu-one').on('click', function(e){
+        console.log('clicked', this);
+    })    
     
     refresh()
     console.log("loaded")
@@ -164,6 +194,9 @@ function setup() {
 }
 
 function refresh(){
+
+    
+
     //apply drag and resize handlers to relevant elements 
 
     //make class .editable draggable -- change to make wrapper div draggable - bug with rotatable  
@@ -224,6 +257,44 @@ function refresh(){
         });
                     
     });
+
+
+    $(document).on("click", ".edit", function(ui) {
+
+        openEditMenu();
+        //to change specific div that called the edit menu
+        var id = $(this).closest(".image-div").attr('id');
+        console.log("my id is:",id)
+        var style = $("#"+id).attr("style")
+        console.log(style)
+        console.log('before editing'+id);
+        historyStore.addToHistory(style, id);
+        var slide = document.getElementById('border-width'); 
+        slide.onchange = function(){
+            changeBorderWidth(id, slide.value)
+        }
+        
+        
+    
+                    
+    });
+    
+
+}
+
+
+function changeBorderWidth(id, value){
+    //changes border thickness of div in question
+    var div = $("#"+id);
+    var value = value;
+    console.log("changing border width to",value);
+    div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
+
+
+
+
+
+
 }
 /* 
 function startHandlerRotate(event, ui)
@@ -316,25 +387,45 @@ function addDiv(){
     //var wrapper = document.createElement('div');
     //wrapper.className='wrapper';
     var elem = document.createElement('div');
-    //elem.innerText="right click to edit"
+    elem.innerText="right click to edit"
     elem.className = 'editable image-div';
     elem.id=template.noImages;
-    elem.style = "left: 10px; top:10px; background-color: #f1c40f";
+    elem.style = "left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
     elem.appendChild(createDeleteButton(elem.id));
+    elem.appendChild(createEditButton(elem.id));
     //wrapper.appendChild(elem);
     exhibitSpace.appendChild(elem);
     console.log('start add');
+    historyStore.addToHistory("left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px", elem.id);
     refresh();
-    historyStore.addToHistory("left: 100px; top:100px; background-color: #f1c40f", elem.id);
 
 }
 
 function createDeleteButton(id){
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "X";
-    deleteButton.style.left = 0+'px';
+    deleteButton.style.left = 20+'px';
     deleteButton.style.top = 0+'px';
     deleteButton.className="delete";
     deleteButton.style.position="relative";
     return deleteButton;
-  }
+}
+function createEditButton(id){
+    var editButton = document.createElement("button");
+    editButton.textContent = "edit";
+    editButton.style.left = 20+'px';
+    editButton.style.top = 0+'px';
+    editButton.className="edit";
+    editButton.style.position="relative";
+    return editButton;
+}
+
+function openEditMenu() {
+    document.getElementById("edit-menu").style.height = "20%";
+    document.getElementById("edit-menu").style.zIndex = "2";
+}
+  
+  /* Close when someone clicks on the "x" symbol inside the overlay */
+  function closeEditMenu() {
+    document.getElementById("edit-menu").style.height = "0%";
+}
