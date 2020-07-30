@@ -11,6 +11,7 @@ var historyStore = {
     stackStyle : [], // for pos, dimensions and colour
     stackId : [],
     counter : -1,
+    currentlyEditing : "",
     addToHistory : function(style, id){
         
         ++this.counter;
@@ -70,9 +71,19 @@ var historyStore = {
 
 function setup() {
 
-    this.noImages=0;
-
     
+
+    this.noImages=0;
+    this.noTextboxes=0;
+
+    $('#save-button').click(function(){
+
+
+        save()
+        alert('starting save');
+
+      
+    });
 
 
      // Display the default slider value
@@ -85,9 +96,15 @@ function setup() {
    
 
     //set up control panel click events 
-    $( "#add-div" ).click(function() {
+    $( "#add-image" ).click(function() {
         
-        addDiv();
+        addDiv("image");
+        
+
+    });
+    $( "#add-text" ).click(function() {
+        
+        addDiv("textbox");
         
 
     });
@@ -159,6 +176,7 @@ function setup() {
         pickr.on('save', function(color){
 
             exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
+            document.body.style.backgroundColor = color.toRGBA().toString(0);
             pickr.hide();
 
         })
@@ -191,6 +209,32 @@ function setup() {
     console.log("loaded")
     
     
+}
+
+function save(){
+
+
+    var dict = {};
+    $('.editable').each(function(i, obj) {
+        var id = obj.getAttribute('id');
+        var style = $("#"+id).attr("style")
+        window.alert(id+style)
+        dict[id] = style;
+        
+    });
+
+    $.ajax({
+        url: "/scripts/saveTemplate.py",
+        type: "post",
+        datatype:"json",
+        data: dict,
+        success: function(response){
+            alert(response.message);
+            alert(response.keys);
+        }
+    });
+
+
 }
 
 function refresh(){
@@ -235,12 +279,13 @@ function refresh(){
     $(document).on("click", ".delete", function(ui) {
 
             
-        var id = $(this).closest(".image-div").attr('id');
+        var id = $(this).closest(".editable").attr('id');
+        historyStore.currentlyEditing=id;
         var style = $("#"+id).attr("style")
         console.log(style)
         console.log('before deleting'+id);
         historyStore.addToHistory(style, id);
-        $(this).closest(".image-div").css('display','none');    
+        $(this).closest(".editable").css('display','none');    
         //Dettach all events
         $('#'+id).draggable("option", "revert", false);
         $('#'+id).resizable("option","revert",false);
@@ -263,44 +308,56 @@ function refresh(){
 
         openEditMenu();
         //to change specific div that called the edit menu
-        var id = $(this).closest(".image-div").attr('id');
+        var id = $(this).closest(".editable").attr('id');
+        historyStore.currentlyEditing=id;
         console.log("my id is:",id)
         var style = $("#"+id).attr("style")
         console.log(style)
         console.log('before editing'+id);
         historyStore.addToHistory(style, id);
-        var slide = document.getElementById('border-width'); 
-        slide.onchange = function(){
-            changeBorderWidth(id, slide.value)
+        var bwidth = document.getElementById('border-width'); 
+        bwidth.onchange = function(){
+            changeBorderWidth(id, bwidth.value)
+        } 
+        var padding = document.getElementById('text-padding'); 
+        padding.onchange = function(){
+            changeTextPadding(id, padding.value)
         }
-        
-        
-    
-                    
+        $('input[type=radio]').click(function(){
+            changeTextAlignment(id, this.value)
+        });
+                        
     });
-    
+   
 
 }
 
+function changeTextAlignment(id,value){
+
+    var div = $("#"+id);
+    console.log("changing text alignment to",value);
+    div.css("textAlign",value)
+}
 
 function changeBorderWidth(id, value){
     //changes border thickness of div in question
     var div = $("#"+id);
-    var value = value;
     console.log("changing border width to",value);
     div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
 
-
-
-
-
+}
+function changeTextPadding(id, value){
+    //changes border thickness of div in question
+    var div = $("#"+id);
+    console.log("changing text padding to",value);
+    div.css("padding-top",value+"px")
 
 }
 /* 
 function startHandlerRotate(event, ui)
 {
-    var id = $(this).closest(".image-div").attr('id');
-    var style = $(this).closest(".image-div").attr('style');
+    var id = $(this).closest(".editable").attr('id');
+    var style = $(this).closest(".editable").attr('style');
     console.log("my id is:"+id)
     console.log("my style is:"+style)
     historyStore.addToHistory(style,id)
@@ -381,51 +438,81 @@ function stopHandlerResize(event, ui)
 }
        
 //to add new image or text div 
-function addDiv(){
-    template.noImages++;
+function addDiv(type){
+
     var exhibitSpace = document.getElementById("exhibit-space")
-    //var wrapper = document.createElement('div');
-    //wrapper.className='wrapper';
-    var elem = document.createElement('div');
-    elem.innerText="right click to edit"
-    elem.className = 'editable image-div';
-    elem.id=template.noImages;
-    elem.style = "left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
-    elem.appendChild(createDeleteButton(elem.id));
-    elem.appendChild(createEditButton(elem.id));
-    //wrapper.appendChild(elem);
+    if (type == "image"){
+        template.noImages++;
+        
+        //var wrapper = document.createElement('div');
+        //wrapper.className='wrapper';
+        var elem = document.createElement('div');
+        elem.className = 'editable image-div';
+        elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
+        elem.id="image"+template.noImages;
+        elem.style = "transition: border-width .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
+        elem.appendChild(createDeleteButton(elem.id));
+        elem.appendChild(createEditButton(elem.id));
+        //wrapper.appendChild(elem);
+      
+        console.log('start add image');
+        historyStore.addToHistory("transition: border-width .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px", elem.id);
+    }
+    else if (type=="textbox"){
+        template.noTextboxes++;
+        
+        //var wrapper = document.createElement('div');
+        //wrapper.className='wrapper';
+        var elem = document.createElement('div');
+        elem.className = 'editable text-div';
+        
+        elem.textContent="hellooo"
+        elem.innerHTML="<p>placeholder</p><p>text</p>"
+        elem.id="textbox"+template.noTextboxes;
+        elem.style = "transition: border-width .5s, padding-top .5s; text-align: center; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px";
+        elem.appendChild(createDeleteButton(elem.id));
+        elem.appendChild(createEditButton(elem.id));
+        //wrapper.appendChild(elem);
+        exhibitSpace.appendChild(elem);
+        console.log('start add textbox');
+        historyStore.addToHistory("transition: border-width .5s; text-align: center; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px", elem.id);
+       
+    }
     exhibitSpace.appendChild(elem);
-    console.log('start add');
-    historyStore.addToHistory("left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px", elem.id);
     refresh();
+
 
 }
 
 function createDeleteButton(id){
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "X";
-    deleteButton.style.left = 20+'px';
+    deleteButton.style.right = 0+'px';
     deleteButton.style.top = 0+'px';
     deleteButton.className="delete";
-    deleteButton.style.position="relative";
+    deleteButton.style.position="absolute";
     return deleteButton;
 }
 function createEditButton(id){
     var editButton = document.createElement("button");
     editButton.textContent = "edit";
-    editButton.style.left = 20+'px';
+    editButton.style.right = 30+'px';
     editButton.style.top = 0+'px';
     editButton.className="edit";
-    editButton.style.position="relative";
+    editButton.style.position="absolute";
     return editButton;
 }
 
 function openEditMenu() {
-    document.getElementById("edit-menu").style.height = "20%";
+    document.getElementById("edit-menu").style.width = "250px";
     document.getElementById("edit-menu").style.zIndex = "2";
+    document.getElementById("exhibit-space").style.marginLeft="250px"
+    document.getElementById("control-panel").style.marginLeft="250px"
 }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
   function closeEditMenu() {
-    document.getElementById("edit-menu").style.height = "0%";
+    document.getElementById("edit-menu").style.width = "0";
+    document.getElementById("exhibit-space").style.marginLeft="0"
+    document.getElementById("control-panel").style.marginLeft="0"
 }

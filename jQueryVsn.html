@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://kit.fontawesome.com/86f04e0335.js" crossorigin="anonymous"></script>
 
     
 
@@ -29,19 +30,41 @@
         <!-- Button to close the overlay navigation -->
         <!-- Overlay content -->
         <div class="overlay-content">
-        <div class="edit-panel">change border width: <div class="slidecontainer"><input type="range" min="1" max="50" value="25" class="slider" id="border-width"></div> 
-        </div>
-        <div class="edit-panel">change padding</div>
-        <div class="edit-panel">change border colour</div>
-        </div>
-        <button onclick="closeEditMenu()" class="closebtn">X</button>
+
+            <div class="edit-panel">change border width: 
+                <div class="slidecontainer"><input type="range" min="1" max="50" value="25" class="slider" id="border-width"></div>
+                apply to all: <input type="checkbox" id="BW-apply-all">
+            </div>
+            </div>
+            
+            <div class="edit-panel">text padding:
+                <div class="slidecontainer"><input type="range" min="1" max="50" value="25" class="slider" id="text-padding"></div>
+                apply to all: <input type="checkbox" id="BW-apply-all">
+            </div>
+            
+        
+            <div class="edit-panel">
+                <p>align text:</p>
+                <input type="radio" id="left" value="left" name="text-alignment">
+                <label for="left">left</label><br>
+
+                <input type="radio" id="center" value="center"  name="text-alignment">
+                <label for="center">center</label><br>
+                
+                <input type="radio" id="right" value="right"  name="text-alignment">
+                <label for="right">right</label><br>
+            
+            </div>
+        <button onclick="closeEditMenu()" class="closebtn">x</button>
     </div>
 
     <div id="control-panel">
         <button id="undo">undo</button>
         <button id="redo">redo</button>
-        <button id="add-div">add div</button>
+        <button id="add-image">add image</button>
+        <button id="add-text">add textbox</button>
         <button id="change-bg">change background color</button>
+        <button id="save-button">save template</button>
     </div>
     <div class="workspace" id="exhibit-space">
             
