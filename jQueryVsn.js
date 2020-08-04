@@ -217,11 +217,16 @@ function save(){
     var dict = {};
     $('.editable').each(function(i, obj) {
         var id = obj.getAttribute('id');
-        var style = $("#"+id).attr("style")
-        window.alert(id+style)
-        dict[id] = style;
+        var tmp =  $("#"+id)
+        var style = tmp.attr("style")
+        window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
+        dict[id] = {"border-width":tmp.css("border-width"),"padding-top":tmp.css("padding-top"),"text-align":tmp.css("textAlign") }
         
     });
+    console.log(dict)
+
+  
+
 
     $.ajax({
         url: "/scripts/saveTemplate.py",
@@ -280,7 +285,6 @@ function refresh(){
 
             
         var id = $(this).closest(".editable").attr('id');
-        historyStore.currentlyEditing=id;
         var style = $("#"+id).attr("style")
         console.log(style)
         console.log('before deleting'+id);
@@ -306,10 +310,11 @@ function refresh(){
 
     $(document).on("click", ".edit", function(ui) {
 
-        openEditMenu();
+        
         //to change specific div that called the edit menu
         var id = $(this).closest(".editable").attr('id');
         historyStore.currentlyEditing=id;
+        openEditMenu();
         console.log("my id is:",id)
         var style = $("#"+id).attr("style")
         console.log(style)
@@ -326,6 +331,8 @@ function refresh(){
         $('input[type=radio]').click(function(){
             changeTextAlignment(id, this.value)
         });
+
+        
                         
     });
    
@@ -334,6 +341,7 @@ function refresh(){
 
 function changeTextAlignment(id,value){
 
+   // document.getElementById(id).scrollIntoView()
     var div = $("#"+id);
     console.log("changing text alignment to",value);
     div.css("textAlign",value)
@@ -344,6 +352,32 @@ function changeBorderWidth(id, value){
     var div = $("#"+id);
     console.log("changing border width to",value);
     div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
+    var applyToAll = document.getElementById("BW-apply-all")
+    applyToAll.onchange = function() {
+        if(this.checked) {
+            var type="";
+            if(id.includes("image")){
+                type = "image-div"
+            }
+            else{
+                type = "text-div"
+            }
+            $("."+type).each(function(i, obj) {
+                var current = parseInt($( this ).css("borderWidth"),10);
+                var diff = parseInt($("#"+(historyStore.currentlyEditing)).css("borderWidth"),10)- current
+                $( this ).css("borderWidth", current+diff+"px")
+                
+            });
+        }
+   };
+  
+}
+
+
+function applyBWdith(){
+
+
+
 
 }
 function changeTextPadding(id, value){
@@ -465,8 +499,7 @@ function addDiv(type){
         //wrapper.className='wrapper';
         var elem = document.createElement('div');
         elem.className = 'editable text-div';
-        
-        elem.textContent="hellooo"
+    
         elem.innerHTML="<p>placeholder</p><p>text</p>"
         elem.id="textbox"+template.noTextboxes;
         elem.style = "transition: border-width .5s, padding-top .5s; text-align: center; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px";
@@ -504,6 +537,7 @@ function createEditButton(id){
 }
 
 function openEditMenu() {
+    document.getElementById(historyStore.currentlyEditing).scrollIntoView()//currently only top of this
     document.getElementById("edit-menu").style.width = "250px";
     document.getElementById("edit-menu").style.zIndex = "2";
     document.getElementById("exhibit-space").style.marginLeft="250px"
