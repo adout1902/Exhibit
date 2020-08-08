@@ -73,8 +73,8 @@ function setup() {
 
     
 
-    this.noImages=0;
-    this.noTextboxes=0;
+    // this.noImages=0;
+    // this.noTextboxes=0;
 
     $('#save-button').click(function(){
 
@@ -177,33 +177,11 @@ function setup() {
 
             exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
             document.body.style.backgroundColor = color.toRGBA().toString(0);
+            template.backgroundColour = color.toRGBA.toString(0);
             pickr.hide();
 
         })
     });
-
-    $.contextMenu({
-        selector: '.context-menu-one', 
-        callback: function(key, options) {
-            var m = "clicked: " + key;
-            window.console && console.log(m) || alert(m); 
-        },
-        items: {
-            "edit": {name: "Edit", icon: "edit"},
-            "cut": {name: "Cut", icon: "cut"},
-           "copy": {name: "Copy", icon: "copy"},
-            "paste": {name: "Paste", icon: "paste"},
-            "delete": {name: "Delete", icon: "delete"},
-            "sep1": "---------",
-            "quit": {name: "Quit", icon: function(){
-                return 'context-menu-icon context-menu-icon-quit';
-            }}
-        }
-    });
-
-    $('.context-menu-one').on('click', function(e){
-        console.log('clicked', this);
-    })    
     
     refresh()
     console.log("loaded")
@@ -215,6 +193,9 @@ function save(){
 
 
     var dict = {};
+    dict["bg-color"] = template.backgroundColour;
+    dict[noImages] = template.noImages;
+    dict[noTextboxes] = template.noTextboxes;
     $('.editable').each(function(i, obj) {
         var id = obj.getAttribute('id');
         var tmp =  $("#"+id)
@@ -324,12 +305,26 @@ function refresh(){
         bwidth.onchange = function(){
             changeBorderWidth(id, bwidth.value)
         } 
-        var padding = document.getElementById('text-padding'); 
-        padding.onchange = function(){
-            changeTextPadding(id, padding.value)
+        var paddingTop = document.getElementById('text-padding-top'); 
+        paddingTop.onchange = function(){
+            changeTextPadding(id, paddingTop.value, "top")
+        }
+        var paddingLeft = document.getElementById('text-padding-left'); 
+        paddingLeft.onchange = function(){
+            changeTextPadding(id, paddingLeft.value, "left")
+        }
+        var paddingRight = document.getElementById('text-padding-right'); 
+        paddingRight.onchange = function(){
+            changeTextPadding(id, paddingRight.value, "right")
         }
         $('input[type=radio]').click(function(){
             changeTextAlignment(id, this.value)
+        });
+        $("#set-bwidth-btn").click(function(){
+            changeBorderWidthInput(id)
+        });
+        $("#set-padding-btn").click(function(){
+            changeTextPaddingInput(id)
         });
 
         
@@ -352,7 +347,7 @@ function changeBorderWidth(id, value){
     var div = $("#"+id);
     console.log("changing border width to",value);
     div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
-    var applyToAll = document.getElementById("BW-apply-all")
+/*     var applyToAll = document.getElementById("BW-apply-all")
     applyToAll.onchange = function() {
         if(this.checked) {
             var type="";
@@ -369,22 +364,36 @@ function changeBorderWidth(id, value){
                 
             });
         }
-   };
-  
+   }; */
 }
 
+function changeBorderWidthInput(id){
 
-function applyBWdith(){
-
-
-
-
-}
-function changeTextPadding(id, value){
-    //changes border thickness of div in question
     var div = $("#"+id);
+    //window.alert("my id is" + id)
+    var newWidth = $('#input-bwidth').val();
+    console.log(newWidth)
+    div.css('borderWidth', newWidth+"px "+newWidth+"px " +newWidth+"px "+newWidth+"px");
+
+}
+
+function changeTextPadding(id, value, pos){
+    //changes border thickness of div in question
+
+    var div = $("#"+id).find('.text-place');
     console.log("changing text padding to",value);
-    div.css("padding-top",value+"px")
+    var positionString = "margin-"+pos;
+    console.log(positionString)
+    div.css(positionString,value+"px")
+
+}
+
+function changeTextPaddingInput(id){
+
+    var div = $("#"+id).find('.text-place');
+    var value = $('#input-padding').val();
+    console.log("changing text padding to",value);
+    div.css("margin", value+"px "+value+"px " +value+"px "+value+"px")
 
 }
 /* 
@@ -484,7 +493,7 @@ function addDiv(type){
         elem.className = 'editable image-div';
         elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
-        elem.style = "transition: border-width .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
+        elem.style = "transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
         //wrapper.appendChild(elem);
@@ -499,16 +508,19 @@ function addDiv(type){
         //wrapper.className='wrapper';
         var elem = document.createElement('div');
         elem.className = 'editable text-div';
-    
-        elem.innerHTML="<p>placeholder</p><p>text</p>"
+        var textPlaceholder = document.createElement('div');
+        textPlaceholder.className = 'text-place'
+        textPlaceholder.innerHTML="Placeholder<br>text"
+        textPlaceholder.style = "transition: margin .5s; border-style: dotted; border-color: black; border-width:2px;";
         elem.id="textbox"+template.noTextboxes;
-        elem.style = "transition: border-width .5s, padding-top .5s; text-align: center; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px";
+        elem.style = "transition: border-width .5s, padding .5s;  box-sizing: border-box; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
+        elem.appendChild(textPlaceholder)
         //wrapper.appendChild(elem);
         exhibitSpace.appendChild(elem);
         console.log('start add textbox');
-        historyStore.addToHistory("transition: border-width .5s; text-align: center; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px", elem.id);
+        historyStore.addToHistory("transition: border-width .5s; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px", elem.id);
        
     }
     exhibitSpace.appendChild(elem);

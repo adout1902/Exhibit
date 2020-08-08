@@ -63,7 +63,7 @@ body{
     margin: 10px;
     padding-left: 5px;
     width: 190px;
-    height: 200px;
+    height: 250px;
     background-color: aliceblue;
     color: black;
     display: inline-block;
@@ -101,7 +101,14 @@ button {
     background-color: rgb(97, 187, 104);
     border-color: #000000;
     border-width: 10px;
-    box-sizing: border-box;
+    /* text-align: center; */
+    overflow: hidden;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box; 
+ /*    display: flex;
+    justify-content: center;
+    align-items: center;  */
 }
 
 
