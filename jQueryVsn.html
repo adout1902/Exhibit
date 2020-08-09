@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
- 
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/godswearhats/jquery-ui-rotatable@1.1/jquery.ui.rotatable.css">
-    <script src="https://cdn.jsdelivr.net/gh/godswearhats/jquery-ui-rotatable@1.1/jquery.ui.rotatable.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -31,7 +28,7 @@
         <!-- Overlay content -->
         <div class="overlay-content">
 
-            <div class="edit-panel">change border width: 
+            <div class="edit-panel"><p><b>change border width:</b></p>
                 <div class="slidecontainer"><input type="range" min="1" max="50" value="25" class="slider" id="border-width"></div>
                 or enter exact pixel width: 
                 <div>
@@ -40,11 +37,12 @@
                 </div>
             </div>
             
-            <div class="edit-panel">top and bottom text padding:
+            <div class="edit-panel"><p><b>change padding:</b> </p>
+                top and bottom text padding
                 <div class="slidecontainer"><input type="range" min="1" max="100" value="50" class="slider" id="text-padding-top"></div>
-                left text padding:
+                left text padding
                 <div class="slidecontainer"><input type="range" min="1" max="100" value="50" class="slider" id="text-padding-left"></div>
-                right text padding:
+                right text padding
                 <div class="slidecontainer"><input type="range" min="1" max="100" value="50" class="slider" id="text-padding-right"></div>
                 or enter exact pixel width: 
                 <div>
@@ -54,8 +52,7 @@
             </div>
             
         
-            <div class="edit-panel">
-                <p>align text:</p>
+            <div class="edit-panel"><p><b>align text:</b></p>
                 <input type="radio" id="left" value="left" name="text-alignment">
                 <label for="left">left</label><br>
 
@@ -65,6 +62,11 @@
                 <input type="radio" id="right" value="right"  name="text-alignment">
                 <label for="right">right</label><br>
             
+            </div>
+            <div class="edit-panel">
+                <p><b>change border colour:</b></p>
+                <input type="color" id="border-color-change">
+                <button id="colour-change">change</button>
             </div>
         <button onclick="closeEditMenu()" class="closebtn">x</button>
     </div>

@@ -238,16 +238,16 @@ function refresh(){
     }); */
     $('.editable').draggable(
         {
-                stop: stopHandlerDrag,
-                start: startHandlerDrag
+                // stop: stopHandlerDrag,
+                // start: startHandlerDrag
                 
         });
         
     //make class .editable resizable    
     $('.editable').resizable(
     {
-            stop: stopHandlerResize,
-            start: startHandlerResize
+            // stop: stopHandlerResize,
+            // start: startHandlerResize
             
     });
 
@@ -272,19 +272,19 @@ function refresh(){
         historyStore.addToHistory(style, id);
         $(this).closest(".editable").css('display','none');    
         //Dettach all events
-        $('#'+id).draggable("option", "revert", false);
-        $('#'+id).resizable("option","revert",false);
-        //Reassign stop events
-        $('#'+id).draggable(
-        {
-            stop: stopHandlerDrag,
-            start: ''    
-        });
-        $('#'+id).resizable(
-        {
-            stop: stopHandlerResize,
-            start: '' 
-        });
+        // $('#'+id).draggable("option", "revert", false);
+        // $('#'+id).resizable("option","revert",false);
+        // //Reassign stop events
+        // $('#'+id).draggable(
+        // {
+        //     stop: stopHandlerDrag,
+        //     start: ''    
+        // });
+        // $('#'+id).resizable(
+        // {
+        //     stop: stopHandlerResize,
+        //     start: '' 
+        // });
                     
     });
 
@@ -293,6 +293,9 @@ function refresh(){
 
         
         //to change specific div that called the edit menu
+        $('.edit').removeClass('editing')
+        $(this).addClass('editing');
+        
         var id = $(this).closest(".editable").attr('id');
         historyStore.currentlyEditing=id;
         openEditMenu();
@@ -317,16 +320,23 @@ function refresh(){
         paddingRight.onchange = function(){
             changeTextPadding(id, paddingRight.value, "right")
         }
-        $('input[type=radio]').click(function(){
-            changeTextAlignment(id, this.value)
+        $('input[type=radio]').unbind('click').bind('click',function(){
+            changeTextAlignment( historyStore.currentlyEditing, this.value);
         });
-        $("#set-bwidth-btn").click(function(){
-            changeBorderWidthInput(id)
+        $("#set-bwidth-btn").on('click',function(){
+            changeBorderWidthInput(historyStore.currentlyEditing);
+            return false;
         });
-        $("#set-padding-btn").click(function(){
-            changeTextPaddingInput(id)
+        $("#set-padding-btn").on('click',function(){
+            changeTextPaddingInput(historyStore.currentlyEditing);
+            return false;
         });
+        var borderColChange = document.getElementById('border-color-change')
+        borderColChange.onchange = function(){
+            changeBorderColour(id, borderColChange.value)
 
+        }
+       
         
                         
     });
@@ -338,7 +348,7 @@ function changeTextAlignment(id,value){
 
    // document.getElementById(id).scrollIntoView()
     var div = $("#"+id);
-    console.log("changing text alignment to",value);
+    console.log("changing text alignment of" +id+ "to",value);
     div.css("textAlign",value)
 }
 
@@ -396,6 +406,13 @@ function changeTextPaddingInput(id){
     div.css("margin", value+"px "+value+"px " +value+"px "+value+"px")
 
 }
+function changeBorderColour(id,value){
+
+    var div = $("#"+id);
+    console.log("changing colou to",value);
+    div.css("borderColor",value )
+
+}
 /* 
 function startHandlerRotate(event, ui)
 {
@@ -418,14 +435,14 @@ function stopHandlerRotate(event, ui)
 //For handling start of drag event -- store current to position in style history 
 function startHandlerDrag(event, ui)
 {
-    console.log('start drag');
+    //console.log('start drag');
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
-    historyStore.addToHistory(style, id);
+   // historyStore.addToHistory(style, id);
     
     //Dettach all events
     $('#'+id).draggable("option", "revert", false);
-    $('#'+id).resizable("option","revert",false);
+    $('#'+id).resizable("destroy");
     //reassign stop events
     $('#'+id).draggable(
     {
@@ -444,17 +461,17 @@ function stopHandlerDrag(event, ui)
 {
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
-    historyStore.addToHistory(style, id);
+    //historyStore.addToHistory(style, id);
     
 }
 
 //For handling start of resize event -- store current dimensions in style history 
 function startHandlerResize(event, ui)
 {
-    console.log('start resize');
+   // console.log('start resize');
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
-    historyStore.addToHistory(style, id);
+    //historyStore.addToHistory(style, id);
     //Dettach all events
     $('#'+id).draggable("option", "revert", false);
     $('#'+id).resizable("option","revert",false);
@@ -490,8 +507,8 @@ function addDiv(type){
         //var wrapper = document.createElement('div');
         //wrapper.className='wrapper';
         var elem = document.createElement('div');
-        elem.className = 'editable image-div';
-        elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
+        elem.className = 'editable image-div ui-widget-content';
+       // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
         elem.style = "transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
@@ -560,5 +577,6 @@ function openEditMenu() {
   function closeEditMenu() {
     document.getElementById("edit-menu").style.width = "0";
     document.getElementById("exhibit-space").style.marginLeft="0"
-    document.getElementById("control-panel").style.marginLeft="0"
+    document.getElementById("control-panel").style.marginLeft="0";
+    $("#"+(historyStore.currentlyEditing)).find('.edit').removeClass('editing')
 }
