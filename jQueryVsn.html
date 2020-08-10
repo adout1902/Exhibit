@@ -29,7 +29,7 @@
         <div class="overlay-content">
 
             <div class="edit-panel"><p><b>change border width:</b></p>
-                <div class="slidecontainer"><input type="range" min="1" max="50" value="25" class="slider" id="border-width"></div>
+                <div class="slidecontainer"><input type="range" min="0" max="50" value="25" class="slider" id="border-width"></div>
                 or enter exact pixel width: 
                 <div>
                     <input type="text" id="input-bwidth">
@@ -39,11 +39,11 @@
             
             <div class="edit-panel"><p><b>change padding:</b> </p>
                 top and bottom text padding
-                <div class="slidecontainer"><input type="range" min="1" max="100" value="50" class="slider" id="text-padding-top"></div>
+                <div class="slidecontainer"><input type="range" min="0" max="100" value="50" class="slider" id="text-padding-top"></div>
                 left text padding
-                <div class="slidecontainer"><input type="range" min="1" max="100" value="50" class="slider" id="text-padding-left"></div>
+                <div class="slidecontainer"><input type="range" min="0" max="100" value="50" class="slider" id="text-padding-left"></div>
                 right text padding
-                <div class="slidecontainer"><input type="range" min="1" max="100" value="50" class="slider" id="text-padding-right"></div>
+                <div class="slidecontainer"><input type="range" min="0" max="100" value="50" class="slider" id="text-padding-right"></div>
                 or enter exact pixel width: 
                 <div>
                     <input type="text" id="input-padding">
@@ -85,28 +85,35 @@
                 <button id="sub-z">send item back</button>
             </div>
 
-        <button onclick="closeEditMenu()" class="closebtn">x</button>
+        <!-- remove inline -->
+        <button onclick="closeEditMenu()" class="closebtn" style="top: 50%;">X</button>
     </div>
-    </div>>
+    </div>
 
-    <div id="control-panel">
-        <button id="undo">undo</button>
-        <button id="redo">redo</button>
-        <button id="add-image">add image</button>
-        <button id="add-text">add textbox</button>
-        <button id="change-bg">change background color</button>
-        <div id="textures"><input type="radio" id="paper" value="paper"  name="texture">
-            <label for="paper">paper</label><br>
-            <input type="radio" id="tire" value="tire"  name="texture">
-            <label for="tire">tire</label><br>
-            <input type="radio" id="brick" value="brick"  name="texture">
-            <label for="brick">brick</label><br>
-        </div>
-        
-        <button id="save-button">save template</button>
-    </div>
-    <div class="workspace" id="exhibit-space">
+
+    <div  class="workspace" id="exhibit-space">
+        <div id="control-panel">
+            <button id="undo">undo</button>
+            <button id="redo">redo</button>
+            <button id="add-image">add image</button>
+            <button id="add-text">add textbox</button>
+            <button id="change-bg">change background color</button>
+            <div id="textures"><input type="radio" id="paper" value="paper"  name="texture">
+                <label for="paper">paper</label><br>
+                <input type="radio" id="tire" value="tire"  name="texture">
+                <label for="tire">tire</label><br>
+                <input type="radio" id="brick" value="brick"  name="texture">
+                <label for="brick">brick</label><br>
+            </div>
             
+            <button id="save-button">save template</button>
+        </div>
+
+            <div id="title" class="editable">
+                Title placeholder
+                <button class="edit" >edit</button>
+            </div>
+
             
     </div>
      

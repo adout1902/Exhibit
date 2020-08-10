@@ -20,22 +20,42 @@ body:after{
   left: 0;
   bottom: 0;
   right: 0;
+  /* margin-top:100px; */
   overflow: auto;
   box-sizing: border-box;
     transition: margin-left .5s;
 
 }
+.edit{
+
+    font-size: small;
+}
+
+#title{
+    height: 100px;
+    border-color: #000000;
+    border-style: solid;
+    border-width: 5px;
+    width: 100%;
+    margin-top: 100px;
+    box-sizing: border-box;
+    text-align: center;
+    color: #a09a9a;
+    font-size: 80px;
+
+}
 
 #control-panel
 {
-    height: 10%; 
+    height: 100px;
     width: 100%; /* Set the width of the sidebar */
-    position: absolute; /* Fixed Sidebar (stay in place on scroll) */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
     background-color: rgb(79, 148, 133);
     transition: margin-left .5s;
+    box-sizing: border-box;
     
 }
 
@@ -59,12 +79,15 @@ body:after{
     top: 0px;
     right: 0px;
     font-size: 20px;
+    background-color: rgb(163, 27, 27);
+    border-radius: 10px;
+    margin-left: 15px;
 }
 
 .edit-panel{
 
     /* padding: 20px; */
-    margin: 10px;
+    margin: 15px;
     padding: 5px;
     width: 190px;
     /* height: 250px; */
@@ -81,7 +104,6 @@ body:after{
     color: #000000;
 }
 
-  
 button {
     font:inherit;
     background:#2969B0;

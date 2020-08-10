@@ -250,18 +250,19 @@ function refresh(){
             start: startHandlerDrag
             
     }); */
+    
     $('.editable').draggable(
         {
-                // stop: stopHandlerDrag,
-                // start: startHandlerDrag
+                stop: stopHandlerDrag,
+                start: startHandlerDrag
                 
         });
         
     //make class .editable resizable    
     $('.editable').resizable(
     {
-            // stop: stopHandlerResize,
-            // start: startHandlerResize
+            stop: stopHandlerResize,
+            start: startHandlerResize
             
     });
 
@@ -350,10 +351,14 @@ function refresh(){
             changeTextPaddingInput(historyStore.currentlyEditing);
             return false;
         });
+        //to do: display input colour as currently used border colour (need to convert to hex)
+        // var current = $("#"+id).css("borderColor");
+        // console.log("current:",current) 
         var borderColChange = document.getElementById('border-color-change')
+        //borderColChange.value=current;
         borderColChange.onchange = function(){
-            changeBorderColour(id, borderColChange.value)
-
+            changeBorderColour(id, borderColChange.value);
+            
         }
         $("#add-z").unbind('click').bind('click',function(){
             changeLayer(id, 2)
@@ -468,8 +473,9 @@ function changeTextPaddingInput(id){
 function changeBorderColour(id,value){
 
     var div = $("#"+id);
-    console.log("changing colou to",value);
+    console.log("changing colour to",value);
     div.css("borderColor",value )
+    
 
 }
 /* 
@@ -497,7 +503,7 @@ function startHandlerDrag(event, ui)
     //console.log('start drag');
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
-   // historyStore.addToHistory(style, id);
+    historyStore.addToHistory(style, id);
     
     //Dettach all events
     $('#'+id).draggable("option", "revert", false);
@@ -520,7 +526,7 @@ function stopHandlerDrag(event, ui)
 {
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
-    //historyStore.addToHistory(style, id);
+    historyStore.addToHistory(style, id);
     
 }
 
@@ -530,7 +536,7 @@ function startHandlerResize(event, ui)
    // console.log('start resize');
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
-    //historyStore.addToHistory(style, id);
+    historyStore.addToHistory(style, id);
     //Dettach all events
     $('#'+id).draggable("option", "revert", false);
     $('#'+id).resizable("option","revert",false);
@@ -626,11 +632,11 @@ function createEditButton(id){
 }
 
 function openEditMenu() {
-    document.getElementById(historyStore.currentlyEditing).scrollIntoView()//currently only top of this
-    document.getElementById("edit-menu").style.width = "250px";
+    //document.getElementById(historyStore.currentlyEditing).scrollIntoView()//currently only top of this
+    document.getElementById("edit-menu").style.width = "280px";
     document.getElementById("edit-menu").style.zIndex = "2";
-    document.getElementById("exhibit-space").style.marginLeft="250px"
-    document.getElementById("control-panel").style.marginLeft="250px"
+    document.getElementById("exhibit-space").style.marginLeft="280px"
+    document.getElementById("control-panel").style.marginLeft="280px"
 }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
