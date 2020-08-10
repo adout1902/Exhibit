@@ -4,7 +4,7 @@
     display: inline-block;
 }
 
-body{
+body:after{
 
 
     background-size: 40px 40px;
@@ -14,10 +14,14 @@ body{
 .workspace
 {
    
-    width: 100%; 
-    height:auto;
-    box-sizing: border-box;
-    position: relative; top: 0; right: 0; bottom: 0; left: 0;
+   
+    position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
+  box-sizing: border-box;
     transition: margin-left .5s;
 
 }
@@ -100,6 +104,7 @@ button {
     box-sizing: content-box;
     min-width: 70px;
     min-height: 70px;
+    /* z-index: 1; */
 }
 
 .image-div:before {
@@ -126,7 +131,27 @@ button {
     justify-content: center;
     align-items: center;  */
 }
+.paper{
 
+    background-image: url("https://www.transparenttextures.com/patterns/exclusive-paper.png");
+    /*host*/
+
+}
+
+.tire{
+
+    background-image: url("tire.png");
+    /*host*/
+
+}
+
+.brick{
+
+    background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+
+
+}
 
 ui-resizable { position: relative;}
 .ui-resizable-handle { position: absolute;font-size: 0.1px; display: block; }

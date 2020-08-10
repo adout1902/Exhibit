@@ -76,6 +76,7 @@ function setup() {
     // this.noImages=0;
     // this.noTextboxes=0;
 
+    
     $('#save-button').click(function(){
 
 
@@ -182,7 +183,11 @@ function setup() {
 
         })
     });
-    
+    document.getElementById("textures").addEventListener('click', function (event) {
+        if ( event.target && event.target.matches("input[type='radio']") ) {
+           changeBGTexture(event.target.value)
+        }
+    });
     refresh()
     console.log("loaded")
     
@@ -221,6 +226,15 @@ function save(){
     });
 
 
+}
+
+function changeBGTexture(texture){
+
+    //remove previous textures
+    //figure out a way to still have dots?
+    
+    $('.workspace').addClass(texture);
+    
 }
 
 function refresh(){
@@ -308,6 +322,11 @@ function refresh(){
         bwidth.onchange = function(){
             changeBorderWidth(id, bwidth.value)
         } 
+        var swidth = document.getElementById('shadow-width'); 
+        swidth.onchange = function(){
+            changeShadowWidth(id, swidth.value)
+        } 
+
         var paddingTop = document.getElementById('text-padding-top'); 
         paddingTop.onchange = function(){
             changeTextPadding(id, paddingTop.value, "top")
@@ -336,11 +355,32 @@ function refresh(){
             changeBorderColour(id, borderColChange.value)
 
         }
+        $("#add-z").unbind('click').bind('click',function(){
+            changeLayer(id, 2)
+            return false;
+        });
+        $("#sub-z").unbind('click').bind('click',function(){
+            changeLayer(id,-2)
+            return false;
+        });
        
         
                         
     });
+
+ 
    
+
+}
+
+function changeLayer(id, value){
+    //add max and min
+    var div = $("#"+id);
+    //console.log("changing z value of" +id+ "to",value);
+    var current = div.css('zIndex');
+    
+    console.log("changing z value of" +id+ "from",parseInt(current),"to",parseInt(current)+parseInt(value));
+    div.css("zIndex",parseInt(current)+parseInt(value))
 
 }
 
@@ -376,6 +416,25 @@ function changeBorderWidth(id, value){
         }
    }; */
 }
+
+function changeBorderWidth(id, value){
+    //changes border thickness of div in question
+    var div = $("#"+id);
+    console.log("changing border width to",value);
+    div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
+
+}
+
+function changeShadowWidth(id, value){
+    //changes border thickness of div in question
+    var div = $("#"+id);
+    console.log("changing shadow width to",value);
+    div.css("boxShadow",value+"px "+value+"px " +value+"px grey" )
+
+}
+
+
+
 
 function changeBorderWidthInput(id){
 
@@ -510,7 +569,8 @@ function addDiv(type){
         elem.className = 'editable image-div ui-widget-content';
        // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
-        elem.style = "transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
+        var z = template.noImages;
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
         //wrapper.appendChild(elem);

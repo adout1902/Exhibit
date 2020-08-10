@@ -68,6 +68,23 @@
                 <input type="color" id="border-color-change">
                 <button id="colour-change">change</button>
             </div>
+
+            <div class="edit-panel">
+                <p><b>apply shadow:</b></p>
+                <div class="slidecontainer"><input type="range" min="0" max="20" value="10" class="slider" id="shadow-width"></div>
+                or enter exact pixel width: 
+                <div>
+                    <input type="text" id="input-swidth">
+                    <button type="button" id="set-swidth-btn">Set</button>
+                </div>
+            </div>
+
+            <div class="edit-panel">
+                <p><b>adjust layer:</b></p>
+                <button id="add-z">bring item forward</button>
+                <button id="sub-z">send item back</button>
+            </div>
+
         <button onclick="closeEditMenu()" class="closebtn">x</button>
     </div>
     </div>>
@@ -78,6 +95,14 @@
         <button id="add-image">add image</button>
         <button id="add-text">add textbox</button>
         <button id="change-bg">change background color</button>
+        <div id="textures"><input type="radio" id="paper" value="paper"  name="texture">
+            <label for="paper">paper</label><br>
+            <input type="radio" id="tire" value="tire"  name="texture">
+            <label for="tire">tire</label><br>
+            <input type="radio" id="brick" value="brick"  name="texture">
+            <label for="brick">brick</label><br>
+        </div>
+        
         <button id="save-button">save template</button>
     </div>
     <div class="workspace" id="exhibit-space">
