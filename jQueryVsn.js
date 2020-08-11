@@ -69,6 +69,12 @@ var historyStore = {
     }
 };
 
+
+var editItems = {
+
+     bwidth :  document.getElementById('border-width')
+
+}
 function setup() {
 
     
@@ -77,14 +83,23 @@ function setup() {
     // this.noTextboxes=0;
 
     
-    $('#save-button').click(function(){
+    $('#save-template').click(function(){
 
-
-        save()
+        var filename = $('#filename').val();
+        save(filename)
         alert('starting save');
 
       
     });
+
+    
+
+        
+        $("#save-modal, #modal-close").click(function() {
+            $("#modal-content, #modal-background").toggleClass("active");
+        });
+
+  
 
 
      // Display the default slider value
@@ -100,113 +115,146 @@ function setup() {
     $( "#add-image" ).click(function() {
         
         addDiv("image");
-        
+        return false;
 
     });
     $( "#add-text" ).click(function() {
         
         addDiv("textbox");
-        
+        return false;
 
     });
     
     $( "#undo" ).click(function() {
         
         historyStore.undo();
-        
+        return false;
 
     });
 
     $( "#redo" ).click(function() {
         
         historyStore.redo();
+        return false;
     
 
     });
+    
     //exhibit space background colour changer 
-    const exhibitSpace = document.getElementById("exhibit-space")
-    const bgColourBttn = document.getElementById("change-bg")
+    // const exhibitSpace = document.getElementById("exhibit-space")
+    // const bgColourBttn = document.getElementById("change-bg")
 
-    const pickr = new Pickr({
-    el: bgColourBttn,
-    useAsButton:true,
-    //default: '#D2BFED',
-    theme: 'nano',
-    lockOpacity: true,
+    // const pickr = new Pickr({
+    // el: bgColourBttn,
+    // useAsButton:true,
+    // //default: '#D2BFED',
+    // theme: 'nano',
+    // lockOpacity: true,
     
-    swatches: [
-        'rgba(244, 67, 54, 1)',
-        'rgba(233, 30, 99, 0.95)',
-        'rgba(156, 39, 176, 0.9)',
-        'rgba(103, 58, 183, 0.85)',
-        'rgba(63, 81, 181, 0.8)',
-        'rgba(33, 150, 243, 0.75)',
-        'rgba(3, 169, 244, 0.7)',
-        'rgba(0, 188, 212, 0.7)',
-        'rgba(0, 150, 136, 0.75)',
-        'rgba(76, 175, 80, 0.8)',
-        'rgba(139, 195, 74, 0.85)',
-        'rgba(205, 220, 57, 0.9)',
-        'rgba(255, 235, 59, 0.95)',
-        'rgba(255, 193, 7, 1)'
-    ],
+    // swatches: [
+    //     'rgba(244, 67, 54, 1)',
+    //     'rgba(233, 30, 99, 0.95)',
+    //     'rgba(156, 39, 176, 0.9)',
+    //     'rgba(103, 58, 183, 0.85)',
+    //     'rgba(63, 81, 181, 0.8)',
+    //     'rgba(33, 150, 243, 0.75)',
+    //     'rgba(3, 169, 244, 0.7)',
+    //     'rgba(0, 188, 212, 0.7)',
+    //     'rgba(0, 150, 136, 0.75)',
+    //     'rgba(76, 175, 80, 0.8)',
+    //     'rgba(139, 195, 74, 0.85)',
+    //     'rgba(205, 220, 57, 0.9)',
+    //     'rgba(255, 235, 59, 0.95)',
+    //     'rgba(255, 193, 7, 1)'
+    // ],
     
-    components: {
-        preview: true,
-        opacity: true,
-        hue: true,
+    // components: {
+    //     preview: true,
+    //     opacity: true,
+    //     hue: true,
     
-        interaction: {
-        hex: true,
-        rgba: true,
-        hsva: true,
-        input: true,
-        clear: true,
-        save: true
-        }
+    //     interaction: {
+    //     hex: true,
+    //     rgba: true,
+    //     hsva: true,
+    //     input: true,
+    //     clear: true,
+    //     save: true
+    //     }
+    // }
+    // })/* .on('init', pickr => {
+    // exhibitSpace.style.backgroundColor = pickr.getSelectedColor().toRGBA().toString(0);
+    // }).on('save', color => {
+    // exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
+    // pickr.hide();
+    // });  */
+    
+
+    // $( "#change-bg" ).click(function() {
+    //     pickr.on('save', function(color){
+
+    //         exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
+    //         document.body.style.backgroundColor = color.toRGBA().toString(0);
+    //         template.backgroundColour = console.log((color.toRGBA).toString(0));
+    //         pickr.hide();
+
+    //     })
+    // });
+    // document.getElementById("textures").addEventListener('click', function (event) {
+    //     if ( event.target && event.target.matches("input[type='radio']") ) {
+    //        changeBGTexture(event.target.value)
+    //     }
+    // });
+
+    const bgCol = document.getElementById("change-bg-colour");
+    bgCol.onchange = function(){
+        document.body.style.backgroundColor = bgCol.value;
+        template.backgroundColour= bgCol.value;
+
     }
-    })/* .on('init', pickr => {
-    exhibitSpace.style.backgroundColor = pickr.getSelectedColor().toRGBA().toString(0);
-    }).on('save', color => {
-    exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
-    pickr.hide();
-    });  */
+
+    editItems.bwidth =  document.getElementById('border-width')
+    editItems.heightChanger = document.getElementById('set-height')
+    editItems.widthChanger = document.getElementById('set-width')
+
+    document.getElementById("input-height")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("set-height").click();
+    }
+    });
     
-
-    $( "#change-bg" ).click(function() {
-        pickr.on('save', function(color){
-
-            exhibitSpace.style.backgroundColor = color.toRGBA().toString(0);
-            document.body.style.backgroundColor = color.toRGBA().toString(0);
-            template.backgroundColour = color.toRGBA.toString(0);
-            pickr.hide();
-
-        })
+    document.getElementById("input-width")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        document.getElementById("set-width").click();
+    }
     });
-    document.getElementById("textures").addEventListener('click', function (event) {
-        if ( event.target && event.target.matches("input[type='radio']") ) {
-           changeBGTexture(event.target.value)
-        }
-    });
+
     refresh()
     console.log("loaded")
     
     
 }
 
-function save(){
+
+function save(filename){
 
 
     var dict = {};
+    dict["filename"]=filename;
     dict["bg-color"] = template.backgroundColour;
-    dict[noImages] = template.noImages;
-    dict[noTextboxes] = template.noTextboxes;
+    dict["noImages"] = template.noImages;
+    dict["noTextboxes"] = template.noTextboxes;
     $('.editable').each(function(i, obj) {
         var id = obj.getAttribute('id');
         var tmp =  $("#"+id)
         var style = tmp.attr("style")
-        window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
-        dict[id] = {"border-width":tmp.css("border-width"),"padding-top":tmp.css("padding-top"),"text-align":tmp.css("textAlign") }
+        //window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
+        
+        dict[id] = {"top":tmp.css("top"),"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),"border-width":tmp.css("border-width"),"padding":tmp.css("padding"),"text-align":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),"z":tmp.css("z-index"), "borderColour":tmp.css("border-color") }
         
     });
     console.log(dict)
@@ -215,13 +263,14 @@ function save(){
 
 
     $.ajax({
-        url: "/scripts/saveTemplate.py",
+        url: "./cgi-bin/saveTemplate.py",
         type: "post",
         datatype:"json",
         data: dict,
         success: function(response){
             alert(response.message);
             alert(response.keys);
+            window.alert("saved")
         }
     });
 
@@ -306,7 +355,7 @@ function refresh(){
 
     $(document).on("click", ".edit", function(ui) {
 
-        
+        //todo: move definitions to setup funct
         //to change specific div that called the edit menu
         $('.edit').removeClass('editing')
         $(this).addClass('editing');
@@ -319,9 +368,9 @@ function refresh(){
         console.log(style)
         console.log('before editing'+id);
         historyStore.addToHistory(style, id);
-        var bwidth = document.getElementById('border-width'); 
-        bwidth.onchange = function(){
-            changeBorderWidth(id, bwidth.value)
+        
+        editItems.bwidth.onchange = function(){
+            changeBorderWidth(id, editItems.bwidth.value)
         } 
         var swidth = document.getElementById('shadow-width'); 
         swidth.onchange = function(){
@@ -351,6 +400,16 @@ function refresh(){
             changeTextPaddingInput(historyStore.currentlyEditing);
             return false;
         });
+
+        $("#set-height").unbind('click').bind('click',function(){
+            changeHeight(historyStore.currentlyEditing);
+            return false;
+        });
+
+        $("#set-width").unbind('click').bind('click',function(){
+            changeWidth(historyStore.currentlyEditing);
+            return false;
+        });
         //to do: display input colour as currently used border colour (need to convert to hex)
         // var current = $("#"+id).css("borderColor");
         // console.log("current:",current) 
@@ -360,12 +419,18 @@ function refresh(){
             changeBorderColour(id, borderColChange.value);
             
         }
+        var textboxColChange = document.getElementById('textbox-color-change')
+        //borderColChange.value=current;
+        textboxColChange.onchange = function(){
+            changeTextboxColour(id, textboxColChange.value);
+            
+        }
         $("#add-z").unbind('click').bind('click',function(){
-            changeLayer(id, 2)
+            changeLayer(id, 1)
             return false;
         });
         $("#sub-z").unbind('click').bind('click',function(){
-            changeLayer(id,-2)
+            changeLayer(id,-1)
             return false;
         });
        
@@ -380,12 +445,23 @@ function refresh(){
 
 function changeLayer(id, value){
     //add max and min
+    var noImages = template.noImages;
+    var noTextboxes = template.noTextboxes;
+    var max = Math.max(noImages, noTextboxes)
+   
     var div = $("#"+id);
     //console.log("changing z value of" +id+ "to",value);
     var current = div.css('zIndex');
-    
-    console.log("changing z value of" +id+ "from",parseInt(current),"to",parseInt(current)+parseInt(value));
-    div.css("zIndex",parseInt(current)+parseInt(value))
+    var newLayer= parseInt(current)+parseInt(value);
+    if (newLayer<0){
+        newLayer = 0
+    }
+    else if (newLayer>max+1){
+        newLayer = max+1
+    }
+
+    console.log("changing z value of" +id+ "from",parseInt(current),"to",newLayer);
+    div.css("zIndex",newLayer)
 
 }
 
@@ -397,30 +473,30 @@ function changeTextAlignment(id,value){
     div.css("textAlign",value)
 }
 
-function changeBorderWidth(id, value){
-    //changes border thickness of div in question
-    var div = $("#"+id);
-    console.log("changing border width to",value);
-    div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
-/*     var applyToAll = document.getElementById("BW-apply-all")
-    applyToAll.onchange = function() {
-        if(this.checked) {
-            var type="";
-            if(id.includes("image")){
-                type = "image-div"
-            }
-            else{
-                type = "text-div"
-            }
-            $("."+type).each(function(i, obj) {
-                var current = parseInt($( this ).css("borderWidth"),10);
-                var diff = parseInt($("#"+(historyStore.currentlyEditing)).css("borderWidth"),10)- current
-                $( this ).css("borderWidth", current+diff+"px")
+// function changeBorderWidth(id, value){
+//     //changes border thickness of div in question
+//     var div = $("#"+id);
+//     console.log("changing border width to",value);
+//     div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
+// /*     var applyToAll = document.getElementById("BW-apply-all")
+//     applyToAll.onchange = function() {
+//         if(this.checked) {
+//             var type="";
+//             if(id.includes("image")){
+//                 type = "image-div"
+//             }
+//             else{
+//                 type = "text-div"
+//             }
+//             $("."+type).each(function(i, obj) {
+//                 var current = parseInt($( this ).css("borderWidth"),10);
+//                 var diff = parseInt($("#"+(historyStore.currentlyEditing)).css("borderWidth"),10)- current
+//                 $( this ).css("borderWidth", current+diff+"px")
                 
-            });
-        }
-   }; */
-}
+//             });
+//         }
+//    }; */
+// }
 
 function changeBorderWidth(id, value){
     //changes border thickness of div in question
@@ -451,6 +527,25 @@ function changeBorderWidthInput(id){
 
 }
 
+function changeWidth(id){
+
+    var div = $("#"+id);
+    //window.alert("my id is" + id)
+    var newWidth = $('#input-width').val();
+    console.log(newWidth)
+    div.css('width',newWidth );
+
+}
+function changeHeight(id){
+
+    var div = $("#"+id);
+    //window.alert("my id is" + id)
+    var newHeight = $('#input-height').val();
+    console.log(newHeight)
+    div.css('height', newHeight);
+
+}
+
 function changeTextPadding(id, value, pos){
     //changes border thickness of div in question
 
@@ -475,6 +570,12 @@ function changeBorderColour(id,value){
     var div = $("#"+id);
     console.log("changing colour to",value);
     div.css("borderColor",value )
+}
+function changeTextboxColour(id,value){
+
+    var div = $("#"+id);
+    console.log("changing colour to",value);
+    div.css("backgroundColor",value )
     
 
 }
@@ -575,14 +676,14 @@ function addDiv(type){
         elem.className = 'editable image-div ui-widget-content';
        // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
-        var z = template.noImages;
-        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px";
+        var z = Math.max(template.noImages,template.noTextboxes);
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
         //wrapper.appendChild(elem);
       
         console.log('start add image');
-        historyStore.addToHistory("transition: border-width .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #f1c40f; border-style: solid; border-color: black; border-width:10px", elem.id);
+        historyStore.addToHistory(elem.style, elem.id);
     }
     else if (type=="textbox"){
         template.noTextboxes++;
@@ -593,17 +694,18 @@ function addDiv(type){
         elem.className = 'editable text-div';
         var textPlaceholder = document.createElement('div');
         textPlaceholder.className = 'text-place'
-        textPlaceholder.innerHTML="Placeholder<br>text"
-        textPlaceholder.style = "transition: margin .5s; border-style: dotted; border-color: black; border-width:2px;";
+        textPlaceholder.innerHTML="Placeholder<br>text";
+        var z = Math.max(template.noImages,template.noTextboxes);
+        textPlaceholder.style = "transition: margin .5s;border-style: dotted; border-color: black; border-width:2px; background-color:white";
         elem.id="textbox"+template.noTextboxes;
-        elem.style = "transition: border-width .5s, padding .5s;  box-sizing: border-box; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px";
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s;  box-sizing:content-box; position: absolute; left: 100px; top:400px; background-color: white; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
         elem.appendChild(textPlaceholder)
         //wrapper.appendChild(elem);
         exhibitSpace.appendChild(elem);
         console.log('start add textbox');
-        historyStore.addToHistory("transition: border-width .5s; position: absolute; left: 100px; top:400px; background-color: rgb(97, 187, 104); border-style: solid; border-color: black; border-width:10px", elem.id);
+        historyStore.addToHistory(elem.style, elem.id);
        
     }
     exhibitSpace.appendChild(elem);

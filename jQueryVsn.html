@@ -28,6 +28,14 @@
         <!-- Overlay content -->
         <div class="overlay-content">
 
+            <div class="edit-panel">
+                <p><b>change height:</b></p>
+                <input type="text" id="input-height">
+                <button id="set-height">set</button>
+                <p><b>change width:</b></p>
+                <input type="text" id="input-width">
+                <button id="set-width">set</button>
+            </div>
             <div class="edit-panel"><p><b>change border width:</b></p>
                 <div class="slidecontainer"><input type="range" min="0" max="50" value="25" class="slider" id="border-width"></div>
                 or enter exact pixel width: 
@@ -64,9 +72,14 @@
             
             </div>
             <div class="edit-panel">
+                <p><b>change textbox background colour:</b></p>
+                <input type="color" id="textbox-color-change">
+                <button id="colour-changeBG">change</button>
+            </div>
+            <div class="edit-panel">
                 <p><b>change border colour:</b></p>
                 <input type="color" id="border-color-change">
-                <button id="colour-change">change</button>
+                <button id="colour-changeBorder">change</button>
             </div>
 
             <div class="edit-panel">
@@ -97,16 +110,17 @@
             <button id="redo">redo</button>
             <button id="add-image">add image</button>
             <button id="add-text">add textbox</button>
-            <button id="change-bg">change background color</button>
-            <div id="textures"><input type="radio" id="paper" value="paper"  name="texture">
+            <input type="color" id="change-bg-colour">
+            <button>change background color</button>
+            <!-- <div id="textures"><input type="radio" id="paper" value="paper"  name="texture">
                 <label for="paper">paper</label><br>
                 <input type="radio" id="tire" value="tire"  name="texture">
                 <label for="tire">tire</label><br>
                 <input type="radio" id="brick" value="brick"  name="texture">
                 <label for="brick">brick</label><br>
-            </div>
+            </div> -->
             
-            <button id="save-button">save template</button>
+            <button id="save-modal">save template</button>
         </div>
 
             <div id="title" class="editable">
@@ -115,6 +129,14 @@
             </div>
 
             
+    </div>
+
+    <div id="modal-background"></div>
+    <div id="modal-content">
+        <label for="filename"><b>Enter the filename</b></label>
+        <input type="text" id="filename" name="filename">
+        <button id="save-template">save</button>
+        <button id="modal-close">Close</button>
     </div>
      
     
