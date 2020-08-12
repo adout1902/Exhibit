@@ -1,0 +1,20 @@
+{
+   "F1": { 
+       "title": "2019 F1 season",
+        "backgroundColor": "red",
+        "noImages":1,
+        "noTextboxes": 2,
+        "images":[{"id":"image1", "top":"0px", "left":"100px","height":"200px","width":"200px","backgroundColor":"black"}],
+        "textboxes":[{"id":"textbox1", "top":"200px", "left":"300px","height":"200px","width":"500px", "backgroundColor":"pink"},{"id":"textbox2", "top":"500px", "left":"100px","height":"200px","width":"500px",  "backgroundColor":"yellow"}]
+    },
+    
+    "Stonewall": { 
+        "title": "Stonewall Riots",
+        "backgroundColor": "pink",
+        "noImages":1,
+        "noTextboxes": 2,
+        "images":[{"id":"image1", "top":"100px", "left":"100px","height":"200px","width":"200px"}],
+        "textboxes":[{"id":"textbox1", "top":"300px", "left":"100px","height":"200px","width":"500px", "backgroundColor":"black"},{"id":"textbox2", "top":"600px", "left":"100px","height":"200px","width":"500px",  "backgroundColor":"black"}]
+    }
+
+}

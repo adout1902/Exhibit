@@ -92,6 +92,13 @@ function setup() {
       
     });
 
+    $('#render').click(function(){
+
+       render();
+
+      
+    });
+
     
 
         
@@ -244,29 +251,66 @@ function save(filename){
 
 
     var dict = {};
-    dict["filename"]=filename;
-    dict["bg-color"] = template.backgroundColour;
-    dict["noImages"] = template.noImages;
-    dict["noTextboxes"] = template.noTextboxes;
+    var contents ={}
+   
+    contents["bgColor"] = template.backgroundColour;
+    contents["noImages"] = template.noImages;
+    contents["noTextboxes"] = template.noTextboxes;
+    contents["items"]=[];
     $('.editable').each(function(i, obj) {
         var id = obj.getAttribute('id');
         var tmp =  $("#"+id)
         var style = tmp.attr("style")
         //window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
+
+        var bgCol =tmp.css("background-color");
+
+        if (bgCol=="none"){ bgCol="white"}
+        var width = tmp.css("width")
+        if(id=="title"){
+            width = "100%"
+        }
         
-        dict[id] = {"top":tmp.css("top"),"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),"border-width":tmp.css("border-width"),"padding":tmp.css("padding"),"text-align":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),"z":tmp.css("z-index"), "borderColour":tmp.css("border-color") }
+        contents["items"].push({"id":id,"top":tmp.css("top"),"left":tmp.css("left"),"width":width,"height":tmp.css("height"),
+        "borderWidth":tmp.css("border-width"),"padding":tmp.css("padding"),"textAlign":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),
+        "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
         
     });
+    dict[filename]=contents;
     console.log(dict)
+    saveText( JSON.stringify(dict), "test.json" );
 
   
 
 
+    // $.ajax({
+    //     url: "./cgi-bin/saveTemplate.py",
+    //     type: "post",
+    //     datatype:"json",
+    //     data: dict,
+    //     success: function(response){
+    //         window.alert("saved")
+    //     }
+    // });
+
+
+}
+
+function saveText(text, filename){
+    var a = document.createElement('a');
+    a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(text));
+    a.setAttribute('download', filename);
+    a.click()
+  }
+
+
+function render(){
+
+    window.alert("rendering")
     $.ajax({
-        url: "./cgi-bin/saveTemplate.py",
+        url: "./cgi-bin/renderTemplate.py",
         type: "post",
         datatype:"json",
-        data: dict,
         success: function(response){
             alert(response.message);
             alert(response.keys);
@@ -276,7 +320,6 @@ function save(filename){
 
 
 }
-
 function changeBGTexture(texture){
 
     //remove previous textures

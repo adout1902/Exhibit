@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET 
 import cgi 
+import datetime
 
 print ("Content-Type: text/html")
 print()
@@ -13,6 +14,7 @@ for x in root.findall('driver'):
     print("<img src=\""+image+"\">")
     print("<p>"+name+"</p>")
 
+date = datetime.today()
 
 
 
