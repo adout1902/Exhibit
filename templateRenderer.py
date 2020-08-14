@@ -5,15 +5,35 @@ import os
 print("Content-type: text/html")
 print("")
 
+def write_json(data, filename='testTemplate.json'): 
+    with open(filename,'w') as f: 
+        json.dump(data, f, indent=4)
+
 
 f = open("testTemplate.json")
 
 data = json.load(f)
 
+temp = data["templates"]
+
+y = {"title": "The Troubles",
+            "backgroundColor": "green",
+            "noImages":1,
+            "noTextboxes": 2,
+            "images":[{"id":"image1", "top":"100px", "left":"100px","height":"200px","width":"200px"}],
+            "textboxes":[{"id":"textbox1", "top":"300px", "left":"100px","height":"200px","width":"500px", "backgroundColor":"black"},{"id":"textbox2", "top":"600px", "left":"100px","height":"200px","width":"500px",  "backgroundColor":"black"}]
+}
+
+name = "troubles"
+
+temp[name]=y
+
+write_json(data)
+
 f.close()
 
 
-template = data['F1']
+template = json.dumps(data['F1'])
 
 
 print("""

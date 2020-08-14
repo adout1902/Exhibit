@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="viewer.js"></script>
+    <link rel="stylesheet" href="cardView.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="container mt-4" style="padding-top:100px">
+  <div class="row justify-content-left" id="workspace">
+     
+  </div>
+</div>
+
+<script>
+var data ={"F1": {"title": "2019 F1 season", "backgroundColor": "red", "coverImg": "F1_logo_PNG1.png", "creator": "Aa'isha", "description": "The 2019 FIA Formula One World Championship was the motor racing championship for Formula One cars which marked the 70th running of the Formula One World Championship.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Stonewall": {"title": "Stonewall Riots", "backgroundColor": "pink", "coverImg": "stonewall-riots-lede.jpg", "creator": "Aa'isha", "description": "The Stonewall riots were a series of spontaneous, violent demonstrations by members of the gay community in response to a police raid that began in the early morning hours of June 28, 1969, at the Stonewall Inn in the Greenwich Village neighborhood of Manhattan, New York City.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "The Troubles": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Test1": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Test2": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}}
+
+for (key in data){
+        
+    exhibit = data[key]
+    console.log(exhibit)
+
+    var workspace = document.getElementById("workspace")
+    workspace.innerHTML+=(makeItem(exhibit))
+
+}
+
+function makeItem(exhibit) {
+    
+        return `
+        <div class="card" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;max-width: 40rem;" >
+            <img src="${exhibit.coverImg}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">${exhibit.title}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">made by <a href="">${exhibit.creator}</a></h6>
+                <p class="card-text overflow-auto">${exhibit.description}</p>
+                <a href="${exhibit.title}.html" class="btn btn-primary">view</a>
+            </div>
+
+        </div>
+
+    `
+
+
+}
+</script>
+
+
+</body>

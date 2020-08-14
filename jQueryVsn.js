@@ -146,6 +146,8 @@ function setup() {
     
 
     });
+
+    
     
     //exhibit space background colour changer 
     // const exhibitSpace = document.getElementById("exhibit-space")
@@ -277,8 +279,8 @@ function save(filename){
         
     });
     dict[filename]=contents;
-    console.log(dict)
-    saveText( JSON.stringify(dict), "test.json" );
+    console.log(contents)
+   // saveText( JSON.stringify(dict), "test.json" );
 
   
 
@@ -704,6 +706,10 @@ function stopHandlerResize(event, ui)
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
     historyStore.addToHistory(style, id);
+    if (id=="title"){
+        var height = parseInt($('#title').css("height"))
+        $('#title').css("fontSize", height/2)
+    }
 }
        
 //to add new image or text div 
@@ -720,7 +726,7 @@ function addDiv(type){
        // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
         var z = Math.max(template.noImages,template.noTextboxes);
-        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: relative; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
         //wrapper.appendChild(elem);
@@ -779,15 +785,15 @@ function createEditButton(id){
 function openEditMenu() {
     //document.getElementById(historyStore.currentlyEditing).scrollIntoView()//currently only top of this
     document.getElementById("edit-menu").style.width = "280px";
-    document.getElementById("edit-menu").style.zIndex = "2";
-    document.getElementById("exhibit-space").style.marginLeft="280px"
+    document.getElementById("edit-menu").style.zIndex = "9999";
+    document.getElementById("container").style.marginLeft="280px"
     document.getElementById("control-panel").style.marginLeft="280px"
 }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
   function closeEditMenu() {
     document.getElementById("edit-menu").style.width = "0";
-    document.getElementById("exhibit-space").style.marginLeft="0"
-    document.getElementById("control-panel").style.marginLeft="0";
+    document.getElementById("control-panel").style.marginLeft="0"
+    document.getElementById("container").style.marginLeft="0";
     $("#"+(historyStore.currentlyEditing)).find('.edit').removeClass('editing')
 }

@@ -1,20 +1,171 @@
 {
-   "F1": { 
-       "title": "2019 F1 season",
-        "backgroundColor": "red",
-        "noImages":1,
-        "noTextboxes": 2,
-        "images":[{"id":"image1", "top":"0px", "left":"100px","height":"200px","width":"200px","backgroundColor":"black"}],
-        "textboxes":[{"id":"textbox1", "top":"200px", "left":"300px","height":"200px","width":"500px", "backgroundColor":"pink"},{"id":"textbox2", "top":"500px", "left":"100px","height":"200px","width":"500px",  "backgroundColor":"yellow"}]
+    "templates": {
+        "F1": {
+            "title": "2019 F1 season",
+            "backgroundColor": "red",
+            "noImages": 1,
+            "noTextboxes": 2,
+            "images": [
+                {
+                    "id": "image1",
+                    "top": "0px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "200px",
+                    "backgroundColor": "black"
+                }
+            ],
+            "textboxes": [
+                {
+                    "id": "textbox1",
+                    "top": "200px",
+                    "left": "300px",
+                    "height": "200px",
+                    "width": "500px",
+                    "backgroundColor": "pink"
+                },
+                {
+                    "id": "textbox2",
+                    "top": "500px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "500px",
+                    "backgroundColor": "yellow"
+                }
+            ]
+        },
+        "Stonewall": {
+            "title": "Stonewall Riots",
+            "backgroundColor": "pink",
+            "noImages": 1,
+            "noTextboxes": 2,
+            "images": [
+                {
+                    "id": "image1",
+                    "top": "100px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "200px"
+                }
+            ],
+            "textboxes": [
+                {
+                    "id": "textbox1",
+                    "top": "300px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "500px",
+                    "backgroundColor": "black"
+                },
+                {
+                    "id": "textbox2",
+                    "top": "600px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "500px",
+                    "backgroundColor": "black"
+                }
+            ]
+        },
+        "troubles": {
+            "title": "The Troubles",
+            "backgroundColor": "green",
+            "noImages": 1,
+            "noTextboxes": 2,
+            "images": [
+                {
+                    "id": "image1",
+                    "top": "100px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "200px"
+                }
+            ],
+            "textboxes": [
+                {
+                    "id": "textbox1",
+                    "top": "300px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "500px",
+                    "backgroundColor": "black"
+                },
+                {
+                    "id": "textbox2",
+                    "top": "600px",
+                    "left": "100px",
+                    "height": "200px",
+                    "width": "500px",
+                    "backgroundColor": "black"
+                }
+            ]
+        }
     },
-    
-    "Stonewall": { 
-        "title": "Stonewall Riots",
-        "backgroundColor": "pink",
-        "noImages":1,
-        "noTextboxes": 2,
-        "images":[{"id":"image1", "top":"100px", "left":"100px","height":"200px","width":"200px"}],
-        "textboxes":[{"id":"textbox1", "top":"300px", "left":"100px","height":"200px","width":"500px", "backgroundColor":"black"},{"id":"textbox2", "top":"600px", "left":"100px","height":"200px","width":"500px",  "backgroundColor":"black"}]
-    }
+    "exhibits": {
 
+        "F1":{
+            "title":"2019 F1 season",
+            "backgroundColor":"red",
+            "coverImg":"F1_logo_PNG1.png",
+            "creator":"Aa'isha",
+            "description":"The 2019 FIA Formula One World Championship was the motor racing championship for Formula One cars which marked the 70th running of the Formula One World Championship.",
+            "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
+                {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
+                {"id":"image1", "innerHTML":"<img src=\"lewis_hamilton.png\">", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
+            ]
+
+
+        },
+        "Stonewall":{
+            "title":"Stonewall Riots",
+            "backgroundColor":"pink",
+            "coverImg":"stonewall-riots-lede.jpg",
+            "creator":"Aa'isha",
+            "description":"The Stonewall riots were a series of spontaneous, violent demonstrations by members of the gay community in response to a police raid that began in the early morning hours of June 28, 1969, at the Stonewall Inn in the Greenwich Village neighborhood of Manhattan, New York City.",
+            "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
+                {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
+                {"id":"image1", "innerHTML":"<img src=\"lewis_hamilton.png\">", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
+            ]
+
+        },
+        "The Troubles":{
+            "title":"The Troubles",
+            "backgroundColor":"green",
+            "coverImg":"The troubles.jpeg",
+            "creator":"Aa'isha",
+            "description":"The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.",
+            "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
+                {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
+                {"id":"image1", "innerHTML":"<img src=\"lewis_hamilton.png\">", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
+            ]
+
+        },
+        "Test1":{
+            "title":"The Troubles",
+            "backgroundColor":"green",
+            "coverImg":"The troubles.jpeg",
+            "creator":"Aa'isha",
+            "description":"The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.",
+            "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
+                {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
+                {"id":"image1", "innerHTML":"<img src=\"lewis_hamilton.png\">", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
+            ]
+
+        },
+        "Test2":{
+            "title":"The Troubles",
+            "backgroundColor":"green",
+            "coverImg":"The troubles.jpeg",
+            "creator":"Aa'isha",
+            "description":"The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.",
+            "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
+                {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
+                {"id":"image1", "innerHTML":"<img src=\"lewis_hamilton.png\">", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
+            ]
+
+        }
+
+
+
+    }
 }

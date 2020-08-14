@@ -20,12 +20,27 @@ body:after{
     left: 0;
     bottom: 0;
     right: 0;
-    /* margin-top:100px; */
+    margin-top:100px;
     overflow: auto;
     box-sizing: border-box;
     transition: margin-left .5s;
 
 }
+
+#exhibit-space{
+
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin-top:100px;
+    overflow: auto;
+    box-sizing: border-box;
+    transition: margin-left .5s;
+
+}
+
 .edit{
 
     font-size: small;
@@ -37,7 +52,7 @@ body:after{
     border-style: solid;
     border-width: 5px;
     width: 100%;
-    margin-top: 100px;
+    /* margin-top: 100px; */
     box-sizing: border-box;
     text-align: center;
     color: #a09a9a;

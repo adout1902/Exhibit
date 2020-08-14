@@ -1,0 +1,27 @@
+
+
+
+.container{
+
+    text-align: center;
+    margin-top: 100px;
+    width: 100%;
+
+}
+.carousel-inner > .item {
+    height: 500px;
+
+}
+
+.carousel-inner > .item > img {
+    margin: 0 auto;
+  }
+
+  .carousel-caption {
+    position: relative;
+    left: auto;
+    right: auto;
+    color: black;
+    font-size: 40px;
+}
+

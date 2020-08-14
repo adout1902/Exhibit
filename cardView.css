@@ -1,0 +1,15 @@
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    /* object-fit: cover; */
+}
+
+.row > div[class*='col-'] {
+    display: flex;
+    flex:1 0 auto;
+  }
+
+body{
+
+    text-align: left;
+}
