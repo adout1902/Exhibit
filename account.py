@@ -26,14 +26,14 @@ testViewer.write("""
 <body>
 
  <nav class="navbar navbar-light bg-light justify-content-between">
-        <a class="navbar-brand">Exhibits</a>
+        <a class="navbar-brand">Welcome, Aa'isha</a>
         <form class="form-inline">
           <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
           <!-- <button class="btn btn-outline-success my-2 my-sm-0 submit" type="submit">Search</button> -->
         </form>
     </nav>
     
-    <div class="container mt-4" style="padding-top:100px">
+    <div class="outer mt-4" style="padding-top:100px">
         <h1>My templates</h1>
         <div class="row justify-content-left" id="workspaceTemplates">
             
@@ -55,7 +55,7 @@ var dataTemplates="""+templates+"""
 for (key in dataTemplates){
         
     template = dataTemplates[key]
-    console.log(exhibit)
+    console.log(template)
 
     var workspaceTemplates = document.getElementById("workspaceTemplates")
     workspaceTemplates.innerHTML+=(makeTemplate(template))
@@ -66,12 +66,12 @@ function makeTemplate(template) {
     
         return `
         <div class="card" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;max-width: 40rem;" >
-            <img src="${template.coverImg}" class="card-img-top">
+            <img src="${template.templateImg}" class="card-img-top">
             <div class="card-body">
-                <h5 class="card-title">${template.title}</h5>
+                <h5 class="card-title">${template.name}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">made by <a href="">${template.creator}</a></h6>
-                <p class="card-text overflow-auto">${exhibit.description}</p>
-                <a href="${exhibit.title}.html" class="btn btn-primary">view</a>
+                <a href="${template.name}.html" class="btn btn-primary">edit</a>
+                <a href="${template.name}.html" class="btn btn-primary">populate</a>
             </div>
 
         </div>

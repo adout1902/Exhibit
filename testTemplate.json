@@ -1,105 +1,49 @@
 {
     "templates": {
-        "F1": {
-            "title": "2019 F1 season",
-            "backgroundColor": "red",
-            "noImages": 1,
-            "noTextboxes": 2,
-            "images": [
-                {
-                    "id": "image1",
-                    "top": "0px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "200px",
-                    "backgroundColor": "black"
-                }
-            ],
-            "textboxes": [
-                {
-                    "id": "textbox1",
-                    "top": "200px",
-                    "left": "300px",
-                    "height": "200px",
-                    "width": "500px",
-                    "backgroundColor": "pink"
-                },
-                {
-                    "id": "textbox2",
-                    "top": "500px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "500px",
-                    "backgroundColor": "yellow"
-                }
+
+        "F1":{
+
+            "name":"F1",
+            "backgroundColor":"#292322b4",
+            "templateImg":"F1template.PNG",
+            "creator":"Ceara",
+            "items":[{"id":"title","height":"fit-content","width": "1000px","bgColor":"#ff1800", "color":"red","borderColor":"black","borderStyle":"solid","borderWidth":"10px","textAlign":"center","top": "0px", "left": "25%"},
+                {"id":"textbox1","bgColor": "rgb(43, 161, 122)","padding-top":"40px","position": "absolute","zIndex":"0","borderStyle": "solid","borderColor": "black", "borderWidth": "10px", "top":"425px","left":"200px", "width": "500px","height": "60px"},
+                {"id":"image1", "bgColor": "white","borderStyle": "solid","boxShadow": "5px 5px 5px grey","zIndex":"2","borderColor": "black", "borderWidth": "20px", "top":"300px","left":"100px", "width": "100px", "height": "100px"},
+                {"id":"textbox2","bgColor": "rgb(43, 161, 122)","padding-top":"40px","position": "absolute","zIndex":"0","borderStyle": "solid","borderColor": "black", "borderWidth": "10px", "top":"625px","left":"600px", "width": "500px","height": "60px"},
+                {"id":"image2", "bgColor": "white","borderStyle": "solid","boxShadow": "5px 5px 5px grey","zIndex":"2","borderColor": "black", "borderWidth": "20px", "top":"500px","left":"1080px", "width": "100px", "height": "100px"}
             ]
         },
-        "Stonewall": {
-            "title": "Stonewall Riots",
-            "backgroundColor": "pink",
-            "noImages": 1,
-            "noTextboxes": 2,
-            "images": [
-                {
-                    "id": "image1",
-                    "top": "100px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "200px"
-                }
-            ],
-            "textboxes": [
-                {
-                    "id": "textbox1",
-                    "top": "300px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "500px",
-                    "backgroundColor": "black"
-                },
-                {
-                    "id": "textbox2",
-                    "top": "600px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "500px",
-                    "backgroundColor": "black"
-                }
+        "Stonewall":{
+
+            "name":"Stonewall",
+            "backgroundColor":"#292322b4",
+            "templateImg":"Stonewall.PNG",
+            "creator":"Aa'isha",
+            "items":[{"id":"title","height":"fit-content","width": "1000px","bgColor":"#ff1800", "color":"red","borderColor":"black","borderStyle":"solid","borderWidth":"10px","textAlign":"center","top": "0px", "left": "25%"},
+                {"id":"textbox1","bgColor": "rgb(43, 161, 122)","padding-top":"40px","position": "absolute","zIndex":"0","borderStyle": "solid","borderColor": "black", "borderWidth": "10px", "top":"425px","left":"200px", "width": "500px","height": "60px"},
+                {"id":"image1", "bgColor": "white","borderStyle": "solid","boxShadow": "5px 5px 5px grey","zIndex":"2","borderColor": "black", "borderWidth": "20px", "top":"300px","left":"100px", "width": "100px", "height": "100px"},
+                {"id":"textbox2","bgColor": "rgb(43, 161, 122)","padding-top":"40px","position": "absolute","zIndex":"0","borderStyle": "solid","borderColor": "black", "borderWidth": "10px", "top":"625px","left":"600px", "width": "500px","height": "60px"},
+                {"id":"image2", "bgColor": "white","borderStyle": "solid","boxShadow": "5px 5px 5px grey","zIndex":"2","borderColor": "black", "borderWidth": "20px", "top":"500px","left":"1080px", "width": "100px", "height": "100px"}
             ]
         },
-        "troubles": {
-            "title": "The Troubles",
-            "backgroundColor": "green",
-            "noImages": 1,
-            "noTextboxes": 2,
-            "images": [
-                {
-                    "id": "image1",
-                    "top": "100px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "200px"
-                }
-            ],
-            "textboxes": [
-                {
-                    "id": "textbox1",
-                    "top": "300px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "500px",
-                    "backgroundColor": "black"
-                },
-                {
-                    "id": "textbox2",
-                    "top": "600px",
-                    "left": "100px",
-                    "height": "200px",
-                    "width": "500px",
-                    "backgroundColor": "black"
-                }
+        "The Troubles":{
+
+            "name":"The Troubles",
+            "backgroundColor":"#292322b4",
+            "templateImg":"The Troubles.PNG",
+            "creator":"Aa'isha",
+            "items":[{"id":"title","height":"fit-content","width": "1000px","bgColor":"#ff1800", "color":"red","borderColor":"black","borderStyle":"solid","borderWidth":"10px","textAlign":"center","top": "0px", "left": "25%"},
+                {"id":"textbox1","bgColor": "rgb(43, 161, 122)","padding-top":"40px","position": "absolute","zIndex":"0","borderStyle": "solid","borderColor": "black", "borderWidth": "10px", "top":"425px","left":"200px", "width": "500px","height": "60px"},
+                {"id":"image1", "bgColor": "white","borderStyle": "solid","boxShadow": "5px 5px 5px grey","zIndex":"2","borderColor": "black", "borderWidth": "20px", "top":"300px","left":"100px", "width": "100px", "height": "100px"},
+                {"id":"textbox2","bgColor": "rgb(43, 161, 122)","padding-top":"40px","position": "absolute","zIndex":"0","borderStyle": "solid","borderColor": "black", "borderWidth": "10px", "top":"625px","left":"600px", "width": "500px","height": "60px"},
+                {"id":"image2", "bgColor": "white","borderStyle": "solid","boxShadow": "5px 5px 5px grey","zIndex":"2","borderColor": "black", "borderWidth": "20px", "top":"500px","left":"1080px", "width": "100px", "height": "100px"}
             ]
         }
+
+
+
+ 
     },
     "exhibits": {
 
@@ -111,7 +55,7 @@
             "description":"The 2019 FIA Formula One World Championship was the motor racing championship for Formula One cars which marked the 70th running of the Formula One World Championship.",
             "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
                 {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
-                {"id":"image1", "innerHTML":"<img src=\"lewis_hamilton.png\">", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
+                {"id":"image1", "image":"lewis_hamilton.png", "top":"600px", "left":"600px", "width":"200px", "height":"200px"}
             ]
 
 

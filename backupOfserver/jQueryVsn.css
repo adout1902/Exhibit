@@ -23,7 +23,7 @@ body:after{
     margin-top:100px;
     overflow: auto;
     box-sizing: border-box;
-    transition: margin-left .1s;
+    transition: margin-left .5s;
 
 }
 
@@ -37,7 +37,7 @@ body:after{
     margin-top:100px;
     overflow: auto;
     box-sizing: border-box;
-    transition: margin-left .3s;
+    transition: margin-left .5s;
 
 }
 
@@ -71,7 +71,7 @@ body:after{
     top: 0; /* Stay at the top */
     left: 0;
     background-color: rgb(79, 148, 133);
-    transition: margin-left .3s;
+    transition: margin-left .5s;
     box-sizing: border-box;
     
 }
@@ -84,36 +84,12 @@ body:after{
     z-index: 0; /* Sit on top */
     left: 0;
     top: 0;
-    background-color: rgb(214, 214, 212);
+    background-color: rgb(79, 148, 133); /* Black fallback color */
     overflow-x: hidden; /* Disable horizontal scroll */
-    transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
     display: block;
 
 }
-.btn{
-    margin-left:10px;
-   
-}
-
-.editPanelBtn{
-    margin-top: 5px;
-
-
-}
-
-.fab{
-    left: 240px;
-    position: fixed !important;
-    background-color: rgb(167, 43, 43);
-    transition: 0.4s;
-
-}
-
-.hide{
-
-    opacity:0;
-}
-
 
 .closebtn {
     position: absolute;
@@ -130,9 +106,9 @@ body:after{
     /* padding: 20px; */
     margin: 15px;
     padding: 5px;
-    width: 220px;
+    width: 190px;
     /* height: 250px; */
-    background-color: rgb(170, 174, 179);
+    background-color: aliceblue;
     color: black;
     display: inline-block;
 

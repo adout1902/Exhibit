@@ -14,37 +14,78 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-light bg-light justify-content-between">
-        <a class="navbar-brand">Exhibits</a>
+ <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Welcome, Aa'isha</a>
         <form class="form-inline">
           <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
           <!-- <button class="btn btn-outline-success my-2 my-sm-0 submit" type="submit">Search</button> -->
         </form>
-      </nav>
+    </nav>
     
-<div class="" style="padding:20px">
-  <div class="card-deck mt-4" id="workspace">
-     
-  </div>
-</div>
+    <div class="outer mt-4" style="padding-top:100px">
+        <h1>My templates</h1>
+        <div class="row justify-content-left" id="workspaceTemplates">
+            
+        </div> 
+        <h1>My exhibits</h1>
+        <div class="row justify-content-left" id="workspaceExhibits">
+            
+        </div>       
+    
+    
+    
+    </div>
+
 
 <script>
-var data ={"F1": {"title": "2019 F1 season", "backgroundColor": "red", "coverImg": "F1_logo_PNG1.png", "creator": "Aa'isha", "description": "The 2019 FIA Formula One World Championship was the motor racing championship for Formula One cars which marked the 70th running of the Formula One World Championship.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Stonewall": {"title": "Stonewall Riots", "backgroundColor": "pink", "coverImg": "stonewall-riots-lede.jpg", "creator": "Aa'isha", "description": "The Stonewall riots were a series of spontaneous, violent demonstrations by members of the gay community in response to a police raid that began in the early morning hours of June 28, 1969, at the Stonewall Inn in the Greenwich Village neighborhood of Manhattan, New York City.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "The Troubles": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Test1": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Test2": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}}
 
-for (key in data){
+var dataTemplates={"F1": {"name": "F1", "backgroundColor": "#292322b4", "templateImg": "F1template.PNG", "creator": "Ceara", "items": [{"id": "title", "height": "fit-content", "width": "1000px", "bgColor": "#ff1800", "color": "red", "borderColor": "black", "borderStyle": "solid", "borderWidth": "10px", "textAlign": "center", "top": "0px", "left": "25%"}, {"id": "textbox1", "bgColor": "rgb(43, 161, 122)", "padding-top": "40px", "position": "absolute", "zIndex": "0", "borderStyle": "solid", "borderColor": "black", "borderWidth": "10px", "top": "425px", "left": "200px", "width": "500px", "height": "60px"}, {"id": "image1", "bgColor": "white", "borderStyle": "solid", "boxShadow": "5px 5px 5px grey", "zIndex": "2", "borderColor": "black", "borderWidth": "20px", "top": "300px", "left": "100px", "width": "100px", "height": "100px"}, {"id": "textbox2", "bgColor": "rgb(43, 161, 122)", "padding-top": "40px", "position": "absolute", "zIndex": "0", "borderStyle": "solid", "borderColor": "black", "borderWidth": "10px", "top": "625px", "left": "600px", "width": "500px", "height": "60px"}, {"id": "image2", "bgColor": "white", "borderStyle": "solid", "boxShadow": "5px 5px 5px grey", "zIndex": "2", "borderColor": "black", "borderWidth": "20px", "top": "500px", "left": "1080px", "width": "100px", "height": "100px"}]}, "Stonewall": {"name": "Stonewall", "backgroundColor": "#292322b4", "templateImg": "Stonewall.PNG", "creator": "Aa'isha", "items": [{"id": "title", "height": "fit-content", "width": "1000px", "bgColor": "#ff1800", "color": "red", "borderColor": "black", "borderStyle": "solid", "borderWidth": "10px", "textAlign": "center", "top": "0px", "left": "25%"}, {"id": "textbox1", "bgColor": "rgb(43, 161, 122)", "padding-top": "40px", "position": "absolute", "zIndex": "0", "borderStyle": "solid", "borderColor": "black", "borderWidth": "10px", "top": "425px", "left": "200px", "width": "500px", "height": "60px"}, {"id": "image1", "bgColor": "white", "borderStyle": "solid", "boxShadow": "5px 5px 5px grey", "zIndex": "2", "borderColor": "black", "borderWidth": "20px", "top": "300px", "left": "100px", "width": "100px", "height": "100px"}, {"id": "textbox2", "bgColor": "rgb(43, 161, 122)", "padding-top": "40px", "position": "absolute", "zIndex": "0", "borderStyle": "solid", "borderColor": "black", "borderWidth": "10px", "top": "625px", "left": "600px", "width": "500px", "height": "60px"}, {"id": "image2", "bgColor": "white", "borderStyle": "solid", "boxShadow": "5px 5px 5px grey", "zIndex": "2", "borderColor": "black", "borderWidth": "20px", "top": "500px", "left": "1080px", "width": "100px", "height": "100px"}]}, "The Troubles": {"name": "The Troubles", "backgroundColor": "#292322b4", "templateImg": "The Troubles.PNG", "creator": "Aa'isha", "items": [{"id": "title", "height": "fit-content", "width": "1000px", "bgColor": "#ff1800", "color": "red", "borderColor": "black", "borderStyle": "solid", "borderWidth": "10px", "textAlign": "center", "top": "0px", "left": "25%"}, {"id": "textbox1", "bgColor": "rgb(43, 161, 122)", "padding-top": "40px", "position": "absolute", "zIndex": "0", "borderStyle": "solid", "borderColor": "black", "borderWidth": "10px", "top": "425px", "left": "200px", "width": "500px", "height": "60px"}, {"id": "image1", "bgColor": "white", "borderStyle": "solid", "boxShadow": "5px 5px 5px grey", "zIndex": "2", "borderColor": "black", "borderWidth": "20px", "top": "300px", "left": "100px", "width": "100px", "height": "100px"}, {"id": "textbox2", "bgColor": "rgb(43, 161, 122)", "padding-top": "40px", "position": "absolute", "zIndex": "0", "borderStyle": "solid", "borderColor": "black", "borderWidth": "10px", "top": "625px", "left": "600px", "width": "500px", "height": "60px"}, {"id": "image2", "bgColor": "white", "borderStyle": "solid", "boxShadow": "5px 5px 5px grey", "zIndex": "2", "borderColor": "black", "borderWidth": "20px", "top": "500px", "left": "1080px", "width": "100px", "height": "100px"}]}}
+
+for (key in dataTemplates){
         
-    exhibit = data[key]
+    template = dataTemplates[key]
+    console.log(template)
+
+    var workspaceTemplates = document.getElementById("workspaceTemplates")
+    workspaceTemplates.innerHTML+=(makeTemplate(template))
+
+}
+
+function makeTemplate(template) {
+    
+        return `
+        <div class="card" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;max-width: 40rem;" >
+            <img src="${template.templateImg}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">${template.name}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">made by <a href="">${template.creator}</a></h6>
+                <a href="${template.name}.html" class="btn btn-primary">edit</a>
+                <a href="${template.name}.html" class="btn btn-primary">populate</a>
+            </div>
+
+        </div>
+
+    `
+
+
+}
+
+var dataExhibits ={"F1": {"title": "2019 F1 season", "backgroundColor": "red", "coverImg": "F1_logo_PNG1.png", "creator": "Ceara", "description": "The 2019 FIA Formula One World Championship was the motor racing championship for Formula One cars which marked the 70th running of the Formula One World Championship.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "image": "lewis_hamilton.png", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Stonewall": {"title": "Stonewall Riots", "backgroundColor": "pink", "coverImg": "stonewall-riots-lede.jpg", "creator": "Aa'isha", "description": "The Stonewall riots were a series of spontaneous, violent demonstrations by members of the gay community in response to a police raid that began in the early morning hours of June 28, 1969, at the Stonewall Inn in the Greenwich Village neighborhood of Manhattan, New York City.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "The Troubles": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "The": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}, "Test2": {"title": "The Troubles", "backgroundColor": "green", "coverImg": "The troubles.jpeg", "creator": "Aa'isha", "description": "The Troubles was an ethno-nationalist conflict in Northern Ireland during the late 20th century.", "items": [{"id": "title", "innerHTML": "The 2019 F1 season", "bgColor": "black", "color": "red", "top": "0px", "left": "0px", "width": "500px", "height": "200px"}, {"id": "textbox1", "innerHTML": "Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor": "black", "color": "red", "top": "200px", "left": "300px", "width": "200px", "height": "auto"}, {"id": "image1", "innerHTML": "<img src=\"lewis_hamilton.png\">", "top": "600px", "left": "600px", "width": "200px", "height": "200px"}]}}
+
+for (key in dataExhibits){
+        
+    exhibit = dataExhibits[key]
     console.log(exhibit)
 
-    var workspace = document.getElementById("workspace")
-    workspace.innerHTML+=(makeExhibit(exhibit))
+    var workspaceExhibits = document.getElementById("workspaceExhibits")
+    workspaceExhibits.innerHTML+=(makeExhibit(exhibit))
 
 }
 
 function makeExhibit(exhibit) {
     
         return `
-        <div class="card" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-width: 30rem;" >
+        <div class="card" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;max-width: 40rem;" >
             <img src="${exhibit.coverImg}" class="card-img-top">
             <div class="card-body">
                 <h5 class="card-title">${exhibit.title}</h5>
@@ -59,7 +100,6 @@ function makeExhibit(exhibit) {
 
 
 }
-
 
 </script>
 

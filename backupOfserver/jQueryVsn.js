@@ -3,7 +3,8 @@ var template = {
     noTextboxes:0,
     backgroundColour:"white",
     saved:false,
-    name:""
+    name:"",
+    templateImg:""
 }
 
 
@@ -221,6 +222,8 @@ function setup() {
     bgCol.onchange = function(){
         document.body.style.backgroundColor = bgCol.value;
         template.backgroundColour= bgCol.value;
+	document.getElementById('exhibit-space').style.backgroundColor = bgCol.value;
+
 
     }
 
@@ -272,33 +275,61 @@ function save(filename){
         if (bgCol=="none"){ bgCol="white"}
         var top =tmp.css("top")
         console.log(top)
-        if (id!="title"){top = parseInt(top)-100+"px"}
-                
+                    
         contents["items"].push({"id":id,"top":top,"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),
         "borderWidth":tmp.css("border-width"),"padding":tmp.css("padding"),"textAlign":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),
         "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
         
     });
-    dict[filename]=contents;
-    console.log(contents)
-  
+    dict["filename"]=filename;
+    
+	
+
+	//take screenshot to save as template preview
+        html2canvas(document.getElementById('exhibit-space'), {
+        onrendered: function(canvas) {
+           var tempcanvas = document.createElement('canvas');
+           tempcanvas.width=465;
+           tempcanvas.height=524;
+           var context=tempcanvas.getContext('2d');
+           context.drawImage(canvas,465,40,465,524,0,0,465,524);
+           template.templateImg=canvas.toDataURL();
+	   ajax(filename,JSON.stringify(contents),template.templateImg)	
+           //console.log(template.templateImg)
+ 	   dict["templateImg"]=template.templateImg;
+          // console.log(dict["templateImg"])
+           window.alert("screenshot taken")         
+            
+           }
+         });
+    dict["contents"]=JSON.stringify(contents)
+	console.log(template.templateImg)
+
+		
+   
+}
+function ajax(filename,contents,img){
 
 
-    $.ajax({
+	 $.ajax({
         url: "./cgi-bin/saveTemplate.py",
         type: "post",
-        data: {"filename":filename,"contents":JSON.stringify(contents)},
+        data: {"filename":filename,"contents":contents,"templateImg":img},
 	datatype: "json",
         success: function(response){
            window.alert("saved")
            template.saved=true;
 	   template.name=filename
-           console.log(template.name)
+           //console.log(dict)
         },
         error : function () {
                 alert("Error Ajax");
         }
     });
+
+
+
+
 
 
 }
@@ -773,15 +804,12 @@ function openEditMenu() {
     document.getElementById("edit-menu").style.zIndex = "2";
     document.getElementById("exhibit-space").style.marginLeft="280px"
     document.getElementById("control-panel").style.marginLeft="280px"
-    $("#closeBtn").removeClass("hide");
 }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
   function closeEditMenu() {
-    $("#closeBtn").addClass("hide");
     document.getElementById("edit-menu").style.width = "0";
     document.getElementById("exhibit-space").style.marginLeft="0"
     document.getElementById("control-panel").style.marginLeft="0";
-    $("#"+(historyStore.currentlyEditing)).find('.edit').removeClass('editing');
-   
+    $("#"+(historyStore.currentlyEditing)).find('.edit').removeClass('editing')
 }
