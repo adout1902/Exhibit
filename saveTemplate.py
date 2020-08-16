@@ -1,29 +1,29 @@
-import sys
+#!/usr/bin/python3
+
+
 import json
 import cgi
+import os
+
+print("Content-type: text/html")
+print("")
+
+def write_json(data, filename="/testTemplate.json"): 
+    with open(filename,'w') as f: 
+        json.dump(data, f, indent=4)
+
+f = open("/testTemplate.json")
+
+data = json.load(f)
+
+temp = data["templates"]
 
 fs = cgi.FieldStorage()
 
-f = open("template.txt", "w")
+d = {"name":fs.getvalue("filename"), "contents":json.loads(fs.getvalue("contents"))}
 
-f.write("Content-Type: application/json")
+temp[d["name"]] = d["contents"]
 
-f.write("\n")
-f.write("\n")
-
-
-result = {}
-result['success'] = True
-result['message'] = "Saved successfully"
-result['keys'] = ",".join(fs.keys())
-
-d = {}
-for k in fs.keys():
-    d[k] = fs.getvalue(k)
-
-result['data'] = d
-
-f.write(json.dumps(result,indent=1))
-f.write("\n")
+write_json(data)
 
 f.close()

@@ -107,7 +107,7 @@
             "title":"2019 F1 season",
             "backgroundColor":"red",
             "coverImg":"F1_logo_PNG1.png",
-            "creator":"Aa'isha",
+            "creator":"Ceara",
             "description":"The 2019 FIA Formula One World Championship was the motor racing championship for Formula One cars which marked the 70th running of the Formula One World Championship.",
             "items":[{"id":"title","innerHTML":"The 2019 F1 season", "bgColor":"black", "color":"red", "top":"0px", "left":"0px", "width":"500px","height":"200px"},
                 {"id":"textbox1","innerHTML":"Lewis Hamilton won the World Drivers' Championpship with 413 points", "bgColor":"black", "color":"red", "top":"200px", "left":"300px", "width":"200px", "height":"auto"},
@@ -140,7 +140,7 @@
             ]
 
         },
-        "Test1":{
+        "The":{
             "title":"The Troubles",
             "backgroundColor":"green",
             "coverImg":"The troubles.jpeg",

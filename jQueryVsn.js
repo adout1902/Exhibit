@@ -1,7 +1,9 @@
 var template = {
     noImages:0,
     noTextboxes:0,
-    backgroundColour:"white"
+    backgroundColour:"white",
+    saved:false,
+    name:""
 }
 
 
@@ -107,7 +109,9 @@ function setup() {
         });
 
   
-
+    $('#populate').click(function(){
+        window.open("./cgi-bin/populate.py?");
+    });
 
      // Display the default slider value
 
@@ -146,8 +150,6 @@ function setup() {
     
 
     });
-
-    
     
     //exhibit space background colour changer 
     // const exhibitSpace = document.getElementById("exhibit-space")
@@ -268,59 +270,50 @@ function save(filename){
         var bgCol =tmp.css("background-color");
 
         if (bgCol=="none"){ bgCol="white"}
-        var width = tmp.css("width")
-        if(id=="title"){
-            width = "100%"
-        }
-        
-        contents["items"].push({"id":id,"top":tmp.css("top"),"left":tmp.css("left"),"width":width,"height":tmp.css("height"),
+        var top =tmp.css("top")
+        console.log(top)
+        if (id!="title"){top = parseInt(top)-100+"px"}
+                
+        contents["items"].push({"id":id,"top":top,"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),
         "borderWidth":tmp.css("border-width"),"padding":tmp.css("padding"),"textAlign":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),
         "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
         
     });
     dict[filename]=contents;
     console.log(contents)
-   // saveText( JSON.stringify(dict), "test.json" );
-
   
 
 
-    // $.ajax({
-    //     url: "./cgi-bin/saveTemplate.py",
-    //     type: "post",
-    //     datatype:"json",
-    //     data: dict,
-    //     success: function(response){
-    //         window.alert("saved")
-    //     }
-    // });
-
-
-}
-
-function saveText(text, filename){
-    var a = document.createElement('a');
-    a.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(text));
-    a.setAttribute('download', filename);
-    a.click()
-  }
-
-
-function render(){
-
-    window.alert("rendering")
     $.ajax({
-        url: "./cgi-bin/renderTemplate.py",
+        url: "./cgi-bin/saveTemplate.py",
         type: "post",
-        datatype:"json",
+        data: {"filename":filename,"contents":JSON.stringify(contents)},
+	datatype: "json",
         success: function(response){
-            alert(response.message);
-            alert(response.keys);
-            window.alert("saved")
+           window.alert("saved")
+           template.saved=true;
+	   template.name=filename
+           console.log(template.name)
+        },
+        error : function () {
+                alert("Error Ajax");
         }
     });
 
 
+}
+
+function render(){
+
+   /* $.ajax({
+              url: "./cgi-bin/renderTemplate.py",
+             context: document.body
+            }).done(function() {
+            
+            });*/
+
+
+	 window.open("./cgi-bin/renderTemplate.py?name="+template.name);
 }
 function changeBGTexture(texture){
 
@@ -482,10 +475,6 @@ function refresh(){
         
                         
     });
-
- 
-   
-
 }
 
 function changeLayer(id, value){
@@ -706,10 +695,6 @@ function stopHandlerResize(event, ui)
     var style = $(ui.helper).attr('style');
     var id = $(ui.helper).attr('id');
     historyStore.addToHistory(style, id);
-    if (id=="title"){
-        var height = parseInt($('#title').css("height"))
-        $('#title').css("fontSize", height/2)
-    }
 }
        
 //to add new image or text div 
@@ -726,7 +711,7 @@ function addDiv(type){
        // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
         var z = Math.max(template.noImages,template.noTextboxes);
-        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: relative; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";
         elem.appendChild(createDeleteButton(elem.id));
         elem.appendChild(createEditButton(elem.id));
         //wrapper.appendChild(elem);
@@ -785,15 +770,15 @@ function createEditButton(id){
 function openEditMenu() {
     //document.getElementById(historyStore.currentlyEditing).scrollIntoView()//currently only top of this
     document.getElementById("edit-menu").style.width = "280px";
-    document.getElementById("edit-menu").style.zIndex = "9999";
-    document.getElementById("container").style.marginLeft="280px"
+    document.getElementById("edit-menu").style.zIndex = "2";
+    document.getElementById("exhibit-space").style.marginLeft="280px"
     document.getElementById("control-panel").style.marginLeft="280px"
 }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
   function closeEditMenu() {
     document.getElementById("edit-menu").style.width = "0";
-    document.getElementById("control-panel").style.marginLeft="0"
-    document.getElementById("container").style.marginLeft="0";
+    document.getElementById("exhibit-space").style.marginLeft="0"
+    document.getElementById("control-panel").style.marginLeft="0";
     $("#"+(historyStore.currentlyEditing)).find('.edit').removeClass('editing')
 }

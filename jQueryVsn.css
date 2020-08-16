@@ -56,7 +56,9 @@ body:after{
     box-sizing: border-box;
     text-align: center;
     color: #a09a9a;
-    font-size: 80px;
+    font-size: 30px;
+    min-height: 50px;
+
 
 }
 

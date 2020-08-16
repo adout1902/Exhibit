@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+import cgitb
 import json
 import cgi
 import os
@@ -5,65 +8,67 @@ import os
 print("Content-type: text/html")
 print("")
 
-def write_json(data, filename='testTemplate.json'): 
-    with open(filename,'w') as f: 
-        json.dump(data, f, indent=4)
-
-
-f = open("testTemplate.json")
+fs = cgi.FieldStorage()
+name = fs.getvalue("name")
+f = open("/home/ubuntu/templates/Templates.json")
 
 data = json.load(f)
-
-temp = data["templates"]
-
-y = {"title": "The Troubles",
-            "backgroundColor": "green",
-            "noImages":1,
-            "noTextboxes": 2,
-            "images":[{"id":"image1", "top":"100px", "left":"100px","height":"200px","width":"200px"}],
-            "textboxes":[{"id":"textbox1", "top":"300px", "left":"100px","height":"200px","width":"500px", "backgroundColor":"black"},{"id":"textbox2", "top":"600px", "left":"100px","height":"200px","width":"500px",  "backgroundColor":"black"}]
-}
-
-name = "troubles"
-
-temp[name]=y
-
-write_json(data)
 
 f.close()
 
 
-template = json.dumps(data['F1'])
+templates = data["templates"]
+template = json.dumps(templates[name])
+
 
 
 print("""
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://docs.google.com/uc?export=download&id=1YaMQTnETCfbdaCHuK4WmolaL2SgpryCD">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 <body>
+<div id="workspace" class="workspace" style="position:absolute"></div>
+
 <script>
 var data ="""+template+"""
-document.body.style.backgroundColor = data.backgroundColor
-    document.getElementById("workspace").innerHTML=`<h1> ${data.title}<h1>
-    ${data.images.map(makeDiv).join("")}
-    ${data.textboxes.map(makeDiv).join("")}
-    `
+document.body.style.backgroundColor = data.bgColor
+    document.getElementById("workspace").innerHTML=`${data.items.map(makeDiv).join("")}`
+
 
 function makeDiv(div) {
     return `
-    <div style="position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
+   <div id="${div.id}" style="position:absolute;border-style:solid; border-width:${div.borderWidth};padding:${div.padding};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:${div.z};border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
 
     </div>
 
     `
 }
-</script>
+$(document).ready(function() {
+	 html2canvas(document.body, {
+           onrendered: function(canvas) {
+           var tempcanvas = document.createElement('canvas');
+           tempcanvas.width=465;
+           tempcanvas.height=524;
+           var context=tempcanvas.getContext('2d');
+           context.drawImage(canvas,465,40,465,524,0,0,465,524);
+           var link=document.createElement("a");
+           link.href=canvas.toDataURL('image/jpg');
+           link.download = 'screenshot.jpg';
+           link.click();
+           
+            
+           }
+         });
 
+});
+
+</script>
 
 </body>
 """
