@@ -3,35 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DnD test</title>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-    <script src="main.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
-    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.es5.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <link rel="stylesheet" href="landingPage.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Landing Page</title>
 </head>
-<body onload="changeBGColour()"> 
-    <div id="display">
-        <div id="control-panel">
-            <button onclick="addDiv('image')" class="nav-button">Add image</button>
-            <button onclick="addDiv('textbox')"  class="nav-button">Add textbox</button>
-            <button id="save" onclick="saveToXML()"  class="nav-button">save to XML</button>
-            <!-- <button onclick="undo()"  class="nav-button">undo delete</button> -->
-            <button onclick="undo1step()">undo</button>
-            <button id="save2" onclick="saveHTML()"  class="nav-button">save HTML</button>
-            <button id="bgColour">change background colour</button>
+<body>
+
+
+    <main role="main">
+        <div class="jumbotron">
+          <div class="container">
+            <div class="row">
+                <img src="exhibition.png" alt="" width="100" height="100" style="padding-left: 10px; opacity: .2;">
+                <h1 class="display-3" style="padding-top: 20px; padding-left: 10px;">Exhibit</h1>
+            </div>
+            <p>Populate an existing (user-created or default) template with archival or local content.</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Go</a></p>
+          </div>
         </div>
-
-        <div class="resize-container canvas" id="exhibitContent">
-    
-        </div>
-
-    </div>
-        
-
-    
+  
+        <div class="container">
+          <div class="row ">
+            <div class="col-md-4">
+                <div class="row">
+                    <img src="pencil.png" alt="" width="40" height="30" style="padding-left: 10px; opacity: .2;">
+                    <h2 style="padding-left: 10px; ">Template</h2>
+                </div>
+              <p>Create a custom template with our template editor.</p>
+              <p><a class="btn btn-secondary mt-auto" href="jQueryVsn.html" role="button">Go</a></p>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <img src="vase.png" alt="" width="50" height="40" style="padding-left: 10px; opacity: .2;">
+                    <h2>Explore</h2>
+                </div>
+              
+              <p>View archival content from the Bleek and Lloyd Collection, Y and Z.</p>
+              <p><a class="btn btn-secondary mt-auto" href="#" role="button">Go</a></p>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <img src="search.png" alt="" width="40" height="30" style="padding-left: ; opacity: .2;">
+                    <h2 style="padding-left: 10px;">Browse</h2>
+                </div>
+             
+              <p>View templates and exhibits other uses have created.</p>
+              <p><a class="btn btn-secondary mt-auto" href="browse.html" role="button">Go</a></p>
+            </div>
+          </div>
+  
+          <hr>
+  
+        </div> 
+  
+      </main>
+           
     
     
 </body>

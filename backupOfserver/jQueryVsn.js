@@ -327,11 +327,6 @@ function ajax(filename,contents,img){
         }
     });
 
-
-
-
-
-
 }
 
 function render(){
