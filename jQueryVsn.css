@@ -4,7 +4,7 @@
     display: inline-block;
 }
 
-body:after{
+body{
 
 
     background-size: 40px 40px;
@@ -56,8 +56,9 @@ body:after{
     box-sizing: border-box;
     text-align: center;
     color: #a09a9a;
-    font-size: 30px;
+    background-color: white;
     min-height: 50px;
+    
 
 
 }
@@ -102,17 +103,17 @@ body:after{
 }
 
 .fab{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 300px;
     left: 240px;
-    position: fixed !important;
-    background-color: rgb(167, 43, 43);
-    transition: 0.4s;
-
+    background-color: rgb(173, 24, 24);
 }
 
-.hide{
+/* .hide{
 
     opacity:0;
-}
+} */
 
 
 .closebtn {
@@ -203,6 +204,14 @@ button {
     background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
 /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 
+}
+
+
+.template-controls{
+
+
+    margin-left: 500px;
+    transition: 0.3s;
 
 }
 #modal-background {

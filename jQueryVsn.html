@@ -22,13 +22,15 @@
     
 
 </head>
-<body onload="setup()">
+<body onload="setup('normal')">
 
 
     <div id="edit-menu" class="overlay">
 
         <!-- Button to close the overlay navigation -->
         <!-- Overlay content -->
+        <!-- remove inline -->
+        <button onclick="closeEditMenu()" class="fab hide" id="closeBtn">X</button>
         <div class="overlay-content">
 
             <div class="edit-panel card">
@@ -62,7 +64,7 @@
                 or enter exact pixel width: 
                 <div>
                     <input type="text" id="input-padding">
-                    <button type="button" id="set-padding-btn">Set</button>
+                    <button type="button" id="set-padding-btn">set</button>
                 </div>
             </div>
             
@@ -108,18 +110,64 @@
                 <button id="add-z" class="editPanelBtn">bring item forward</button>
                 <button id="sub-z" class="editPanelBtn">send item back</button>
             </div>
+            
+            
 
-        <!-- remove inline -->
-        <button onclick="closeEditMenu()" class="fab hide" style="top: 500px;" id="closeBtn">X</button>
+        
     </div>
     </div>
    
 
     <div  class="workspace" id="exhibit-space">
 
-        <nav class="navbar navbar-light" id="control-panel" style="background-color: rgb(214, 214, 212);">
-            <form class="form-inline">
-              <button  id="undo" class="btn btn-sm btn-outline-secondary" type="button">undo</button>
+        <nav class="navbar navbar-expand-md navbar-dark" id="control-panel" style="background-color: rgb(214, 214, 212)">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <!-- <ul class="navbar-nav mr-auto"> -->
+                    <!-- <li> -->
+                        <button  id="undo" class="btn btn-sm btn-outline-secondary" type="button">undo</button>
+                    <!-- </li> -->
+                    <!-- <li> -->
+                        <button id="add-image" class="btn btn-sm btn-outline-secondary" type="button">add image</button>
+                    <!-- </li>
+                    <li> -->
+                        <button id="add-text" class="btn btn-sm btn-outline-secondary" type="button">add textbox</button>
+                    <!-- </li>
+                    <li>              -->
+                        <div class="colourPanel" style=" font-size: small; border-color: rgb(102, 100, 100); border-width: 1px; margin-left: 15px; position: relative; align-content: center;">
+                            <p>select background colour:</p>
+                            <input type="color" class="" id="change-bg-colour" style="height: 30px;;">
+                            <button class="btn btn-sm btn-outline-secondary" type="button" style="position: relative; top: -5px;">ok</button>
+                        </div>
+                    <!-- </li> -->
+                <!-- </ul> -->
+
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                <ul class="navbar-nav ml-auto">
+                    <li>
+                        <button id="save-modal" class="btn btn-sm btn-outline-secondary" type="button">save template</button>
+                    </li>
+                    <li>
+                        <button id="render" class="btn btn-sm btn-outline-secondary" type="button">render template</button>
+                    </li>
+                    <li>
+                        <button id="populate" class="btn btn-sm btn-outline-secondary" type="button">populate template</button>
+                    </li>
+                    <li>
+                        <button id="browse" class="btn btn-sm btn-outline-secondary" type="button">browse</button>  
+                    </li>
+
+                </ul>
+
+
+
+            </div>
+
+
+
+            </div>
+
+            <!-- <form class="form-inline">
+              
               <button id="redo" class="btn btn-sm btn-outline-secondary" type="button">redo</button>
               <button id="add-image" class="btn btn-sm btn-outline-secondary" type="button">add image</button>
               <button id="add-text" class="btn btn-sm btn-outline-secondary" type="button">add textbox</button>
@@ -131,16 +179,55 @@
               </div>
 
                 
-              <div class="template-controls " style="margin-left: 600px;">
+              <div class="template-controls" id="template-controls" >
                 <button id="save-modal" class="btn btn-sm btn-outline-secondary" type="button">save template</button>
                 <button id="render" class="btn btn-sm btn-outline-secondary" type="button">render template</button>
                 <button id="populate" class="btn btn-sm btn-outline-secondary" type="button">populate template</button>
+                <button id="browse" class="btn btn-sm btn-outline-secondary" type="button">browse</button>
 
               </div>
              
 
-            </form>
+            </form> -->
           </nav>
+
+          <!-- <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Left</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="//codeply.com">Codeply</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mx-auto order-0">
+                <a class="navbar-brand mx-auto" href="#">Navbar 2</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Right</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            </div>
+        </nav> -->
 
 
         <!-- <div id="control-panel">
@@ -161,22 +248,19 @@
             <button id="save-modal">save template</button>
             <button id="render">render template</button>
             <button id="populate">populate template</button> -->
-        </div>
-
-            <div id="title" class="editable" style="top:100px">
+            <div id="title" class="editable">
                 Title placeholder
                 <button class="edit" >edit</button>
             </div>
 
-            
-    </div>
+        </div>
 
     <div id="modal-background"></div>
     <div id="modal-content">
         <label for="filename"><b>Enter the filename</b></label>
         <input type="text" id="filename" name="filename">
         <button id="save-template">save</button>
-        <button id="modal-close">Close</button>
+        <button id="modal-close">close</button>
     </div>
      
     

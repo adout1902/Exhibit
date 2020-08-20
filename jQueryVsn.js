@@ -77,7 +77,7 @@ var editItems = {
      bwidth :  document.getElementById('border-width')
 
 }
-function setup() {
+function setup(mode) {
 
     
 
@@ -100,6 +100,12 @@ function setup() {
 
       
     });
+    $('#browse').click(function(){
+
+       window.open("testCards.html")
+ 
+       
+     });
 
     
 
@@ -129,6 +135,7 @@ function setup() {
         return false;
 
     });
+    
     $( "#add-text" ).click(function() {
         
         addDiv("textbox");
@@ -220,6 +227,7 @@ function setup() {
     const bgCol = document.getElementById("change-bg-colour");
     bgCol.onchange = function(){
         document.body.style.backgroundColor = bgCol.value;
+       // document.getElementById("exhibit-space").style.backgroundColor = bgCol.value;
         template.backgroundColour= bgCol.value;
 
     }
@@ -246,6 +254,12 @@ function setup() {
 
     refresh()
     console.log("loaded")
+    if (mode=="testEdit"){
+
+        editTemplate()
+        
+    }
+   
     
     
 }
@@ -288,7 +302,7 @@ function save(filename){
         url: "./cgi-bin/saveTemplate.py",
         type: "post",
         data: {"filename":filename,"contents":JSON.stringify(contents)},
-	datatype: "json",
+	    datatype: "json",
         success: function(response){
            window.alert("saved")
            template.saved=true;
@@ -315,10 +329,54 @@ function render(){
 
 	 window.open("./cgi-bin/renderTemplate.py?name="+template.name);
 }
+
+function editTemplate(){
+
+    //dummy data: Stonewall
+    editTemplate = {"bgColor": "#e6bcbc", "noImages": 1, "noTextboxes": 4, "items": [{"id": "title", "top": "11px", "left": "31px", "width": "605px", "height": "100px", "borderWidth": "5px", "padding": "0px", "textAlign": "center", "shadow": "none", "z": "auto", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgba(0, 0, 0, 0)"}, {"id": "textbox1", "top": "162px", "left": "626px", "width": "500px", "height": "97px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(217, 13, 13)"}, {"id": "image1", "top": "305px", "left": "854px", "width": "200px", "height": "200px", "borderWidth": "10px", "padding": "0px", "textAlign": "center", "shadow": "rgb(128, 128, 128) 11px 11px 11px 0px", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox2", "top": "400px", "left": "100px", "width": "500px", "height": "119px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "2", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(217, 105, 13)"}, {"id": "textbox3", "top": "556.4px", "left": "754px", "width": "500px", "height": "151px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "3", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(251, 255, 0)"}, {"id": "textbox4", "top": "650px", "left": "184px", "width": "500px", "height": "200px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "4", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(19, 187, 7)"}], "templateImg": "Stonewalltemplate.jpg"}
+    
+    //get background colour
+    template.backgroundColour = editTemplate["bgColour"];
+    document.body.style.backgroundColor = editTemplate["bgColour"];
+    //document.getElementById("exhibit-space").style.backgroundColor = editTemplate["bgColour"];
+
+    //fill in the existing items
+    items = editTemplate["items"]
+    document.getElementById("exhibit-space").innerHTML+=`${items.map(makeDiv).join("")}`
+    
+    refresh()
+
+}
+
+function makeDiv(div) {
+    var type = ""
+    var placeholder = ""
+    if (div["id"].includes("text")){
+        type = "text-div";
+        placeholder = "<div class='text-place' style='transition: margin .5s;border-style: dotted; border-color: black; border-width:2px; background-color:white'>Placeholder<br>text</div>"
+
+    }
+    else if (div["id"].includes("image")){
+        type = "image-div"
+    }
+
+    return `
+    <div class="editable ${type}" id="${div.id}" style="position:absolute;border-style:solid; border-width:${div.borderWidth};padding:${div.padding};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:${div.z};border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
+        <button class="edit" style="position:absolute; top:0px;right:30px">edit</button>
+        <button class="delete" style="position:absolute;top:0px;right:0px">X</button>
+        ${placeholder}
+    </div>
+ 
+     `
+    
+}
+
+
+
 function changeBGTexture(texture){
 
     //remove previous textures
-    //figure out a way to still have dots?
+  
     
     $('.workspace').addClass(texture);
     
@@ -475,6 +533,7 @@ function refresh(){
         
                         
     });
+  
 }
 
 function changeLayer(id, value){
@@ -772,16 +831,16 @@ function openEditMenu() {
     document.getElementById("edit-menu").style.width = "280px";
     document.getElementById("edit-menu").style.zIndex = "2";
     document.getElementById("exhibit-space").style.marginLeft="280px"
-    document.getElementById("control-panel").style.marginLeft="280px"
-    $("#closeBtn").removeClass("hide");
+    document.getElementById("control-panel").style.marginLeft="280px";
+   
 }
   
   /* Close when someone clicks on the "x" symbol inside the overlay */
   function closeEditMenu() {
-    $("#closeBtn").addClass("hide");
     document.getElementById("edit-menu").style.width = "0";
     document.getElementById("exhibit-space").style.marginLeft="0"
     document.getElementById("control-panel").style.marginLeft="0";
+   
     $("#"+(historyStore.currentlyEditing)).find('.edit').removeClass('editing');
    
 }
