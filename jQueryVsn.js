@@ -16,7 +16,7 @@ var historyStore = {
     currentlyEditing : "",
     addToHistory : function(style, id){
         
-        ++this.counter;
+        this.counter++;
         this.stackStyle[this.counter] = style;
         this.stackId[this.counter] = id;
         //this.changeState(style, id);
@@ -25,15 +25,16 @@ var historyStore = {
         this.stackStyle.splice(this.counter+1);
     },
     undo : function(){
-        --this.counter;
+        this.counter--;
         this.changeState(this.stackStyle[this.counter],this.stackId[this.counter]);        
     },
     redo : function(){
         if (this.counter <= this.stackStyle.length){
-        ++this.counter;
+        this.counter++;
         this.changeState(this.stackStyle[this.counter],this.stackId[this.counter]);}
        
-    },
+    }
+    ,
     changeState : function(style, id){
         
         //if it is not possible to undo or redo, change button appearance to indicate this
@@ -65,7 +66,7 @@ var historyStore = {
         //Apply style stored in history to element
         $('#' + id).attr('style', style);     
         
-        console.log(this.counter + ' - ' + this.stackStyle.length);
+        console.log(this.counter + ' in counter of - ' + this.stackStyle.length);
         
         
     }
@@ -74,7 +75,8 @@ var historyStore = {
 
 var editItems = {
 
-     bwidth :  document.getElementById('border-width')
+     bwidth :  document.getElementById('border-width'),
+     bgCol : document.getElementById("change-bg-colour")
 
 }
 function setup(mode) {
@@ -131,14 +133,14 @@ function setup(mode) {
     //set up control panel click events 
     $( "#add-image" ).click(function() {
         
-        addDiv("image");
+        addDiv("image","");
         return false;
 
     });
     
     $( "#add-text" ).click(function() {
         
-        addDiv("textbox");
+        addDiv("textbox","");
         return false;
 
     });
@@ -224,17 +226,15 @@ function setup(mode) {
     //     }
     // });
 
-    const bgCol = document.getElementById("change-bg-colour");
-    bgCol.onchange = function(){
-        document.body.style.backgroundColor = bgCol.value;
-       // document.getElementById("exhibit-space").style.backgroundColor = bgCol.value;
-        template.backgroundColour= bgCol.value;
+   
 
-    }
+   
+    
 
     editItems.bwidth =  document.getElementById('border-width')
     editItems.heightChanger = document.getElementById('set-height')
     editItems.widthChanger = document.getElementById('set-width')
+    editItems.bgCol = document.getElementById("change-bg-colour")
 
     document.getElementById("input-height")
     .addEventListener("keyup", function(event) {
@@ -252,6 +252,11 @@ function setup(mode) {
     }
     });
 
+    editItems.bgCol.onchange = function(){
+        changeBGColour()
+
+    }
+
     refresh()
     console.log("loaded")
     if (mode=="testEdit"){
@@ -264,9 +269,33 @@ function setup(mode) {
     
 }
 
+function changeBGColour(){
+    var bgCol = editItems.bgCol
+    //save current style
+    var bodyStyle = $("body").attr('style')
+    historyStore.addToHistory(bodyStyle,"body");
+    // var exhibitStyle = $("#exhibit-space").attr('style')
+    // historyStore.addToHistory(exhibitStyle, "exhibit-space")
+    console.log("saved current")
+
+    //change colour
+    document.body.style.backgroundColor = bgCol.value;
+    //document.getElementById("exhibit-space").style.backgroundColor = bgCol.value;
+    template.backgroundColour= bgCol.value;
+
+    //save new style
+    bodyStyle = $("body").attr('style')
+    historyStore.addToHistory(bodyStyle,"body");
+    // exhibitStyle = $("#exhibit-space")
+    // historyStore.addToHistory(exhibitStyle, "exhibit-space")
+    console.log("saved new")
+
+
+}
+
+
 
 function save(filename){
-
 
     var dict = {};
     var contents ={}
@@ -286,28 +315,71 @@ function save(filename){
         if (bgCol=="none"){ bgCol="white"}
         var top =tmp.css("top")
         console.log(top)
-        if (id!="title"){top = parseInt(top)-100+"px"}
-                
+                    
         contents["items"].push({"id":id,"top":top,"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),
         "borderWidth":tmp.css("border-width"),"padding":tmp.css("padding"),"textAlign":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),
         "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
         
     });
-    dict[filename]=contents;
-    console.log(contents)
+    dict["filename"]=filename;
+    
+	
+
+	//take screenshot to save as template preview
+        // html2canvas(document.getElementById('exhibit-space'), {
+        // onrendered: function(canvas) {
+        //    var tempcanvas = document.createElement('canvas');
+        //    tempcanvas.width=465;
+        //    tempcanvas.height=524;
+        //    var context=tempcanvas.getContext('2d');
+        //    context.drawImage(canvas,465,40,465,524,0,0,465,524);
+        //    template.templateImg=canvas.toDataURL();
+	    //    ajax(filename,JSON.stringify(contents),template.templateImg)	
+        //    console.log(template.templateImg)
+ 	    //    dict["templateImg"]=template.templateImg;
+        //   // console.log(dict["templateImg"])
+        //    window.alert("screenshot taken")         
+            
+        //    }
+        //  });
+            document.getElementById("exhibit-space").style.backgroundColor = template.backgroundColour;
+            html2canvas(document.getElementById('exhibit-space'),{
+            onrendered: function( canvas ) {
+               
+                var tempcanvas = document.createElement('canvas');
+                tempcanvas.width=465;
+                tempcanvas.height=524;
+                var context=tempcanvas.getContext('2d');
+                context.drawImage(canvas,465,40,465,524,0,0,465,524);
+                var a = document.createElement('a');
+                // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+                a.href = canvas.toDataURL()
+                a.download = 'somefilename.jpg';
+                a.click();
+                document.getElementById("exhibit-space").style.backgroundColor = "";
+         }
+    
+    })
   
+    dict["contents"]=JSON.stringify(contents)
+	console.log(template.templateImg)
+
+		
+   
+}
+function ajax(filename,contents,img){
 
 
-    $.ajax({
+	 $.ajax({
         url: "./cgi-bin/saveTemplate.py",
         type: "post",
-        data: {"filename":filename,"contents":JSON.stringify(contents)},
-	    datatype: "json",
+        data: {"filename":filename,"contents":contents,"templateImg":img},
+	datatype: "json",
         success: function(response){
            window.alert("saved")
            template.saved=true;
 	   template.name=filename
-           console.log(template.name)
+           //console.log(dict)
         },
         error : function () {
                 alert("Error Ajax");
@@ -422,9 +494,11 @@ function refresh(){
 
 
     //hide elements on "delete" for easy undo/redo
-    $(document).on("click", ".delete", function(ui) {
+    $(document).on("click", ".delete", function(event) {
 
-            
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
         var id = $(this).closest(".editable").attr('id');
         var style = $("#"+id).attr("style")
         console.log(style)
@@ -448,8 +522,29 @@ function refresh(){
                     
     });
 
+    $(".copy").on("click", function(event) {
 
-    $(document).on("click", ".edit", function(ui) {
+
+
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        
+        var id = $(this).closest(".editable").attr('id');
+        var type="";
+        if (id.includes("image")){
+            type = "image"
+        }
+        else{
+            type = "textbox"
+        }
+        addDiv(type,id)
+    })
+
+
+    $(".edit").on("click", function(event) {
+
+        event.stopPropagation();
+        event.stopImmediatePropagation();
 
         //todo: move definitions to setup funct
         //to change specific div that called the edit menu
@@ -459,11 +554,11 @@ function refresh(){
         var id = $(this).closest(".editable").attr('id');
         historyStore.currentlyEditing=id;
         openEditMenu();
-        console.log("my id is:",id)
+        console.log("edit menu open")
         var style = $("#"+id).attr("style")
         console.log(style)
-        console.log('before editing'+id);
-        historyStore.addToHistory(style, id);
+        // console.log('opened edit menu - saving style of '+id);
+        // historyStore.addToHistory(style, id);
         
         editItems.bwidth.onchange = function(){
             changeBorderWidth(id, editItems.bwidth.value)
@@ -517,8 +612,12 @@ function refresh(){
         }
         var textboxColChange = document.getElementById('textbox-color-change')
         //borderColChange.value=current;
-        textboxColChange.onchange = function(){
+        textboxColChange.onchange = function(event){
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+    
             changeTextboxColour(id, textboxColChange.value);
+            return false;
             
         }
         $("#add-z").unbind('click').bind('click',function(){
@@ -529,12 +628,14 @@ function refresh(){
             changeLayer(id,-1)
             return false;
         });
+
        
         
                         
     });
   
 }
+
 
 function changeLayer(id, value){
     //add max and min
@@ -544,6 +645,9 @@ function changeLayer(id, value){
    
     var div = $("#"+id);
     //console.log("changing z value of" +id+ "to",value);
+    var style = div.attr('style')
+    console.log('changed layer - saving style of '+id);
+    historyStore.addToHistory(style, id);
     var current = div.css('zIndex');
     var newLayer= parseInt(current)+parseInt(value);
     if (newLayer<0){
@@ -555,6 +659,8 @@ function changeLayer(id, value){
 
     console.log("changing z value of" +id+ "from",parseInt(current),"to",newLayer);
     div.css("zIndex",newLayer)
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 
@@ -562,8 +668,12 @@ function changeTextAlignment(id,value){
 
    // document.getElementById(id).scrollIntoView()
     var div = $("#"+id);
-    console.log("changing text alignment of" +id+ "to",value);
+    var style = div.attr('style')
+    console.log('changed text align - saving style of '+id);
+    historyStore.addToHistory(style, id);
     div.css("textAlign",value)
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 }
 
 // function changeBorderWidth(id, value){
@@ -594,16 +704,27 @@ function changeTextAlignment(id,value){
 function changeBorderWidth(id, value){
     //changes border thickness of div in question
     var div = $("#"+id);
+    var style = div.attr('style')
+    console.log('changed border width - saving style of '+id);
+    historyStore.addToHistory(style, id);
     console.log("changing border width to",value);
-    div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
+    document.getElementById(id).style.borderWidth = value+"px "+value+"px " +value+"px "+value+"px"
+   // div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 
 function changeShadowWidth(id, value){
     //changes border thickness of div in question
     var div = $("#"+id);
+    var style = div.attr('style')
+    console.log('changed shadow width - saving style of '+id);
+    historyStore.addToHistory(style, id);
     console.log("changing shadow width to",value);
     div.css("boxShadow",value+"px "+value+"px " +value+"px grey" )
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 
@@ -614,28 +735,41 @@ function changeBorderWidthInput(id){
 
     var div = $("#"+id);
     //window.alert("my id is" + id)
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var newWidth = $('#input-bwidth').val();
     console.log(newWidth)
     div.css('borderWidth', newWidth+"px "+newWidth+"px " +newWidth+"px "+newWidth+"px");
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 
 function changeWidth(id){
 
     var div = $("#"+id);
+    var style = div.attr('style')
+    console.log('changed div width - saving style of '+id);
+    historyStore.addToHistory(style, id);
     //window.alert("my id is" + id)
     var newWidth = $('#input-width').val();
     console.log(newWidth)
     div.css('width',newWidth );
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 function changeHeight(id){
 
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     //window.alert("my id is" + id)
     var newHeight = $('#input-height').val();
     console.log(newHeight)
     div.css('height', newHeight);
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 
@@ -643,32 +777,52 @@ function changeTextPadding(id, value, pos){
     //changes border thickness of div in question
 
     var div = $("#"+id).find('.text-place');
-    console.log("changing text padding to",value);
+    var style = div.attr('style')
+    console.log('changed text padding - saving style of '+id);
+    historyStore.addToHistory(style, id);
     var positionString = "margin-"+pos;
     console.log(positionString)
     div.css(positionString,value+"px")
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 
 function changeTextPaddingInput(id){
 
     var div = $("#"+id).find('.text-place');
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var value = $('#input-padding').val();
     console.log("changing text padding to",value);
     div.css("margin", value+"px "+value+"px " +value+"px "+value+"px")
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 
 }
 function changeBorderColour(id,value){
 
     var div = $("#"+id);
+    var style = div.attr('style')
+    console.log('changed border colour - saving style of '+id);
+    historyStore.addToHistory(style, id);
     console.log("changing colour to",value);
     div.css("borderColor",value )
+    style = div.attr('style')
+    historyStore.addToHistory(style, id);
 }
 function changeTextboxColour(id,value){
 
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
+    console.log('changed colour - saving style of '+id);
     console.log("changing colour to",value);
+    // div.attr('style',"background-color:"+value);
     div.css("backgroundColor",value )
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
+   
     
 
 }
@@ -757,8 +911,9 @@ function stopHandlerResize(event, ui)
 }
        
 //to add new image or text div 
-function addDiv(type){
+function addDiv(type,id){
 
+    
     var exhibitSpace = document.getElementById("exhibit-space")
     if (type == "image"){
         template.noImages++;
@@ -770,13 +925,12 @@ function addDiv(type){
        // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
         var z = Math.max(template.noImages,template.noTextboxes);
+        
         elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";
-        elem.appendChild(createDeleteButton(elem.id));
-        elem.appendChild(createEditButton(elem.id));
+       
         //wrapper.appendChild(elem);
       
-        console.log('start add image');
-        historyStore.addToHistory(elem.style, elem.id);
+    
     }
     else if (type=="textbox"){
         template.noTextboxes++;
@@ -792,16 +946,28 @@ function addDiv(type){
         textPlaceholder.style = "transition: margin .5s;border-style: dotted; border-color: black; border-width:2px; background-color:white";
         elem.id="textbox"+template.noTextboxes;
         elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s;  box-sizing:content-box; position: absolute; left: 100px; top:400px; background-color: white; border-style: solid; border-color: black; border-width:10px";
-        elem.appendChild(createDeleteButton(elem.id));
-        elem.appendChild(createEditButton(elem.id));
         elem.appendChild(textPlaceholder)
         //wrapper.appendChild(elem);
-        exhibitSpace.appendChild(elem);
-        console.log('start add textbox');
-        historyStore.addToHistory(elem.style, elem.id);
+    
        
     }
+    elem.appendChild(createDeleteButton(elem.id));
+    elem.appendChild(createEditButton(elem.id));
+    elem.appendChild(createCopyButton(elem.id));
+
+    if (id!="")
+    {
+        var toCopy =document.getElementById(id)
+        elem.style.borderStyle = toCopy.style.borderStyle
+        elem.style.borderColor = toCopy.style.borderColor
+        elem.style.borderWidth = toCopy.style.borderWidth
+        elem.style.backgroundColor = toCopy.style.backgroundColor
+    }
+
+    historyStore.addToHistory(elem.style, elem.id);
+
     exhibitSpace.appendChild(elem);
+
     refresh();
 
 
@@ -825,6 +991,17 @@ function createEditButton(id){
     editButton.style.position="absolute";
     return editButton;
 }
+
+function createCopyButton(id){
+    var copyButton = document.createElement("button");
+    copyButton.textContent = "copy";
+    copyButton.style.right = 30+'px';
+    copyButton.style.top = 50+'px';
+    copyButton.className="copy";
+    copyButton.style.position="absolute";
+    return copyButton;
+}
+
 
 function openEditMenu() {
     //document.getElementById(historyStore.currentlyEditing).scrollIntoView()//currently only top of this

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
     <script src="jQueryVsn.js"></script>
@@ -22,7 +23,7 @@
     
 
 </head>
-<body onload="setup('normal')">
+<body onload="setup('normal')" id="body">
 
 
     <div id="edit-menu" class="overlay">
@@ -125,6 +126,7 @@
                 <!-- <ul class="navbar-nav mr-auto"> -->
                     <!-- <li> -->
                         <button  id="undo" class="btn btn-sm btn-outline-secondary" type="button">undo</button>
+                        <button  id="redo" class="btn btn-sm btn-outline-secondary" type="button">redo</button>
                     <!-- </li> -->
                     <!-- <li> -->
                         <button id="add-image" class="btn btn-sm btn-outline-secondary" type="button">add image</button>
