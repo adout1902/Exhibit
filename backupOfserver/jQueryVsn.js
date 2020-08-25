@@ -220,9 +220,15 @@ function setup() {
 
     const bgCol = document.getElementById("change-bg-colour");
     bgCol.onchange = function(){
+        // var div = $(".workspace");
+        // var style = div.attr('style')
+        // historyStore.addToHistory(style, 'exhibit-space');
+        var div2 = $("body");
+        var style2 = div2.attr('style')
+        historyStore.addToHistory(style2, 'body');
         document.body.style.backgroundColor = bgCol.value;
         template.backgroundColour= bgCol.value;
-	document.getElementById('exhibit-space').style.backgroundColor = bgCol.value;
+	// document.getElementById('exhibit-space').style.backgroundColor = bgCol.value;
 
 
     }
@@ -294,9 +300,9 @@ function save(filename){
            var context=tempcanvas.getContext('2d');
            context.drawImage(canvas,465,40,465,524,0,0,465,524);
            template.templateImg=canvas.toDataURL();
-	   ajax(filename,JSON.stringify(contents),template.templateImg)	
+	       ajax(filename,JSON.stringify(contents),template.templateImg)	
            //console.log(template.templateImg)
- 	   dict["templateImg"]=template.templateImg;
+ 	       dict["templateImg"]=template.templateImg;
           // console.log(dict["templateImg"])
            window.alert("screenshot taken")         
             
@@ -510,7 +516,8 @@ function changeLayer(id, value){
     var max = Math.max(noImages, noTextboxes)
    
     var div = $("#"+id);
-    //console.log("changing z value of" +id+ "to",value);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var current = div.css('zIndex');
     var newLayer= parseInt(current)+parseInt(value);
     if (newLayer<0){
@@ -529,6 +536,8 @@ function changeTextAlignment(id,value){
 
    // document.getElementById(id).scrollIntoView()
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     console.log("changing text alignment of" +id+ "to",value);
     div.css("textAlign",value)
 }
@@ -561,6 +570,8 @@ function changeTextAlignment(id,value){
 function changeBorderWidth(id, value){
     //changes border thickness of div in question
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     console.log("changing border width to",value);
     div.css("borderWidth",value+"px "+value+"px " +value+"px "+value+"px")
 
@@ -569,6 +580,8 @@ function changeBorderWidth(id, value){
 function changeShadowWidth(id, value){
     //changes border thickness of div in question
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     console.log("changing shadow width to",value);
     div.css("boxShadow",value+"px "+value+"px " +value+"px grey" )
 
@@ -580,7 +593,8 @@ function changeShadowWidth(id, value){
 function changeBorderWidthInput(id){
 
     var div = $("#"+id);
-    //window.alert("my id is" + id)
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var newWidth = $('#input-bwidth').val();
     console.log(newWidth)
     div.css('borderWidth', newWidth+"px "+newWidth+"px " +newWidth+"px "+newWidth+"px");
@@ -590,7 +604,8 @@ function changeBorderWidthInput(id){
 function changeWidth(id){
 
     var div = $("#"+id);
-    //window.alert("my id is" + id)
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var newWidth = $('#input-width').val();
     console.log(newWidth)
     div.css('width',newWidth );
@@ -599,7 +614,8 @@ function changeWidth(id){
 function changeHeight(id){
 
     var div = $("#"+id);
-    //window.alert("my id is" + id)
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var newHeight = $('#input-height').val();
     console.log(newHeight)
     div.css('height', newHeight);
@@ -610,6 +626,8 @@ function changeTextPadding(id, value, pos){
     //changes border thickness of div in question
 
     var div = $("#"+id).find('.text-place');
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     console.log("changing text padding to",value);
     var positionString = "margin-"+pos;
     console.log(positionString)
@@ -620,6 +638,8 @@ function changeTextPadding(id, value, pos){
 function changeTextPaddingInput(id){
 
     var div = $("#"+id).find('.text-place');
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     var value = $('#input-padding').val();
     console.log("changing text padding to",value);
     div.css("margin", value+"px "+value+"px " +value+"px "+value+"px")
@@ -628,12 +648,16 @@ function changeTextPaddingInput(id){
 function changeBorderColour(id,value){
 
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     console.log("changing colour to",value);
     div.css("borderColor",value )
 }
 function changeTextboxColour(id,value){
 
     var div = $("#"+id);
+    var style = div.attr('style')
+    historyStore.addToHistory(style, id);
     console.log("changing colour to",value);
     div.css("backgroundColor",value )
     
