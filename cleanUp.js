@@ -197,6 +197,12 @@ function setup(mode){
             var toEdit = $(this).closest(".editable")
             
             var id = toEdit.attr('id');
+            $(".text-only").removeClass("d-none")
+            if(id.includes("image")){
+                //only display edit panels applicable to images
+                $(".text-only").addClass("d-none")
+
+            }
             template.historyStore.currentlyEditing=id;
             openEditMenu();
             displayCurrentStyle(toEdit)
@@ -295,6 +301,21 @@ function setup(mode){
             template.historyStore.addToHistory(style, id);  
         });
         //copy
+        template.workspace.on("click",".copy", function(event) {
+    
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+    
+            var toCopy = $(this).closest(".editable")
+            var id = toCopy.attr('id');
+            console.log("copying", id)
+            if(id.includes("image")){
+                addDiv("image", id)
+            }
+            else{
+                addDiv("textbox", id)
+            }
+        });
 
         
         /*edit menu key bindings*/
@@ -593,11 +614,28 @@ function addDiv(type,id){
 
     if (id!="")
     {
-        var toCopy = document.getElementById(id)
-        elem.style.borderStyle = toCopy.style.borderStyle
-        elem.style.borderColor = toCopy.style.borderColor
-        elem.style.borderWidth = toCopy.style.borderWidth
-        elem.style.backgroundColor = toCopy.style.backgroundColor
+        var toCopy = document.getElementById(id).style
+        elem.style.borderStyle = toCopy.borderStyle
+        elem.style.borderColor = toCopy.borderColor
+        elem.style.borderWidth = toCopy.borderWidth
+        elem.style.backgroundColor = toCopy.backgroundColor
+        elem.style.boxShadow = toCopy.boxShadow
+        elem.style.zIndex = toCopy.zIndex
+        elem.style.height = toCopy.height
+        elem.style.width = toCopy.width
+        elem.style.top = toCopy.top
+        elem.style.left = (parseInt(toCopy.left)+20)+"px"
+
+        // console.log(toCopy.boxShadow)
+        // var toCopy = document.getElementById(id)
+        // var styles = ["height","width","top","left","borderStyle","borderColor","borderWidth","backgroundColor","boxShadow","zIndex"]
+        // var len = styles.length
+        // for (index = 0; index < len.length; ++index) {
+        //     var str = styles[index]
+        //     elem.style[str] = toCopy.style[str]
+        // }
+        // console.log(elem.style)
+
     }
 
     template.historyStore.addToHistory(elem.style, elem.id);
@@ -694,8 +732,13 @@ function startHandlerResize(event, ui)
 //For handling end of resize event -- store new dimensions in style history
 function stopHandlerResize(event, ui)
 {
-    var style = $(ui.helper).attr('style');
-    var id = $(ui.helper).attr('id');
+    var div = $(ui.helper)
+    var style = div.attr('style');
+    var id = div.attr('id');
+    var newHeight = div.css("height")
+    var newWidth = div.css("width")
+    template.divHeight.val(newHeight)
+    template.divWidth.val(newWidth)
     template.historyStore.addToHistory(style, id);
 }
 

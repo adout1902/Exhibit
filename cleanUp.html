@@ -25,7 +25,7 @@
         <!-- Button to close the overlay navigation -->
         <!-- Overlay content -->
         <!-- remove inline -->
-        <button onclick="closeEditMenu()" class="fab hide" id="closeBtn">X</button>
+        <button onclick="closeEditMenu()" class="fab" id="closeBtn">X</button>
         <div class="overlay-content">
 
             <div class="edit-panel card">
@@ -49,7 +49,7 @@
                 </div>
             </div>
             
-            <div class="edit-panel card"><p><b>change padding:</b> </p>
+            <div class="edit-panel card text-only"><p><b>change padding:</b> </p>
                 top and bottom text padding
                 <div class="slidecontainer"><input type="range" min="0" max="100" value="0" class="slider" id="text-padding-top"></div>
                 left text padding
@@ -64,7 +64,7 @@
             </div>
             
         
-            <div class="edit-panel card"><p><b>align text:</b></p>
+            <div class="edit-panel card text-only"><p><b>align text:</b></p>
                 <input type="radio" id="left" value="left" name="text-alignment">
                 <label for="left">left</label><br>
 
@@ -75,20 +75,24 @@
                 <label for="right">right</label><br>
             
             </div>
-            <div class="edit-panel card">
+            <div class="edit-panel card text-only">
 
                 <div>
                     <p><b>change textbox background colour:</b></p>
                     <input type="color" id="textbox-color-change">
                     <button id="colour-changeBG">ok</button>
                 </div>
+            </div>
+
+            <div class="edit-panel card">
                 <div>
                     <p><b>change border colour:</b></p>
                     <input type="color" id="border-color-change">
                     <button id="colour-changeBorder">ok</button>
-                </div>
-               
+                </div>                
             </div>
+              
+               
 
             <div class="edit-panel card">
                 <p><b>apply shadow:</b></p>

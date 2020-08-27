@@ -107,7 +107,7 @@ function setup(mode) {
        window.open("testCards.html")
  
        
-     });
+    });
 
     
 
@@ -385,8 +385,6 @@ function ajax(filename,contents,img){
                 alert("Error Ajax");
         }
     });
-
-
 }
 
 function render(){
@@ -822,8 +820,6 @@ function changeTextboxColour(id,value){
     div.css("backgroundColor",value )
     var style = div.attr('style')
     historyStore.addToHistory(style, id);
-   
-    
 
 }
 /* 

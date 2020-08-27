@@ -110,10 +110,10 @@ body{
     background-color: rgb(173, 24, 24);
 }
 
-/* .hide{
+.hide{
 
-    opacity:0;
-} */
+    display: none
+}
 
 
 .closebtn {
@@ -135,7 +135,7 @@ body{
     /* height: 250px; */
     background-color: rgb(170, 174, 179);
     color: black;
-    display: inline-block;
+    /* display: inline-block; */
 
 
 }
