@@ -18,6 +18,5 @@ $(document).ready(function(){
 
 
 function refreshCards(){
-  //ajax call to generate cards, display newly added 
-
+	window.location.href=window.location.href
 }

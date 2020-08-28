@@ -92,6 +92,7 @@ function setup(mode){
         template.modalContent = $("#modal-content")
         template.modalBackground = $("#modal-background")
         template.filename = $("#filename")
+        template.creator = $("#creator")
 
         template.populate = $("#populate")
 
@@ -135,7 +136,8 @@ function setup(mode){
         /*control panel listeners*/
         template.saveModal.click(function(){
             var filename = template.filename.val();
-            save(filename)
+            var creator = template.creator.val()
+            save(filename,creator)
             alert('starting save');
             
         })
@@ -146,7 +148,7 @@ function setup(mode){
         })
 
         template.browse.click(function(){
-            
+            window.open("./cgi-bin/browse.py");
             return false;
         })
         template.save.click(function() {
@@ -469,7 +471,7 @@ function refresh(){
 
 /*control panel functions*/
 
-function save(filename){
+function save(filename,creator){
 
     var dict = {};
     var contents ={}
@@ -477,8 +479,11 @@ function save(filename){
     contents["bgColor"] = template.backgroundColour;
     contents["noImages"] = template.noImages;
     contents["noTextboxes"] = template.noTextboxes;
+    contents["creator"] = creator; //work in user accounts
+    contents["name"] = filename;
     contents["items"]=[];
     $('.editable').each(function(i, obj) {
+	//check if display style = none
         var id = obj.getAttribute('id');
         var tmp =  $("#"+id)
         var style = tmp.attr("style")
@@ -501,41 +506,44 @@ function save(filename){
     
 	
 
-	//take screenshot to save as template preview
-        // html2canvas(document.getElementById('exhibit-space'), {
-        // onrendered: function(canvas) {
-        //    var tempcanvas = document.createElement('canvas');
-        //    tempcanvas.width=465;
-        //    tempcanvas.height=524;
-        //    var context=tempcanvas.getContext('2d');
-        //    context.drawImage(canvas,465,40,465,524,0,0,465,524);
-        //    template.templateImg=canvas.toDataURL();
-	    //    ajax(filename,JSON.stringify(contents),template.templateImg)	
+    //take screenshot to save as template preview
+        
+        template.exhibitSpace.style.backgroundColor = template.backgroundColour;
+        html2canvas(document.getElementById('exhibit-space'), {
+         onrendered: function(canvas) {
+            var tempcanvas = document.createElement('canvas');
+            tempcanvas.width=465;
+            tempcanvas.height=524;
+            var context=tempcanvas.getContext('2d');
+            context.drawImage(canvas,465,40,465,524,0,0,465,524);
+            template.templateImg=canvas.toDataURL();
+	        ajax(filename,JSON.stringify(contents),template.templateImg)	
         //    console.log(template.templateImg)
- 	    //    dict["templateImg"]=template.templateImg;
-        //   // console.log(dict["templateImg"])
-        //    window.alert("screenshot taken")         
+ 	        dict["templateImg"]=template.templateImg;
+           // console.log(dict["templateImg"])
+            window.alert("screenshot taken")
+            template.exhibitSpace.style.backgroundColor = "";         
             
-        //    }
-        //  });
-            document.getElementById("exhibit-space").style.backgroundColor = template.backgroundColour;
-            html2canvas(document.getElementById('exhibit-space'),{
-            onrendered: function( canvas ) {
-               
-                var tempcanvas = document.createElement('canvas');
-                tempcanvas.width=465;
-                tempcanvas.height=524;
-                var context=tempcanvas.getContext('2d');
-                context.drawImage(canvas,465,40,465,524,0,0,465,524);
-                var a = document.createElement('a');
+            }
+          });
+        //    document.getElementById("exhibit-space").style.backgroundColor = template.backgroundColour;
+          //  html2canvas(document.getElementById('exhibit-space'),{
+            //onrendered: function( canvas ) {
+              // 
+                //var tempcanvas = document.createElement('canvas');
+                //tempcanvas.width=465;
+                //tempcanvas.height=524;
+                //var context=tempcanvas.getContext('2d');
+               // context.drawImage(canvas,465,40,465,524,0,0,465,524);
+                //var a = document.createElement('a');
                 // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
-                a.href = canvas.toDataURL()
-                a.download = 'somefilename.jpg';
-                a.click();
-                document.getElementById("exhibit-space").style.backgroundColor = "";
-         }
+                //a.href = canvas.toDataURL()
+               // a.download = 'somefilename.jpg';
+               // a.click();
+               // document.getElementById("exhibit-space").style.backgroundColor = "";
+         //}
     
-    })
+   // })
   
     dict["contents"]=JSON.stringify(contents)
 	console.log(template.templateImg)
