@@ -93,6 +93,12 @@ function setup(mode){
         template.modalBackground = $("#modal-background")
         template.filename = $("#filename")
         template.creator = $("#creator")
+        template.collabInput = $("#collab-input")
+        template.addCollab = $("#add-user")
+        template.collabStr = "" //for db
+        template.dataList = $("#user-list")
+        template.displayCollab = $("#display-collab")
+        template.creators = []
 
         template.populate = $("#populate")
 
@@ -154,6 +160,7 @@ function setup(mode){
         template.save.click(function() {
             template.modalContent.toggleClass("active");
             template.modalBackground.toggleClass("active")
+            getUsers();
             return false;
         });
         template.closeModal.click(function() {
@@ -161,6 +168,10 @@ function setup(mode){
             template.modalBackground.toggleClass("active")
             return false;
         });
+        template.addCollab.click(function(){
+            addCollab(template.collabInput.val())
+            template.collabInput.val("")
+        })
 
         /*edit template listeners*/
 
@@ -570,6 +581,25 @@ function ajax(filename,contents,img){
 
 function render(){
     window.open("./cgi-bin/renderTemplate.py?name="+template.name);
+}
+
+function getUsers(){
+    //insert ajax call to get python script to generate all usernames for datalist
+    var users = ["Aa'isha","Ceara","Dika","Bob"].sort()
+    var optionsList = ""
+    users.forEach(function (item, index) {
+        optionsList+=`<option value="${item}">${item}</option>`
+    });
+    console.log(optionsList)
+    template.dataList.html(optionsList)
+
+
+}
+
+function addCollab(name){
+    template.creators.push(name)
+    let displayNames = [...new Set(template.creators)];
+    template.displayCollab.text(displayNames.join(", ")) 
 }
 
 

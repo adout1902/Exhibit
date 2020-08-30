@@ -1,0 +1,44 @@
+.image-div {
+    background-color: rgb(22, 145, 128);
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    border-radius: 20px;
+    padding: 20px;
+    touch-action: none;
+  
+    width: 120px;
+  
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+
+  }
+
+
+  .text-div {
+    background-color: rgb(228, 133, 69);
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    padding: 20px;
+    touch-action: none;
+    width: 300px;
+    height: 100px;
+  
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+  }
+
+  .deleteBtn {
+    margin: 2px;
+    position: absolute;
+    text-align: center;
+    border-radius:4px;
+    text-decoration: none;
+    font-family: sans-serif;
+    background: #303531;
+    display:inline-block;
+    color: #FFF;
+  }
+
+

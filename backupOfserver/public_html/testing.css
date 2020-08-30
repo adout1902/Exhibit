@@ -1,0 +1,11 @@
+.image-div{
+    width: 200px;
+    height: 200px;
+    background-image: url(imageBG.png);
+    border-color: #000000;
+    border-width: 10px;
+    box-sizing: content-box;
+    min-width: 70px;
+    min-height: 70px;
+    /* z-index: 1; */
+}

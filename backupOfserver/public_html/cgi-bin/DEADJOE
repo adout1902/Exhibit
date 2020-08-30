@@ -1,0 +1,16 @@
+
+*** These modified files were found in JOE when it aborted on Thu Aug 13 12:52:49 2020
+*** JOE was aborted by UNIX signal 1
+
+*** File '(Unnamed)'
+exhibit-key.pem
+test2.html
+test.html
+template.txt
+test.json
+
+*** File '* Startup Log *'
+Processing '/etc/joe/joerc'...
+Processing '/etc/joe/ftyperc'...
+Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/joerc

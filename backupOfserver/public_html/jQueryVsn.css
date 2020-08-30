@@ -110,10 +110,10 @@ body{
     background-color: rgb(173, 24, 24);
 }
 
-.hide{
+/* .hide{
 
-    display: none
-}
+    opacity:0;
+} */
 
 
 .closebtn {
@@ -135,7 +135,7 @@ body{
     /* height: 250px; */
     background-color: rgb(170, 174, 179);
     color: black;
-    /* display: inline-block; */
+    display: inline-block;
 
 
 }
@@ -229,11 +229,6 @@ button {
     z-index: 1000;
 }
 
-#collab{
-    padding-bottom: 10px;
-
-}
-
 #modal-content {
     background-color: white;
     border-radius: 10px;
@@ -243,7 +238,7 @@ button {
     -webkit-box-shadow: 0 0 20px 0 #222;
     -moz-box-shadow: 0 0 20px 0 #222;
     display: none;
-    height: 320px;
+    height: 240px;
     left: 50%;
     margin: -120px 0 0 -160px;
     padding: 10px;

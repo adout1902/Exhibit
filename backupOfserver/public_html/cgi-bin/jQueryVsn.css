@@ -4,7 +4,7 @@
     display: inline-block;
 }
 
-body{
+body:after{
 
 
     background-size: 40px 40px;
@@ -20,27 +20,12 @@ body{
     left: 0;
     bottom: 0;
     right: 0;
-    margin-top:100px;
+    /* margin-top:100px; */
     overflow: auto;
     box-sizing: border-box;
-    transition: margin-left .1s;
+    transition: margin-left .5s;
 
 }
-
-#exhibit-space{
-
-
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin-top:100px;
-    overflow: auto;
-    box-sizing: border-box;
-    transition: margin-left .3s;
-
-}
-
 .edit{
 
     font-size: small;
@@ -52,14 +37,11 @@ body{
     border-style: solid;
     border-width: 5px;
     width: 100%;
-    /* margin-top: 100px; */
+    margin-top: 100px;
     box-sizing: border-box;
     text-align: center;
     color: #a09a9a;
-    background-color: white;
-    min-height: 50px;
-    
-
+    font-size: 80px;
 
 }
 
@@ -72,7 +54,7 @@ body{
     top: 0; /* Stay at the top */
     left: 0;
     background-color: rgb(79, 148, 133);
-    transition: margin-left .3s;
+    transition: margin-left .5s;
     box-sizing: border-box;
     
 }
@@ -85,36 +67,12 @@ body{
     z-index: 0; /* Sit on top */
     left: 0;
     top: 0;
-    background-color: rgb(214, 214, 212);
+    background-color: rgb(79, 148, 133); /* Black fallback color */
     overflow-x: hidden; /* Disable horizontal scroll */
-    transition: 0.3s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+    transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
     display: block;
 
 }
-.btn{
-    margin-left:10px;
-   
-}
-
-.editPanelBtn{
-    margin-top: 5px;
-
-
-}
-
-.fab{
-    position: sticky;
-    position: -webkit-sticky;
-    top: 300px;
-    left: 240px;
-    background-color: rgb(173, 24, 24);
-}
-
-.hide{
-
-    display: none
-}
-
 
 .closebtn {
     position: absolute;
@@ -131,11 +89,11 @@ body{
     /* padding: 20px; */
     margin: 15px;
     padding: 5px;
-    width: 220px;
+    width: 190px;
     /* height: 250px; */
-    background-color: rgb(170, 174, 179);
+    background-color: aliceblue;
     color: black;
-    /* display: inline-block; */
+    display: inline-block;
 
 
 }
@@ -204,14 +162,6 @@ button {
     background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
 /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 
-}
-
-
-.template-controls{
-
-
-    margin-left: 500px;
-    transition: 0.3s;
 
 }
 #modal-background {
@@ -229,11 +179,6 @@ button {
     z-index: 1000;
 }
 
-#collab{
-    padding-bottom: 10px;
-
-}
-
 #modal-content {
     background-color: white;
     border-radius: 10px;
@@ -243,7 +188,7 @@ button {
     -webkit-box-shadow: 0 0 20px 0 #222;
     -moz-box-shadow: 0 0 20px 0 #222;
     display: none;
-    height: 320px;
+    height: 240px;
     left: 50%;
     margin: -120px 0 0 -160px;
     padding: 10px;

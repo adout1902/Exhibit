@@ -1,0 +1,92 @@
+<html>
+<body>
+<!-- form for getting user image uploaded -->
+<div id="img-div">
+    <form id=input action=./cgi-bin/ajax.py method=post>
+        <input id=imgUpload type=file name=uploadFile>
+        <input type=submit value=Submit>
+    </form>
+</div>
+
+<div id=upload-area>
+    <div id=preview>
+        <img width="100px" height="100px" alt="Image preview" src="noimage.jpg" id=img>
+    </div>
+</div>
+
+<div id=text-area>
+    Here is some text.
+    <button class="btn">Edit</button>
+</div>
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+<script type="text/javascript">
+    $.fn.ajaxForm = function(options) {
+        options = $.extend({}, {
+            onSubmit:function() {},
+            onResponse:function(data) {}
+        }, options);
+        var iframeName = 'ajaxForm', $iframe = $('[name=' + iframeName + ']');
+        if (!$iframe.length) {
+            $iframe = $('<iframe name=' + iframeName + ' style="display:none">').appendTo('body');
+        }
+        return $(this).each(function() {
+            var $form = $(this);
+            $form
+                .prop('target', iframeName)
+                .prop('enctype', 'multipart/form-data')
+                .prop('encoding', 'multipart/form-data')
+                .submit(function(e) {
+                    options.onSubmit.apply($form[0]);
+                    $iframe.one('load', function() {
+                        var iframeText = $iframe.contents().find('body').text();
+                        options.onResponse.apply($form[0], [iframeText]);
+                    });
+                });
+        });
+    };
+    $('#input').ajaxForm({
+        onResponse:function(data) {
+            $('#output').html(data);
+        }
+    });
+    // function to preview image before upload
+    // path name
+    var pathName = "/home/ubuntu/uploads/"
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+
+            /* var loadFile = function(event) {
+                var reader = new FileReader();
+                reader.onload = function(){
+                    var output = document.getElementById('output');
+                    output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }; */
+
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $('#img').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]); // convert to base64 string
+        }
+    }
+
+    $("#imgUpload").change(function() {
+        readURL(this);
+    });
+
+    /* var pathName = "/home/ubuntu/uploads/"
+    $(function() {
+        $('#uploadFile').change(function () {
+            var fileName = $(this).val();
+            $('#image-preview').src(pathName+fileName);
+        });
+    }); */
+</script>
+
+</body>
+</html>
