@@ -1,0 +1,148 @@
+{
+    "templates":{
+        "1": {
+            "title": "test",
+            "creators": "Aa'isha, Bob, Ceara",
+            "templateImg" : "testTemplate.PNG"
+        },
+        "2": {
+            "title": "test2",
+            "creators": "Aa'isha, Bob",
+            "templateImg" : "test2Template.PNG"
+        }
+    },
+    "creators":{
+        "1":{
+            "Aa'isha":true,
+            "Bob":true,
+            "Ceara":true
+        },
+        "2":{
+            "Aa'isha":true,
+            "Bob":true
+        }
+        
+    },
+    "contents":{
+        "1":[
+            {
+                "id": "title",
+                "top": "0px",
+                "left": "0px",
+                "width": "1396.36px",
+                "height": "100px",
+                "borderWidth": "5px",
+                "padding": "0px",
+                "textAlign": "center",
+                "shadow": "none",
+                "z": "auto",
+                "borderStyle": "solid",
+                "borderColor": "rgb(0, 0, 0)",
+                "backgroundColor": "rgba(0, 0, 0, 0)"
+            },
+            {
+                "id": "textbox1",
+                "top": "300px",
+                "left": "100px",
+                "width": "500px",
+                "height": "200px",
+                "borderWidth": "10px",
+                "padding": "0px",
+                "textAlign": "start",
+                "shadow": "none",
+                "z": "1",
+                "borderStyle": "solid",
+                "borderColor": "rgb(0, 0, 0)",
+                "backgroundColor": "rgb(255, 255, 255)"
+            },
+            {
+                "id": "image1",
+                "top": "186px",
+                "left": "862px",
+                "width": "324px",
+                "height": "244px",
+                "borderWidth": "10px",
+                "padding": "0px",
+                "textAlign": "center",
+                "shadow": "none",
+                "z": "1",
+                "borderStyle": "solid",
+                "borderColor": "rgb(0, 0, 0)",
+                "backgroundColor": "rgb(255, 255, 255)"
+            }
+        ],
+        "2":[
+            {
+                "id": "title",
+                "top": "0px",
+                "left": "0px",
+                "width": "1396.36px",
+                "height": "100px",
+                "borderWidth": "5px",
+                "padding": "0px",
+                "textAlign": "center",
+                "shadow": "none",
+                "z": "auto",
+                "borderStyle": "solid",
+                "borderColor": "rgb(0, 0, 0)",
+                "backgroundColor": "rgba(0, 0, 0, 0)"
+            },
+            {
+                "id": "textbox1",
+                "top": "300px",
+                "left": "100px",
+                "width": "500px",
+                "height": "200px",
+                "borderWidth": "10px",
+                "padding": "0px",
+                "textAlign": "start",
+                "shadow": "none",
+                "z": "1",
+                "borderStyle": "solid",
+                "borderColor": "rgb(0, 0, 0)",
+                "backgroundColor": "rgb(255, 255, 255)"
+            },
+            {
+                "id": "image1",
+                "top": "186px",
+                "left": "862px",
+                "width": "324px",
+                "height": "244px",
+                "borderWidth": "10px",
+                "padding": "0px",
+                "textAlign": "center",
+                "shadow": "none",
+                "z": "1",
+                "borderStyle": "solid",
+                "borderColor": "rgb(0, 0, 0)",
+                "backgroundColor": "rgb(255, 255, 255)"
+            }
+        ]
+    },
+    "comments":{
+        "1":[
+            {
+                "user":"Dika",
+                "message": "Informative!",
+                "timestamp":"01/09/2020"
+            },
+            {
+                "user":"Emma",
+                "message": "Interesting.",
+                "timestamp":"02/09/2020"
+            }
+        ],
+        "2":[
+            {
+                "user":"Ceara",
+                "message": "Informative!",
+                "timestamp":"01/09/2020"
+            },
+            {
+                "user":"Dika",
+                "message": "Interesting!",
+                "timestamp":"01/09/2020"
+            }
+        ]     
+    }
+}
