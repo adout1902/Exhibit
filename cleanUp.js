@@ -76,10 +76,7 @@ function Template(noImages = 0, noTextboxes = 0, backgroundColour="white",saved=
 /*setup function - determine if new template or existing, if existing then initialise */
 
 function setup(mode){
-    if(mode=="edit"){
-
-    }
-    else{
+    
         
         template = new Template();
         /*control panel DOM elements*/
@@ -380,9 +377,40 @@ function setup(mode){
             }
             event.stopPropagation();
         });
+
+
+        if (mode!=0){
+            /*existing template therefore load content*/
+            loadTemplate(mode)
+        }
+        else{
+            //add title placeholder
+        }
+
         console.log("loaded")
         refresh()
-    }
+    
+
+}
+
+function loadTemplate(template){
+    $.ajax({
+        url: "./cgi-bin/getTemplate.py",
+        type: "post",
+        data: {"templateID":template},
+        datatype: "json",
+        success: function(response){
+           window.alert("saved")
+           template.saved=true;
+           template.name=filename
+           //console.log(dict)
+        },
+        error : function () {
+                alert("Error Ajax");
+        }
+    });
+
+
 }
 
 function displayCurrentStyle(toEdit){
@@ -560,13 +588,11 @@ function save(filename,creator){
 	console.log(template.templateImg)
 }
 function ajax(filename,contents,img){
-
-
     $.ajax({
        url: "./cgi-bin/saveTemplate.py",
        type: "post",
        data: {"filename":filename,"contents":contents,"templateImg":img},
-   datatype: "json",
+       datatype: "json",
        success: function(response){
           window.alert("saved")
           template.saved=true;
@@ -599,7 +625,13 @@ function getUsers(){
 function addCollab(name){
     template.creators.push(name)
     let displayNames = [...new Set(template.creators)];
-    template.displayCollab.text(displayNames.join(", ")) 
+    template.collabStr = displayNames.join(", ")
+    template.displayCollab.text(template.collabStr) 
+    
+}
+
+function logUser(username){
+    localStorage.setItem("username", username);
 }
 
 
