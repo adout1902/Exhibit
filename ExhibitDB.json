@@ -1,0 +1,20 @@
+{
+    "systemData": {
+        "noTemplates": 4,
+        "noExhibits": 0
+    },
+    "users": {
+        "Aa'isha": {
+            "username": "Aa'isha",
+            "password": "aaisha"
+        },
+        "Ceara": {
+            "username": "Ceara",
+            "password": "ceara"
+        },
+        "Dika": {
+            "username": "Dika",
+            "password": "dika"
+        }
+    }
+}
