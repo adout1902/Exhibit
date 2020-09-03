@@ -1,14 +1,6 @@
 import json
 from datetime import date
-# import fcntl 
 
-
-# try:
-#     fcntl.flock(open("TemplatesDB.json", "w"), fcntl.LOCK_EX | fcntl.LOCK_NB)
-# except IOError:
-#     print ("can't immediately write-lock the file ($!), blocking ...")
-# else:
-#     print ("No error")
 
 def write_json(data, filename): 
     with open(filename,'w') as f: 
@@ -106,6 +98,4 @@ def templateCards():
         print("creators: %s" % ", ".join(templateCard["creators"]))
         print("last updated: %s" % templateCard["lastUpdated"])
 
-
-templateCards()
 

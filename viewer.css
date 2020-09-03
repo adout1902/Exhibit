@@ -1,27 +1,13 @@
-
-
-
-.container{
-
-    text-align: center;
-    margin-top: 100px;
-    width: 100%;
-
+.nameLink {
+    background:none!important;
+     border:none; 
+     padding:0!important;
+    
+    /*optional*/
+    font-family:Arial, sans-serif; /*input has OS specific font-family*/
+     color:#007BFF;
+     cursor:pointer;
 }
-.carousel-inner > .item {
-    height: 500px;
-
+.nameLink:hover{
+         text-decoration:underline;
 }
-
-.carousel-inner > .item > img {
-    margin: 0 auto;
-  }
-
-  .carousel-caption {
-    position: relative;
-    left: auto;
-    right: auto;
-    color: black;
-    font-size: 40px;
-}
-

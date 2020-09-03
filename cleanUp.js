@@ -88,12 +88,12 @@ function setup(mode){
         template.closeModal = $("#modal-close")
         template.modalContent = $("#modal-content")
         template.modalBackground = $("#modal-background")
-        template.filename = $("#filename")
+        template.title = $("#filename")
         template.creator = $("#creator")
         template.collabInput = $("#collab-input")
         template.addCollab = $("#add-user")
-        template.collabStr = "" //for db
-        template.dataList = $("#user-list")
+        template.collabStr = ""
+        template.dataList = $("#user-list") //list of users in db 
         template.displayCollab = $("#display-collab")
         template.creators = []
 
@@ -138,9 +138,9 @@ function setup(mode){
         
         /*control panel listeners*/
         template.saveModal.click(function(){
-            var filename = template.filename.val();
+            var title = template.title.val();
             var creator = template.creator.val()
-            save(filename,creator)
+            save(title,creator)
             alert('starting save');
             
         })
@@ -402,7 +402,7 @@ function loadTemplate(template){
         success: function(response){
            window.alert("saved")
            template.saved=true;
-           template.name=filename
+          // template.name=filename
            //console.log(dict)
         },
         error : function () {
@@ -510,17 +510,19 @@ function refresh(){
 
 /*control panel functions*/
 
-function save(filename,creator){
+function save(title,creator){
 
     var dict = {};
     var contents ={}
    
-    contents["bgColor"] = template.backgroundColour;
+    contents["backgroundColour"] = template.backgroundColour;
+    contents["title"] = title;
+    contents["items"]=[];
     contents["noImages"] = template.noImages;
     contents["noTextboxes"] = template.noTextboxes;
-    contents["creator"] = creator; //work in user accounts
-    contents["name"] = filename;
-    contents["items"]=[];
+    contents["creators"] = [creator]; //work in user accounts
+  
+   
     $('.editable').each(function(i, obj) {
 	//check if display style = none
         var id = obj.getAttribute('id');
@@ -541,7 +543,7 @@ function save(filename,creator){
         "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
         
     });
-    dict["filename"]=filename;
+    dict["title"]=title;
     
 	
 
@@ -556,7 +558,7 @@ function save(filename,creator){
             var context=tempcanvas.getContext('2d');
             context.drawImage(canvas,465,40,465,524,0,0,465,524);
             template.templateImg=canvas.toDataURL();
-	        ajax(filename,JSON.stringify(contents),template.templateImg)	
+	        ajax(title,JSON.stringify(contents),template.templateImg)	
         //    console.log(template.templateImg)
  	        dict["templateImg"]=template.templateImg;
            // console.log(dict["templateImg"])
@@ -577,7 +579,7 @@ function save(filename,creator){
                 //var a = document.createElement('a');
                 // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
                 //a.href = canvas.toDataURL()
-               // a.download = 'somefilename.jpg';
+               // a.download = 'sometitle.jpg';
                // a.click();
                // document.getElementById("exhibit-space").style.backgroundColor = "";
          //}
@@ -587,16 +589,16 @@ function save(filename,creator){
     dict["contents"]=JSON.stringify(contents)
 	console.log(template.templateImg)
 }
-function ajax(filename,contents,img){
+function ajax(title,contents,img){
     $.ajax({
        url: "./cgi-bin/saveTemplate.py",
        type: "post",
-       data: {"filename":filename,"contents":contents,"templateImg":img},
+       data: {"title":title,"contents":contents,"templateImg":img},
        datatype: "json",
        success: function(response){
           window.alert("saved")
           template.saved=true;
-          template.name=filename
+          template.name=title
           //console.log(dict)
        },
        error : function () {

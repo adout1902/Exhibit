@@ -22,3 +22,5 @@ $(document).ready(function(){
 function refreshCards(){
 	window.location.href=window.location.href
 }
+
+

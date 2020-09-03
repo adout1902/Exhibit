@@ -48,6 +48,8 @@
         "1": {
             "title": "test",
             "backgroundColour": "rgb(255, 255, 255)",
+            "noImages":1,
+            "noTextboxes":2,
             "items": [
                 {
                     "id": "title",
@@ -99,6 +101,8 @@
         "2": {
             "title": "test2",
             "backgroundColour": "rgb(255, 255, 255)",
+            "noImages":1,
+            "noTextboxes":2,
             "divs": [
                 {
                     "id": "title",
