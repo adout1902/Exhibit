@@ -1,7 +1,6 @@
 $(document).ready(function(){
-    
     $('.flip').click(function(){
-        $(this).findClosest('.outer').toggleClass('flipped');
+        $(this).find('.card').toggleClass('flipped');
     });
 
     $('#toggle').on('click' ,function(){
@@ -14,7 +13,6 @@ $(document).ready(function(){
 
     $('#back').on('click' ,function(){
         $('.card').removeClass('flipped');
-    });
-    
+    });    
   
 });

@@ -53,14 +53,19 @@ body{
     border-width: 5px;
     width: 100%;
     /* margin-top: 100px; */
-    box-sizing: border-box;
+    box-sizing: content-box;
     text-align: center;
     color: #a09a9a;
     background-color: white;
     min-height: 50px;
+    overflow: hidden;
     
 
 
+}
+
+.close-bttn{
+    background-color: rgb(204, 54, 54);
 }
 
 #control-panel

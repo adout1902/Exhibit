@@ -8,8 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js" integrity="sha512-s/XK4vYVXTGeUSv4bRPOuxSDmDlTedEpMEcAQk0t/FMd9V6ft8iXdwSBxV0eD60c6w/tjotSlKu9J2AAW1ckTA==" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
-    <script src="../js/templateEditor.js"></script>
-    <link rel="stylesheet" href="../jQueryVsn.css">
+    <script src="templateEditor.js"></script>
+    <link rel="stylesheet" href="jQueryVsn.css">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
@@ -162,8 +162,9 @@
             </div>
 
         </nav>
+        
+    
     </div>
-
     <div id="modal-background"></div>
     <div id="modal-content">
         <label for="filename"><b>Enter the template name:</b></label>
@@ -186,9 +187,9 @@
           </div>
           Allowed to edit: <span style="font-size: small;" id="display-collab"></span> -->
             <div id="modal-buttons">
-                <button id="save-template">save</button>
-		<button id="modal-close">close</button>
+                <button id="save-template"></button>
             </div>
+            <button id="modal-close" class="close-bttn">close</button>
             
     </div>
      

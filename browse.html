@@ -47,43 +47,64 @@ for (row in dataTemplates){
     workspaceTemplates.innerHTML+=(makeTemplate(dataTemplates[row]))
 
 }
+// <div class="outer card flip" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 20rem;" >
+//             <div class="face front">
+//                 <img src="${template[4]}" class="card-img-top" style="height:10rem">
+//                 <div class="card-body">
+//                 <h5 class="card-title">${template[1]}</h5>
+//                 <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
+//                 <div style="padding-top:1rem;">
+//                     <a href="${template[1]}.html" class="btn btn-primary">edit</a>
+//                     <a href="${template[1]}.html" class="btn btn-primary">populate</a>
+//                     <button id="toggle" class="btn btn-warning">Toggle</button> 
+//                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample${template[0]}" aria-expanded="false" aria-controls="collapseExample">comments</button>
+//                 </div>
+//                 <div class="collapse" id="collapseExample${template[0]}" >
+//                     <div class="card card-body" style="overflow:auto;height:4.5rem;" >
+//                         <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+//                         <br>
+//                         <b>person 2:</b> mood
+//                     </div>
+//             </div>       
+                    
+       
+       
+//             <div class="face back">
+               
+//                     <div class="card card-body" style="overflow:auto;height:4.5rem;" >
+//                         <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+//                         <br>
+//                         <b>person 2:</b> mood
+//                     </div>
+               
+//             </div>   
+//         </div>       
 
 function makeTemplate(template) {
 
         return `
-        <div class="outer card flip" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 20rem;" >
-            <div class="face front">
-                <img src="${template[4]}" class="card-img-top" style="height:10rem">
+	    <div class="flip">
+		    <div class="card" style="display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 20rem;"> 
+                <div class="face front"> 
+                   <img src="${template[4]}" class="card-img-top" style="height:10rem">
                 <div class="card-body">
                 <h5 class="card-title">${template[1]}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
                 <div style="padding-top:1rem;">
                     <a href="${template[1]}.html" class="btn btn-primary">edit</a>
                     <a href="${template[1]}.html" class="btn btn-primary">populate</a>
-                    <button id="toggle" class="btn btn-warning">Toggle</button> 
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample${template[0]}" aria-expanded="false" aria-controls="collapseExample">comments</button>
-                </div>
-                <div class="collapse" id="collapseExample${template[0]}" >
-                    <div class="card card-body" style="overflow:auto;height:4.5rem;" >
-                        <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
-                        <br>
-                        <b>person 2:</b> mood
-                </div>
-            </div>       
-                    
-       
-       
-            <div class="face back">
-               
-                    <div class="card card-body" style="overflow:auto;height:4.5rem;" >
+                    <button id="front" class="btn btn-success">comments</button>
+                </div> 
+                <div class="face back"> 
+                    <div class="card card-body" style="overflow:auto;height:10rem;" >
                         <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
                         <br>
                         <b>person 2:</b> mood
                     </div>
-               
-            </div>   
-        </div>       
-
+                    <button id="front" class="btn btn-success">back</button>
+                </div>
+		    </div>	 
+	    </div>
    
 
     `
