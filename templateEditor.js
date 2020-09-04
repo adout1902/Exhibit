@@ -76,22 +76,9 @@ function Template() {
 /*setup function - determine if new template or existing, if existing then initialise */
 
 function setup(mode){
-        if (mode!=0){
-            //template exists,load contents
-            template = new Template();
-            template.id = mode
-            loadTemplate(mode)
-            console.log(template.id)
-            console.log(template.contents.title)
-            console.log(template.contents.noImages)
-            console.log(template.contents.divs)
-            console.log(template.contents.backgroundColour)
-            
-        }
-        else{
-            template = new Template();
-        }       
-        
+
+        template = new Template()
+                
         /*control panel DOM elements*/
         template.save = $('#save-modal')
         template.render = $("#render")
@@ -189,6 +176,8 @@ function setup(mode){
         })
         template.addTextbox.click(function(){
             addDiv("textbox","");
+            console.log("add div clicked")
+
             return false;
         })
         template.undo.click(function() {
@@ -390,25 +379,79 @@ function setup(mode){
         });
 
         console.log("loaded")
-        refresh()
+        if (mode!=0){
+            //template exists, load contents
+            template.id = mode
+            loadTemplate(mode)
+                        
+        }
+        else{
+           // template = new Template();
+        }
+	       
+
 }
 
 function loadTemplate(id){
     $.ajax({
-        url: "/home/ubuntu/public_html/cgi-bin/db.py?templateID="+id,
+        url: "../cgi-bin/db.py",
         type: "post",
-        data: {"templateID":template.templateID},
+        data: {"templateID":id,"action":"get"},
         datatype: "json",
         success: function(response){
-           window.alert("loaded")
-           template.contents = JSON.parse(response.contents)
+           template.status = JSON.parse(response.contents)
            console.log(template.contents)
+	   console.log(template.id)
+            template.title = template.status.title
+            console.log(template.title)
+            template.noImages=template.status["noImages"]
+            template.noTextboxes = template.status["noTextboxes"]
+            template.divs =  template.status["divs"]
+            template.backgroundColour = template.status["backgroundColour"]
+            document.body.style.backgroundColor = template.backgroundColour
+            template.exhibitSpace.insertAdjacentHTML('afterbegin',`${template.divs.map(loadDiv).join("")}`)
+            refresh()
+
         },
         error : function () {
-                alert("Error Ajax");
+                alert("Error connecting to server");
         }
     });
 
+}
+
+function loadDiv(div) {
+
+    var type = ""
+    var placeholder = ""
+	if(!(div["id"].includes("title"))){	
+    if (div["id"].includes("text")){
+        type = "text-div";
+        placeholder = `<div class='text-place' style='transition: margin .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white'>Placeholder<br>text</div>`
+
+    }
+    else if (div["id"].includes("image")){
+        type = "image-div"
+    }
+
+    return `
+    <div class="editable ${type}" id="${div.id}" style="position:absolute;border-style:solid; border-width:${div.borderWidth};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:${div.z};border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
+        <button class="edit" style="position:absolute; top:0px;right:30px">edit</button>
+        <button class="delete" style="position:absolute;top:0px;right:0px">X</button>
+        <button class="copy" style="position:absolute;top:30px;right:0px">copy</button>
+        ${placeholder}
+    </div>
+     `
+	}
+     else{
+	return `
+   	<div class="editable" id="${div.id}" style="position:absolute;border-style:solid; border-width:${div.borderWidth};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:${div.z};border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
+        Title placeholder
+	<button class="edit" style="position:absolute">edit</button>
+	</div>`
+
+	}
+    
 }
 
 

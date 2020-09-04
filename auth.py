@@ -11,4 +11,10 @@ result = cursor.fetchone()
 contents =  (result[0])
 print("blah"*100)
 
+if action == "edit":
+    efjwenf
+
+elif expression:
+    pass
+
 

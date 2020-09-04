@@ -1,4 +1,23 @@
+#!/usr/bin/python3
 
+import cgi
+import json
+
+fs = cgi.FieldStorage()
+mode = fs.getvalue("mode")
+
+if mode == "new":
+    templateID = 0
+
+elif mode == "edit":
+    templateID = fs.getvalue("templateID")
+else:
+    templateID = 0
+
+print("Content-type: text/html")
+print("")
+
+print("""
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +37,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 </head>
-<body onload="setup(1)" id="body">
+<body onload="setup("""+str(templateID)+""")" id="body">
 
 
     <div id="edit-menu" class="overlay">
@@ -164,7 +183,7 @@
         </nav>
     </div>
 
-    <div id="modal-background"></div>
+       <div id="modal-background"></div>
     <div id="modal-content">
         <label for="filename"><b>Enter the template name:</b></label>
         <input type="text" id="filename" name="filename">
@@ -194,4 +213,5 @@
      
 </body>
 </html>
+""")
 
