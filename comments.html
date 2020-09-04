@@ -4,63 +4,155 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="comments.js"></script>
     <link rel="stylesheet" href="comments.css">
-    <title>Document</title>
+    <title>Browse</title>
 </head>
 <body>
+
+ <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">Welcome, Aa'isha</a>
+        <button id="refresh">refresh</button>
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
+          <!-- <button class="btn btn-outline-success my-2 my-sm-0 submit" type="submit">Search</button> -->
+        </form>
+    </nav>
+
+    <div class="outer ml-4">
+        <h1>Templates</h1>
+        <div class="row justify-content-left" id="workspaceTemplates">
+
+        </div>
+        <h1>Exhibits</h1>
+        <div class="row justify-content-left" id="workspaceExhibits">
+
+        </div>
+
+    </div>
+
+
+<script>
+
+var dataTemplates=[[1, 'testCollab', "Aa'isha,Dika,Bob", '{"bgColor": "#ca6d6d", "noImages": 1, "noTextboxes": 2, "creator": "Aa\'isha", "name": "testDB", "items": [{"id": "title", "top": "98px", "left": "468px", "width": "877px", "height": "100px", "borderWidth": "5px", "textAlign": "center", "shadow": "none", "z": "auto", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox1", "top": "235px", "left": "605px", "width": "235px", "height": "115px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "image1", "top": "100px", "left": "100px", "width": "200px", "height": "200px", "borderWidth": "10px", "textAlign": "center", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox2", "top": "400px", "left": "100px", "width": "500px", "height": "200px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "2", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}], "templateImg": "../templateScreenshots/testDBTemplate.jpg"}', 'F1template.PNG'],[2, 'testCollab', "Aa'isha,Dika,Bob", '{"bgColor": "#ca6d6d", "noImages": 1, "noTextboxes": 2, "creator": "Aa\'isha", "name": "testDB", "items": [{"id": "title", "top": "98px", "left": "468px", "width": "877px", "height": "100px", "borderWidth": "5px", "textAlign": "center", "shadow": "none", "z": "auto", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox1", "top": "235px", "left": "605px", "width": "235px", "height": "115px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "image1", "top": "100px", "left": "100px", "width": "200px", "height": "200px", "borderWidth": "10px", "textAlign": "center", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox2", "top": "400px", "left": "100px", "width": "500px", "height": "200px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "2", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}], "templateImg": "../templateScreenshots/testDBTemplate.jpg"}', 'F1template.PNG']]
+
+for (row in dataTemplates){
+
+    console.log(dataTemplates[row])
+
+    var workspaceTemplates = document.getElementById("workspaceTemplates")
+    workspaceTemplates.innerHTML+=(makeTemplate(dataTemplates[row]))
+
+}
+// <div class="outer card flip" style=" display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 20rem;" >
+//             <div class="face front">
+//                 <img src="${template[4]}" class="card-img-top" style="height:10rem">
+//                 <div class="card-body">
+//                 <h5 class="card-title">${template[1]}</h5>
+//                 <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
+//                 <div style="padding-top:1rem;">
+//                     <a href="${template[1]}.html" class="btn btn-primary">edit</a>
+//                     <a href="${template[1]}.html" class="btn btn-primary">populate</a>
+//                     <button id="toggle" class="btn btn-warning">Toggle</button> 
+//                     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample${template[0]}" aria-expanded="false" aria-controls="collapseExample">comments</button>
+//                 </div>
+//                 <div class="collapse" id="collapseExample${template[0]}" >
+//                     <div class="card card-body" style="overflow:auto;height:4.5rem;" >
+//                         <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+//                         <br>
+//                         <b>person 2:</b> mood
+//                     </div>
+//             </div>       
+                    
+       
+       
+//             <div class="face back">
+               
+//                     <div class="card card-body" style="overflow:auto;height:4.5rem;" >
+//                         <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+//                         <br>
+//                         <b>person 2:</b> mood
+//                     </div>
+               
+//             </div>   
+//         </div>       
+
+
+// <div class="flip">
+// 		<div class="card" style="display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 20rem;"> 
+//          <div class="face front">
+//                 <img src="${template[4]}" class="card-img-top">
+//                     <div class="card-body">
+//                         <h5 class="card-title">${template[1]}</h5>
+//                         <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
+//                         <div style="padding-top:1rem;">
+//                             <a href="${template[1]}.html" class="btn btn-primary">edit</a>
+//                             <a href="${template[1]}.html" class="btn btn-primary">populate</a>
+//                             <button id="front" class="btn btn-success">comments</button>
+//                          </div>
+//                     </div>
+//          </div> 
+//          <div class="face back"> 
+//                <div class="card-body" style="overflow:auto;height:10rem;" >
+//                         <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+//                         <br>
+//                         <b>person 2:</b> mood
+//                 </div>
+//                     <button id="front" class="btn btn-success">back</button>
+//          </div>
+// 		 </div>	 
+// </div>
     
-<div class="card mb-3" style="border:0;"  >
-<div class="flip-card mb-3 ">
+//     `
+function makeTemplate(template) {
 
-  <div class="flip-card-inner"  >
-  <div class="flip-card-front"> 
-  <!--Card image-->
-  <div class="view overlay">
-    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%287%29.jpg" class="img-fluid" alt="">
-    <a href="#">
-      <div class="mask rgba-white-slight"></div>
-    </a>
-  </div>
+        return `
+        <div class="flip">
+		      <div id="card${template[0]}" class="card" style="padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:20rem;max-width: 20rem;"> 
+            <div class="face front">
+              <div style="margin-right:1.25rem;">
+                <img src="${template[4]}" class="card-img-top" style=" margin: 0 auto;">    
+              </div>
+                <div class="card-body">
+                  <h5 class="card-title">${template[1]}</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
+                    <div style="padding-top:1rem;">
+                      <a href="${template[1]}.html" class="btn btn-primary">edit</a>
+                      <a href="${template[1]}.html" class="btn btn-primary">populate</a>
+                      <button class="commentsBttn btn btn-success">comments</button>
+                    </div>
+                </div>
+            </div> 
+            <div class="face back">
+               <div id="comments-container${template[0]}" class="comments-container card-body" style="overflow:auto;height:12rem;margin-bottom:2rem;" >
+                  <strong>person 1:</strong> blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah
+                  <br>
+                  <b>person 2:</b> mood
+                  <br>
+                </div>
+                <div class="form-inline comments" style="margin-bottom:1rem;margin-left:.5rem;">
+                  <input class="comment-name form-control mr-sm-2"  type="text" style="margin-bottom:.5rem;" placeholder="name" aria-label="">
+                  <input class="comment-text form-control mr-sm-2" type="text" placeholder="comment" aria-label="">
+                  <button class="btn btn-success submit-comment" type="submit">add</button> 
+                </div>
+                <button style="margin-left:.5rem;" id="front" class="backBttn btn btn-success">back</button>
+            </div>
+        </div> 
+      </div>
+    `
+}
 
-  <!--Card content-->
-  <div  class="card-body" style="border:0;" >       
-    <!--Title-->
-    <h4 class="card-title">Card title 1</h4>
-    <!--Text-->
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-      content.</p>
-    <button class="btn btn-primary" id="btnflip1"  >Front</button>
-  </div>
-
-
-  </div>
-
-
-  <div class="flip-card-back" >
-  <!--Card image-->
-  <div class="view overlay">
-    <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20%287%29.jpg" class="img-fluid" alt="">
-    <a href="#">
-      <div class="mask rgba-white-slight"></div>
-    </a>
-  </div>
-
-  <!--Card content-->
-  <div  class="card-body" style="border:0;" >   
-    <!--Title-->
-    <h4 class="card-title">Card title 2</h4>
-    <!--Text-->
-    <p class="card-text">This is the back</p>
-    <button class="btn btn-primary" id="btnflip2" >Back</button>  
-  </div>
-
-  </div>
-
-  </div>  
-  </div>  
-</div>
-    
+function getCreators(string){
+    var nameLinks = ""
+    var names = string.split(",")
+    for(name in names){
+        nameLinks+= `<a href="${names[name]}.html">${names[name]}</a>,`
+    }
+    console.log(nameLinks)
+    return nameLinks
+}
+</script>
 </body>
-</html>
