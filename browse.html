@@ -20,7 +20,7 @@
           <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search" aria-label="Search">
           <!-- <button class="btn btn-outline-success my-2 my-sm-0 submit" type="submit">Search</button> -->
         </form>
-    </nav>
+</nav>
 
     <div class="outer ml-4">
         <h1>Templates</h1>
@@ -33,8 +33,6 @@
         </div>
 
     </div>
-
-
 <script>
 
 var dataTemplates=[[1, 'testCollab', "Aa'isha,Dika,Bob", '{"bgColor": "#ca6d6d", "noImages": 1, "noTextboxes": 2, "creator": "Aa\'isha", "name": "testDB", "items": [{"id": "title", "top": "98px", "left": "468px", "width": "877px", "height": "100px", "borderWidth": "5px", "textAlign": "center", "shadow": "none", "z": "auto", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox1", "top": "235px", "left": "605px", "width": "235px", "height": "115px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "image1", "top": "100px", "left": "100px", "width": "200px", "height": "200px", "borderWidth": "10px", "textAlign": "center", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox2", "top": "400px", "left": "100px", "width": "500px", "height": "200px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "2", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}], "templateImg": "../templateScreenshots/testDBTemplate.jpg"}', 'F1template.PNG'],[2, 'testCollab', "Aa'isha,Dika,Bob", '{"bgColor": "#ca6d6d", "noImages": 1, "noTextboxes": 2, "creator": "Aa\'isha", "name": "testDB", "items": [{"id": "title", "top": "98px", "left": "468px", "width": "877px", "height": "100px", "borderWidth": "5px", "textAlign": "center", "shadow": "none", "z": "auto", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox1", "top": "235px", "left": "605px", "width": "235px", "height": "115px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "image1", "top": "100px", "left": "100px", "width": "200px", "height": "200px", "borderWidth": "10px", "textAlign": "center", "shadow": "none", "z": "1", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}, {"id": "textbox2", "top": "400px", "left": "100px", "width": "500px", "height": "200px", "borderWidth": "10px", "padding": "0px", "textAlign": "left", "shadow": "none", "z": "2", "borderStyle": "solid", "borderColor": "rgb(0, 0, 0)", "backgroundColor": "rgb(255, 255, 255)"}], "templateImg": "../templateScreenshots/testDBTemplate.jpg"}', 'F1template.PNG']]
@@ -84,16 +82,21 @@ function makeTemplate(template) {
 
         return `
 	    <div class="flip">
-		    <div class="card" style="display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 20rem;"> 
+		    <div class="card" style="display:inline-block; padding:10px;margin: 10px;border-radius: 10px;border-style:solid; border-width:1px; border-color:black;min-height:26rem;max-width: 25rem;"> 
+                <div>
+                    <img src="${template[4]}" ">    
+                </div>
+               
                 <div class="face front"> 
-                   <img src="${template[4]}" class="card-img-top" style="height:10rem">
-                <div class="card-body">
-                <h5 class="card-title">${template[1]}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
-                <div style="padding-top:1rem;">
-                    <a href="${template[1]}.html" class="btn btn-primary">edit</a>
-                    <a href="${template[1]}.html" class="btn btn-primary">populate</a>
-                    <button id="front" class="btn btn-success">comments</button>
+                    <div class="card-body">
+                        <h5 class="card-title">${template[1]}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">made by ${getCreators(template[2])}</h6>
+                        <div style="padding-top:1rem;">
+                            <a href="${template[1]}.html" class="btn btn-primary">edit</a>
+                            <a href="${template[1]}.html" class="btn btn-primary">populate</a>
+                            <button id="front" class="btn btn-success">comments</button>
+                        </div>
+                    </div>
                 </div> 
                 <div class="face back"> 
                     <div class="card card-body" style="overflow:auto;height:10rem;" >
