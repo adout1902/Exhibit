@@ -86,7 +86,7 @@ function setup(mode){
         template.saveModal = $("#save-template")
         template.closeModal = $("#modal-close")
         template.modalContent = $("#modal-content")
-        template.modalBttns = document.getElementById("modal-buttons")
+ 	template.modalBttns = document.getElementById("modal-buttons")
         template.modalBackground = $("#modal-background")
         template.filename = $("#filename")
         template.creator = $("#creator")
@@ -136,21 +136,20 @@ function setup(mode){
 
         
         /*control panel listeners*/
-
+        
         template.render.click(function(){
             render()
             return false;
         })
 
         template.browse.click(function(){
-            window.open("./cgi-bin/browse.py");
+            window.open("../cgi-bin/browse.py");
             return false;
         })
         template.save.click(function() {
-           
             template.modalContent.toggleClass("active");
             template.modalBackground.toggleClass("active")
-            //getUsers();
+            getUsers();
             return false;
         });
         template.closeModal.click(function() {
@@ -376,7 +375,7 @@ function setup(mode){
         console.log("loaded")
         if (mode!=0){
             //template exists, load contents
-            template.id = mode
+            template.templateID = mode
             loadTemplate(mode)
             template.saveModal.html("update")
             //save (overwrite existing) or add new (requires name change)
@@ -394,266 +393,69 @@ function setup(mode){
                 var filename = template.filename.val();
                 var creator = template.creator.val()
                 //save(filename,creator,"add")
-                saveOrUpdate(filename,creator,"edit")
+                saveOrUpdate(filename,creator,"update")
                 alert('starting save');
                 
             })
             
         }
         else{
+	    template.noImages=0
+            template.noTextboxes=0
             template.saveModal.html("save")
             template.exhibitSpace.insertAdjacentHTML('afterbegin',
-            `<div id="title" class="editable">Title placeholder<button class="edit" >edit</button></div>`)
+            `<div id="title" class="editable">Title placeholder<button class="edit" style="position:absolute; top:0px;right:0px">edit</button></div>`)
             refresh()
-        }
-        
-}
+            template.saveModal.click(function(){
+            var filename = template.filename.val();
+            var creator = template.creator.val()
+            saveOrUpdate(filename,creator,"add")
+            alert('starting save');
+            
+        })
 
-function saveOrUpdate(name,creator,action){
-    var textboxCount = 0;
-    var imageCount = 0;
-    if (action=="add"){
-    var contents ={}
-    //localStorage.setItem("username", creator); 
-    //addCollab(creator)
-    contents["backgroundColour"] = template.backgroundColour;
-    // contents["noImages"] = template.noImages;
-    // contents["noTextboxes"] = template.noTextboxes;
-    var creatorList = [creator]//work in user accounts
-    contents["title"] = name;
-    contents["divs"]=[];
-    $('.editable').each(function(i, obj) {
-	var id = obj.getAttribute('id');
-        var tmp =  $("#"+id)
-	if (tmp.css("display")!="none"){
-        var tmpID = tmp.attr("id")
-        if(tmpID.includes("image")){
-            imageCount++;
-
-        }
-        else if (tmpID.includes("textbox")){
-            textboxCount++;
-
-        }
-        contents["noImages"] = imageCount;
-        contents["noTextboxes"] = textboxCount;
-        //window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
-        //NB: save innerText margin as padding 
-        var div = tmp.find('.text-place');
-        var padding = div.css("margin")
-        var bgCol =tmp.css("background-color");
-
-        if (bgCol=="none"){ bgCol="white"}
-        var top =tmp.css("top")
-        console.log(top)
-                    
-        contents["divs"].push({"id":id,"top":top,"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),
-        "borderWidth":tmp.css("border-width"),"padding":padding,"textAlign":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),
-        "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
-       }
-        
-    });
-
-    //take screenshot to save as template preview
-        
-        template.exhibitSpace.style.backgroundColor = template.backgroundColour;
-        html2canvas(document.getElementById('exhibit-space'), {
-         onrendered: function(canvas) {
-            var tempcanvas = document.createElement('canvas');
-            tempcanvas.width=465;
-            tempcanvas.height=524;
-            var context=tempcanvas.getContext('2d');
-            context.drawImage(canvas,465,40,465,524,0,0,465,524);
-            template.templateImg=canvas.toDataURL();
-	        template.contents = contents
-            console.log(template.templateImg)
-            window.alert("screenshot taken")
-            template.exhibitSpace.style.backgroundColor = "";          
-            }
-          });
-
-          console.log(contents)
-
-
-    }
-    else{
-
-        template["divs"] = []
-        $('.editable').each(function(i, obj) {
-            var id = obj.getAttribute('id');
-                var tmp =  $("#"+id)
-            if (tmp.css("display")!="none"){
-                var tmpID = tmp.attr("id")
-                //window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
-                //NB: save innerText margin as padding
-                if(tmpID.includes("image")){
-                    imageCount++;
-        
-                }
-                else if (tmpID.includes("textbox")){
-                    textboxCount++;
-        
-                }
-                template["noImages"] = imageCount;
-                template["noTextboxes"] = textboxCount;
-                
-
-                var div = tmp.find('.text-place');
-                var padding = div.css("margin")
-                var bgCol =tmp.css("background-color");
-        
-                if (bgCol=="none"){ bgCol="white"}
-                var top =tmp.css("top")
-                console.log(top)
-                            
-                template["divs"].push({"id":id,"top":top,"left":tmp.css("left"),"width":tmp.css("width"),"height":tmp.css("height"),
-                "borderWidth":tmp.css("border-width"),"padding":padding,"textAlign":tmp.css("textAlign"),"shadow":tmp.css("box-shadow"),
-                "z":tmp.css("zIndex"),"borderStyle":"solid", "borderColor":tmp.css("border-color"),"backgroundColor":tmp.css("background-color") })
-               }
-                
-            });
-
-            console.log(template)
-
-    }      
-	
+        }	       
 
 }
 
 function loadTemplate(id){
-    // $.ajax({
-    //     url: "../cgi-bin/db.py",
-    //     type: "post",
-    //     data: {"templateID":id,"action":"get"},
-    //     datatype: "json",
-    //     success: function(response){
-    //        template.status = JSON.parse(response.contents)
-    //        console.log(template.contents)
-	//    console.log(template.id)
-    //         template.title = template.status.title
-    //         console.log(template.title)
-    //         template.noImages=template.status["noImages"]
-    //         template.noTextboxes = template.status["noTextboxes"]
-    //         template.divs =  template.status["divs"]
-    //         template.backgroundColour = template.status["backgroundColour"]
-    //         document.body.style.backgroundColor = template.backgroundColour
-    //         template.exhibitSpace.insertAdjacentHTML('afterbegin',`${template.divs.map(loadDiv).join("")}`)
-    //         refresh()
+    $.ajax({
+        url: "../cgi-bin/db.py",
+        type: "post",
+        data: {"templateID":id,"action":"get"},
+        datatype: "json",
+        success: function(response){
+           template.contents = JSON.parse(response.contents)
+           console.log(template.contents)
+	   console.log(template.id)
+            template.title = template.contents.title
+            console.log(template.title)
+            template.noImages=template.contents["noImages"]
+            template.noTextboxes = template.contents["noTextboxes"]
+            template.divs =  template.contents["divs"]
+            template.backgroundColour = template.contents["backgroundColour"]
+            document.body.style.backgroundColor = template.backgroundColour
+            template.exhibitSpace.insertAdjacentHTML('afterbegin',`${template.divs.map(loadDiv).join("")}`)
+	    saveInfo(template.title, template.backgroundColour, template.noImages,template.noTextboxes )
+            refresh()
 
-    //     },
-    //     error : function () {
-    //             alert("Error connecting to server");
-    //     }
-    // });
+        },
+        error : function () {
+                alert("Error connecting to server");
+        }
+    });
+     console.log(template.title)
+     console.log(template.noImages)
 
-    //local version dummy data:
-    var contents =  {
-        "backgroundColour": "#ffd6d6",
-        "noImages": 1,
-        "noTextboxes": 4,
-        "title": "Stonewall",
-        "divs": [
-            {
-                "id": "title",
-                "top": "0px",
-                "left": "0px",
-                "width": "565.275px",
-                "height": "100px",
-                "borderWidth": "5px",
-                "textAlign": "center",
-                "shadow": "none",
-                "z": "auto",
-                "borderStyle": "solid",
-                "borderColor": "rgb(0, 0, 0)",
-                "backgroundColor": "rgb(255, 255, 255)"
-            },
-            {
-                "id": "textbox1",
-                "top": "175px",
-                "left": "138px",
-                "width": "500px",
-                "height": "117px",
-                "borderWidth": "10px",
-                "padding": "0px",
-                "textAlign": "left",
-                "shadow": "none",
-                "z": "1",
-                "borderStyle": "solid",
-                "borderColor": "rgb(0, 0, 0)",
-                "backgroundColor": "rgb(225, 86, 86)"
-            },
-            {
-                "id": "textbox2",
-                "top": "447px",
-                "left": "708px",
-                "width": "500px",
-                "height": "200px",
-                "borderWidth": "10px",
-                "padding": "0px",
-                "textAlign": "left",
-                "shadow": "none",
-                "z": "2",
-                "borderStyle": "solid",
-                "borderColor": "rgb(0, 0, 0)",
-                "backgroundColor": "rgb(255, 139, 31)"
-            },
-            {
-                "id": "image1",
-                "top": "233px",
-                "left": "616px",
-                "width": "200px",
-                "height": "200px",
-                "borderWidth": "25px",
-                "textAlign": "center",
-                "shadow": "rgb(128, 128, 128) 11px 11px 11px 0px",
-                "z": "2",
-                "borderStyle": "solid",
-                "borderColor": "rgb(0, 0, 0)",
-                "backgroundColor": "rgb(255, 255, 255)"
-            },
-            {
-                "id": "textbox3",
-                "top": "550.4px",
-                "left": "57px",
-                "width": "500px",
-                "height": "200px",
-                "borderWidth": "10px",
-                "padding": "0px",
-                "textAlign": "left",
-                "shadow": "none",
-                "z": "3",
-                "borderStyle": "solid",
-                "borderColor": "rgb(0, 0, 0)",
-                "backgroundColor": "rgb(228, 240, 56)"
-            },
-            {
-                "id": "textbox4",
-                "top": "817.6px",
-                "left": "593px",
-                "width": "500px",
-                "height": "200px",
-                "borderWidth": "10px",
-                "padding": "0px",
-                "textAlign": "left",
-                "shadow": "none",
-                "z": "4",
-                "borderStyle": "solid",
-                "borderColor": "rgb(0, 0, 0)",
-                "backgroundColor": "rgb(12, 202, 50)"
-            }
-        ]
-    }
-    template.title = contents.title
-    console.log(template.title)
-    template.noImages=contents["noImages"]
-    console.log(template.noImages)
-    template.noTextboxes = contents["noTextboxes"]
-    template.divs =  contents["divs"]
-    template.backgroundColour = contents["backgroundColour"]
-    document.body.style.backgroundColor = template.backgroundColour
-    template.exhibitSpace.insertAdjacentHTML('afterbegin',`${template.divs.map(loadDiv).join("")}`)
-    refresh()
+}
 
+function saveInfo(title, bgColour, noImages, noTextboxes){
+	console.log("saving info")
+	template.title = title
+	console.log(template.title)
+	template.noImages = noImages
+	template.noTextboxes = noTextboxes
+	console.log(template.noImages, template.noTextboxes)
 
 
 
@@ -666,7 +468,7 @@ function loadDiv(div) {
 	if(!(div["id"].includes("title"))){	
     if (div["id"].includes("text")){
         type = "text-div";
-        placeholder = `<div class='text-place' style='transition: border-width .5s, padding .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white'>Placeholder<br>text</div>`
+        placeholder = `<div class='text-place' style="transition: margin .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white">Placeholder<br>text</div>`
 
     }
     else if (div["id"].includes("image")){
@@ -684,10 +486,10 @@ function loadDiv(div) {
 	}
      else{
 	return `
-       <div class="editable" id="${div.id}" style="transition: border-width .5s, padding .5s;position:absolute;border-style:solid; border-width:${div.borderWidth};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:0;border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
-       <button class="edit" style="position:absolute; top:0px;right:0px">edit</button>
-       <div class='text-place' style='transition: border-width .5s, margin .5s padding .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white'>Title placeholder</div>
-	   </div>`
+   	<div class="editable" id="${div.id}" style="transition: border-width .5s, padding .5s;position:absolute;border-style:solid; border-width:${div.borderWidth};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:${div.z};border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
+	<button class="edit" style="position:absolute; top:0px;right:0px">edit</button>
+	 <div class='text-place' style='transition: border-width .5s, margin .5s, padding .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white'>Title placeholder</div>
+	</div>`
 
 	}
     
@@ -791,15 +593,16 @@ function refresh(){
 
 /*control panel functions*/
 
-function save(filename,creator,action){
-
-    var dict = {};
+function saveOrUpdate(filename,creator,action){
+    if (action=="add"){
+	template.templateID = 0
+    }
+    var textboxCount = 0;
+    var imageCount = 0;
     var contents ={}
     //localStorage.setItem("username", creator); 
     //addCollab(creator)
     contents["backgroundColour"] = template.backgroundColour;
-    contents["noImages"] = template.noImages;
-    contents["noTextboxes"] = template.noTextboxes;
     var creatorList = [creator]//work in user accounts
     contents["title"] = filename;
     contents["divs"]=[];
@@ -807,8 +610,19 @@ function save(filename,creator,action){
 	var id = obj.getAttribute('id');
         var tmp =  $("#"+id)
 	if (tmp.css("display")!="none"){
-        var style = tmp.attr("style")
-        //window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
+        var tmpID = tmp.attr("id")
+        if(tmpID.includes("image")){
+            imageCount++;
+
+        }
+        else if (tmpID.includes("textbox")){
+            textboxCount++;
+
+        }
+        contents["noImages"] = imageCount;
+        contents["noTextboxes"] = textboxCount;        
+
+	//window.alert(id+tmp.css("border-width")+tmp.css("padding-top")+tmp.css("textAlign"))
         //NB: save innerText margin as padding 
         var div = tmp.find('.text-place');
         var padding = div.css("margin")
@@ -824,10 +638,7 @@ function save(filename,creator,action){
        }
         
     });
-    dict["filename"]=filename;
-    
 	
-
     //take screenshot to save as template preview
         
         template.exhibitSpace.style.backgroundColor = template.backgroundColour;
@@ -842,33 +653,35 @@ function save(filename,creator,action){
 		console.log(creatorList,"1")
 	        ajax(filename,creatorList,template.templateImg,JSON.stringify(contents),action)	
         //    console.log(template.templateImg)
- 	        dict["templateImg"]=template.templateImg;
-           // console.log(dict["templateImg"])
-            window.alert("screenshot taken")
+ 	    window.alert("screenshot taken")
             template.exhibitSpace.style.backgroundColor = "";         
             
             }
           });
-          
-    dict["contents"]=JSON.stringify(contents)
+
 	console.log(template.templateImg)
 }
 function ajax(filename,creatorList,img,contents,action){
-console.log(creatorList,"2")
+console.log("sending")
 console.log(template.templateID)
+console.log(creatorList)
+console.log(img)
+console.log(filename)
+console.log(contents)
+console.log(action)
     $.ajax({
-       url: "/home/ubuntu/public_html/cgi-bin/saveTemplate.py",
+       url: "../cgi-bin/db.py",
        type: "post",
        data: {"filename":filename,"creators":JSON.stringify(creatorList),"templateImg":img,"contents":contents,"action":action,"templateID":template.templateID},
        datatype: "json",
        success: function(response){
-          window.alert("saved")
+          window.alert(response.message)
           template.saved=true;
           template.name=filename
           //console.log(dict)
        },
        error : function () {
-               alert("Error Ajax");
+               alert("Error sending to server");
        }
    });
 }

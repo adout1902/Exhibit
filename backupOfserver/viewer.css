@@ -1,0 +1,68 @@
+.nameLink {
+    background:none!important;
+     border:none; 
+     padding:0!important;
+    
+    /*optional*/
+    font-family:arial,sans-serif; /*input has OS specific font-family*/
+     color:#007BFF;
+     cursor:pointer;
+}
+.nameLink:hover{
+         text-decoration:underline;
+}
+
+
+.buttons{
+
+	margin-top:1rem;
+}
+
+
+.flip {
+  -webkit-perspective: 800;
+perspective: 800;
+
+    position: relative;
+ 
+}
+.flip .card.flipped {
+  -webkit-transform: rotatey(-180deg);
+    transform: rotatey(-180deg);
+  
+}
+
+.template-img{
+
+  margin-right:.5rem;
+  margin-right:0rem;
+
+}
+.flip .card {
+
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: 0.5s;
+    transform-style: preserve-3d;
+    transition: 0.5s;
+}
+.flip .card .face {
+
+  -webkit-backface-visibility: hidden ;
+    backface-visibility: hidden ;
+  z-index: 2;
+   
+}
+.flip .card .front {
+  position: absolute;
+   width: 100%;
+  z-index: 1;
+
+}
+
+
+.flip .card .back {
+  -webkit-transform: rotatey(-180deg);
+    transform: rotatey(-180deg);
+}
+  .inner{margin:0px !important;}
