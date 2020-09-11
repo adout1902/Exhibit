@@ -76,7 +76,7 @@ function Template() {
 /*setup function - determine if new template or existing, if existing then initialise */
 
 function setup(mode){
-
+	console.log(localStorage.getItem("username"),"is logged in")
         template = new Template()
                 
         /*control panel DOM elements*/
@@ -84,6 +84,7 @@ function setup(mode){
         template.render = $("#render")
         template.browse = $("#browse")
         template.saveModal = $("#save-template")
+        template.updateNew = $("#new-template-update")
         template.closeModal = $("#modal-close")
         template.modalContent = $("#modal-content")
  	template.modalBttns = document.getElementById("modal-buttons")
@@ -133,9 +134,20 @@ function setup(mode){
         template.undo = $("#undo")
         template.redo = $("#redo")
         template.templateBGColour = document.getElementById("change-bg-colour")
-
-        
+        template.addPage = $("#add-page")
+        template.remPage = $("#rem-page")
+        template.displayPages= $("#no-pages")
+         
         /*control panel listeners*/
+
+	template.addPage.click(function(){
+            addPage(1)
+            return false;
+        })
+        template.remPage.click(function(){
+            addPage(-1)
+            return false;
+        })
         
         template.render.click(function(){
             render()
@@ -147,18 +159,31 @@ function setup(mode){
             return false;
         })
         template.save.click(function() {
+            window.scrollTo(0,0);
             template.modalContent.toggleClass("active");
             template.modalBackground.toggleClass("active")
             getUsers();
             return false;
         });
+        template.updateNew.click(function(){
+                var filename = template.filename.val();
+                var creator = template.creator.val()
+                //save(filename,creator,"add")
+                saveOrUpdate(filename,creator,"update")
+                alert('starting save');
+                
+        })
+
         template.closeModal.click(function() {
             template.modalContent.toggleClass("active");
             template.modalBackground.toggleClass("active")
             return false;
         });
         template.addCollab.click(function(){
-            addCollab(template.collabInput.val())
+            var name = template.collabInput.val()
+	    if(name !=""){
+		addCollab(name)
+	    }
             template.collabInput.val("")
         })
 
@@ -377,14 +402,15 @@ function setup(mode){
             //template exists, load contents
             template.templateID = mode
             loadTemplate(mode)
+            console.log(template.noPages)
             template.saveModal.html("update")
-            //save (overwrite existing) or add new (requires name change)
+            //save (overwrite existing) or add new (suggest name change)
             template.filename.val(template.title);
-            template.modalBttns.insertAdjacentHTML('beforeend',`<button id="new-template">save new</button><p style="font-size:small">Note: please enter a new template name when saving as new.</p>`)
+            template.modalBttns.insertAdjacentHTML('beforeend',`<button id="new-template">save new</button><p style="font-size:small">If you are the original creator, consider entering a new template name when saving as new.</p>`)
             $("#new-template").click(function(){
                 var filename = template.filename.val();
                 var creator = template.creator.val()
-                //save(filename,creator,"add")
+               
                 saveOrUpdate(filename,creator,"add")
                 alert('starting save');
                 
@@ -397,14 +423,25 @@ function setup(mode){
                 alert('starting save');
                 
             })
+            template.updateNew.css("visibility","hidden")
+            //remove collab 
+            $("#collab").css("display","none")
+            $("#collab-display").css("display","none")
+            $("#creator").attr("placeholder","Only needed when saving as new.")
             
         }
         else{
 	    template.noImages=0
             template.noTextboxes=0
+            template.noPages = 1
+            console.log(template.noPages)
             template.saveModal.html("save")
+            template.updateNew.css("visibility","hidden")
             template.exhibitSpace.insertAdjacentHTML('afterbegin',
-            `<div id="title" class="editable">Title placeholder<button class="edit" style="position:absolute; top:0px;right:0px">edit</button></div>`)
+            `<div id="title" class="editable" style='transition: border-width .5s, margin .5s, padding .5s;border-style: solid; border-color: #000000; border-top-width:2px;border-bottom-width:2px;border-right-width:2px; border-left-width:2px;background-color:#FFFFFF'>
+	       <div class='text-place' style='transition: border-width .5s, margin .5s, padding .5s;border-style: dotted; border-color: #000000; border-width:2px; background-color:#FFFFFF'>Title placeholder</div>
+	       <button class="edit" style="position:absolute; top:0px;right:0px">edit</button>
+	    </div>`)
             refresh()
             template.saveModal.click(function(){
             var filename = template.filename.val();
@@ -429,14 +466,17 @@ function loadTemplate(id){
            console.log(template.contents)
 	   console.log(template.id)
             template.title = template.contents.title
-            console.log(template.title)
+	    template.filename.val(template.contents.title);
+	    console.log(template.title)
             template.noImages=template.contents["noImages"]
             template.noTextboxes = template.contents["noTextboxes"]
             template.divs =  template.contents["divs"]
             template.backgroundColour = template.contents["backgroundColour"]
             document.body.style.backgroundColor = template.backgroundColour
+            template.templateBGColour.value =  template.backgroundColour
+            template.noPages = template.contents["noPages"]
             template.exhibitSpace.insertAdjacentHTML('afterbegin',`${template.divs.map(loadDiv).join("")}`)
-	    saveInfo(template.title, template.backgroundColour, template.noImages,template.noTextboxes )
+	    saveInfo(template.title, template.backgroundColour, template.noImages,template.noTextboxes, template.templateID,template.noPages)
             refresh()
 
         },
@@ -449,15 +489,18 @@ function loadTemplate(id){
 
 }
 
-function saveInfo(title, bgColour, noImages, noTextboxes){
+function saveInfo(title,bgColour, noImages, noTextboxes,id,noPages){
 	console.log("saving info")
 	template.title = title
 	console.log(template.title)
 	template.noImages = noImages
 	template.noTextboxes = noTextboxes
-	console.log(template.noImages, template.noTextboxes)
-
-
+        template.templateID = id
+        template.noPages = noPages
+	console.log(template.noImages, template.noTextboxes, template.templateID,template.noPages)
+        //console.log("no pages",template.noPages)
+	template.displayPages.html(template.noPages)
+        document.body.style.height = (2152*template.noPages) +"px"
 
 }
 
@@ -468,7 +511,7 @@ function loadDiv(div) {
 	if(!(div["id"].includes("title"))){	
     if (div["id"].includes("text")){
         type = "text-div";
-        placeholder = `<div class='text-place' style="transition: margin .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white">Placeholder<br>text</div>`
+        placeholder = `<div class='text-place' style="transition: margin .5s;margin:${div.padding};border-style: dotted; border-color: #000000; border-width:2px; background-color:#FFFFFF">Placeholder<br>text</div>`
 
     }
     else if (div["id"].includes("image")){
@@ -488,7 +531,7 @@ function loadDiv(div) {
 	return `
    	<div class="editable" id="${div.id}" style="transition: border-width .5s, padding .5s;position:absolute;border-style:solid; border-width:${div.borderWidth};text-align:${div.textAlign};box-shadow:${div.shadow};z-index:${div.z};border-color:${div.borderColor};position:absolute;height:${div.height};width:${div.width};top:${div.top};left:${div.left};background-color:${div.backgroundColor}">
 	<button class="edit" style="position:absolute; top:0px;right:0px">edit</button>
-	 <div class='text-place' style='transition: border-width .5s, margin .5s, padding .5s;margin:${div.padding};border-style: dotted; border-color: black; border-width:2px; background-color:white'>Title placeholder</div>
+	<div class='text-place' style='transition: border-width .5s, margin .5s, padding .5s;margin:${div.padding};border-style: dotted; border-color: #000000; border-width:2px; background-color:#FFFFFF'>Title placeholder</div>
 	</div>`
 
 	}
@@ -502,9 +545,13 @@ function displayCurrentStyle(toEdit){
     template.divHeight.val(toEdit.css("height"))
     template.divWidth.val(toEdit.css("width"))
 
-    var border =  parseInt(toEdit.css("borderWidth"))
-    template.borderWidth.value = border
-    template.borderWidthInput.val(border)
+    var borderT =  parseInt(toEdit.css("border-top-width"))
+    var borderB =  parseInt(toEdit.css("border-bottom-width"))
+    var borderL =  parseInt(toEdit.css("border-left-width"))
+    var borderR =  parseInt(toEdit.css("border-right-width"))
+    template.borderWidth.value = borderT
+    template.borderWidthInput.val(borderT)
+   
 
     if(id.includes("text")){
         var div = toEdit.find('.text-place');
@@ -550,7 +597,6 @@ function displayCurrentStyle(toEdit){
 
     var bgColStr = toEdit.css("backgroundColor")
     template.textBackgroundColour.value = rgbToHex(bgColStr)
-
 
 }
 
@@ -603,7 +649,10 @@ function saveOrUpdate(filename,creator,action){
     //localStorage.setItem("username", creator); 
     //addCollab(creator)
     contents["backgroundColour"] = template.backgroundColour;
-    var creatorList = [creator]//work in user accounts
+    contents["noPages"] = template.noPages;
+    console.log("no pages",template.noPages)
+    template.creators.unshift(creator)
+    var creatorList = template.creators.filter(item => item);
     contents["title"] = filename;
     contents["divs"]=[];
     $('.editable').each(function(i, obj) {
@@ -628,7 +677,7 @@ function saveOrUpdate(filename,creator,action){
         var padding = div.css("margin")
         var bgCol =tmp.css("background-color");
 
-        if (bgCol=="none"){ bgCol="white"}
+        if (bgCol=="none"){ bgCol="#FFFFFF"}
         var top =tmp.css("top")
         console.log(top)
                     
@@ -641,7 +690,10 @@ function saveOrUpdate(filename,creator,action){
 	
     //take screenshot to save as template preview
         
+        //take screenshot to save as template preview
+        
         template.exhibitSpace.style.backgroundColor = template.backgroundColour;
+        template.exhibitSpace.style.height = "100vh";
         html2canvas(document.getElementById('exhibit-space'), {
          onrendered: function(canvas) {
             var tempcanvas = document.createElement('canvas');
@@ -654,7 +706,8 @@ function saveOrUpdate(filename,creator,action){
 	        ajax(filename,creatorList,template.templateImg,JSON.stringify(contents),action)	
         //    console.log(template.templateImg)
  	    window.alert("screenshot taken")
-            template.exhibitSpace.style.backgroundColor = "";         
+            template.exhibitSpace.style.backgroundColor = "";
+            template.exhibitSpace.style.height = "100%";         
             
             }
           });
@@ -669,15 +722,31 @@ console.log(img)
 console.log(filename)
 console.log(contents)
 console.log(action)
+var user;
+if (localStorage.getItem("username")=== void(0)){
+	user = ""
+}
+else{
+
+	user = localStorage.getItem("username")
+}
+
     $.ajax({
        url: "../cgi-bin/db.py",
        type: "post",
-       data: {"filename":filename,"creators":JSON.stringify(creatorList),"templateImg":img,"contents":contents,"action":action,"templateID":template.templateID},
+       data: {"filename":filename,"creators":JSON.stringify(creatorList),"templateImg":img,"contents":contents,"action":action,"templateID":template.templateID,"user":user},
        datatype: "json",
        success: function(response){
           window.alert(response.message)
-          template.saved=true;
-          template.name=filename
+	  var id = template.templateID;          
+	  if (action=="add"){
+	  	id = response.newID
+                addUpdateOption()
+
+	  }
+          localStorage.setItem("username",creatorList[0])
+          saveInfo(filename, contents.backgroundColour, contents.noImages, contents.noTextboxes,id,template.noPages)
+     
           //console.log(dict)
        },
        error : function () {
@@ -686,20 +755,77 @@ console.log(action)
    });
 }
 
+function addUpdateOption(){
+
+	//template.modalBttns.insertAdjacentHTML('beforeend',`<button id="new-template-update">update</button>`)
+           template.updateNew.css("visibility","visible")
+           $("#save-template").html("save new")
+	   $("#creator").attr("placeholder","Only needed when saving as new.")
+
+
+
+}
+
+function addPage(no){
+        var bodyHeight = (parseInt(document.body.scrollHeight))
+	if(no==1){
+		 template.noPages++;
+                 document.body.style.height = bodyHeight+2152+"px"
+
+	}
+        else if(template.noPages>1){
+		template.noPages--;
+		document.body.style.height = bodyHeight-2152+"px"
+	}
+         
+        console.log(bodyHeight)
+        template.displayPages.html(template.noPages)
+}
+
+
 function render(){
-    window.open("./cgi-bin/renderTemplate.py?name="+template.name);
+    window.open("../cgi-bin/renderTemplate.py?templateID="+template.templateID);
+    $.ajax({
+       url: "../cgi-bin/savePDF.py",
+       type: "post",
+       data: {"templateID":template.templateID,"title":template.title},
+       datatype: "json",
+       success: function(){
+          
+       },
+       error : function () {
+               
+       }
+   });
+
 }
 
 function getUsers(){
+
+    $.ajax({
+       url: "../cgi-bin/userAuth.py",
+       type: "post",
+       data: {"username":"","password":"","action":"get"},
+       datatype: "json",
+       success: function(response){
+          userList(JSON.parse(response.users))
+       },
+       error : function () {
+               alert("Error sending to server");
+       }
+   });
+
     //insert ajax call to get python script to generate all usernames for datalist
-    var users = ["Aa'isha","Ceara","Dika","Bob"].sort()
+}
+
+function userList(list){
+    var users = list.sort()
     var optionsList = ""
     users.forEach(function (item, index) {
         optionsList+=`<option value="${item}">${item}</option>`
     });
     console.log(optionsList)
     template.dataList.html(optionsList)
-
 
 }
 
@@ -744,7 +870,7 @@ function addDiv(type,id){
        // elem.innerHTML="<i class=\"fas fa-camera fa-2x\" style:\"top: calc(50% - 10px); position:relative;\"></i>"
         elem.id="image"+template.noImages;
         var z = Math.max(template.noImages,template.noTextboxes);
-        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: white; border-style: solid; border-color: black; border-width:10px";      
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s; text-align: center; position: absolute; left: 100px; top:100px; background-color: #FFFFFF; border-style: solid; border-color: #000000; border-width:10px";      
     }
     else if (type=="textbox"){
         template.noTextboxes++;
@@ -753,9 +879,9 @@ function addDiv(type,id){
         textPlaceholder.className = 'text-place'
         textPlaceholder.innerHTML="Placeholder<br>text";
         var z = Math.max(template.noImages,template.noTextboxes);
-        textPlaceholder.style = "transition: margin .5s;border-style: dotted; border-color: black; border-width:2px; background-color:white";
+        textPlaceholder.style = "transition: margin .5s;border-style: dotted; border-color:  #000000; border-width:2px; background-color: #FFFFFF;margin:0";
         elem.id="textbox"+template.noTextboxes;
-        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s;  box-sizing:content-box; position: absolute; left: 100px; top:400px; background-color: white; border-style: solid; border-color: black; border-width:10px";
+        elem.style = "z-index: "+z+";transition: border-width .5s, padding .5s;  box-sizing:content-box; position: absolute; left: 100px; top:400px; background-color:  #FFFFFF; border-style: solid; border-color:  #000000; border-width:10px";
         elem.appendChild(textPlaceholder)
     }
     elem.appendChild(createDeleteButton(elem.id));
@@ -787,10 +913,15 @@ function addDiv(type,id){
         // console.log(elem.style)
 
     }
-
-    template.historyStore.addToHistory(elem.style, elem.id);
     exhibitSpace.appendChild(elem);
+    var div = $("#"+elem.id)
+    div.css("opacity",0)
+    var style = div.attr("style")
+    template.historyStore.addToHistory(style, elem.id);
+    div.css("opacity",1)
+    style = div.attr("style")
 
+    template.historyStore.addToHistory(style, elem.id);
     refresh();
 }
 
